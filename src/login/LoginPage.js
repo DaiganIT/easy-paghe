@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Login } from './';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
-import logo from '../images/logo.png';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Typography } from '@material-ui/core';
+import authentication from '../auth/auth';
 
 const styles = (theme) => ({
 	main: {
@@ -29,19 +32,90 @@ const styles = (theme) => ({
 	form: {
 		padding: '0 1em 1em 1em',
 	},
+	title: {
+		textAlign: 'center',
+		marginTop: '1em',
+	},
+	actions: {
+		marginBottom: '1em',
+	},
 });
 
 function LoginPage({ classes }) {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [emailError, setEmailError] = useState(false);
+	const [passwordError, setPasswordError] = useState(false);
+
+	const doLogin = () => {
+		setIsLoading(true);
+	};
+
+	useEffect(
+		() => {
+			if (isLoading) {
+				// do login
+				setEmailError(false);
+				setPasswordError(false);
+
+				authentication
+					.login(email, password)
+					.then(() => {
+						localStorage.setItem('user', email);
+						setIsLoading(false);
+					})
+					.catch(({ response }) => {
+						setIsLoading(false);
+
+						if (response.status === 400) {
+							// check the error code
+							const errorCode = response.data.message;
+							if (errorCode === 'USERNAME_MISSING') setEmailError(true);
+							if (errorCode === 'PASSWORD_MISSING') setPasswordError(true);
+							if (errorCode === 'INVALID_CREDENTIALS') {
+								setEmailError(true);
+								setPasswordError(true);
+							}
+						}
+					});
+			}
+		},
+		[isLoading],
+	);
+
+	if (authentication.isAuthenticated) {
+		return (
+			<Redirect
+				to={{
+					pathname: '/index',
+					//state: { from: props.location },
+				}}
+			/>
+		);
+	}
+
 	return (
 		<div className={classes.main}>
 			<Card className={classes.card}>
 				<form>
 					<div className={classes.form}>
-						<Login />
+						<div className={classes.title}>
+							<Typography variant="h4">Easy Paghe</Typography>
+						</div>
+						<Login
+							email={email}
+							emailError={emailError}
+							password={password}
+							passwordError={passwordError}
+							setEmail={setEmail}
+							setPassword={setPassword}
+							isLoading={isLoading}
+						/>
 					</div>
 					<CardActions className={classes.actions}>
-						<Button variant="raised" type="submit" color="primary" fullWidth>
-							{/* {isLoading && <CircularProgress size={25} thickness={2} />} */}
+						<Button variant="contained" type="button" color="primary" fullWidth onClick={doLogin}>
+							{isLoading && <CircularProgress size={25} thickness={2} />}
 							Login
 						</Button>
 					</CardActions>

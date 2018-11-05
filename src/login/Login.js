@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
 
 const styles = (theme) => ({
 	input: {
@@ -14,21 +12,20 @@ const styles = (theme) => ({
 	},
 });
 
-function Login({ classes }) {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-
+function Login({ classes, email, emailError, password, passwordError, setEmail, setPassword, isLoading }) {
 	return (
 		<React.Fragment>
 			<TextField
+				error={emailError}
 				id="email-textfield-id"
 				label="Email"
 				value={email}
 				className={classes.input}
+				disabled={isLoading}
 				onChange={(e) => setEmail(e.target.value)}
 				fullWidth
 			/>
-			<FormControl fullWidth className={classes.input}>
+			<FormControl fullWidth className={classes.input} disabled={isLoading} error={passwordError}>
 				<InputLabel htmlFor="password-textfield-id">Password</InputLabel>
 				<Input
 					id="password-textfield-id"
@@ -43,6 +40,11 @@ function Login({ classes }) {
 
 Login.propTypes = {
 	classes: PropTypes.object.isRequired,
+	email: PropTypes.string.isRequired,
+	password: PropTypes.string.isRequired,
+	setEmail: PropTypes.func.isRequired,
+	setPassword: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Login);
