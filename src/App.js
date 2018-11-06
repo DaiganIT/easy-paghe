@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import { LoginPage } from './login';
 import authentication from './auth/auth';
-import LoggedInLayout from './LoggedInLayout';
+import LoggedInLayout from './layout/LoggedInLayout';
 
 function App() {
 	return (
