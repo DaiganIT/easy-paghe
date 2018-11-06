@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Login } from './';
@@ -41,7 +40,7 @@ const styles = (theme) => ({
 	},
 });
 
-function LoginPage({ classes }) {
+function LoginPage({ classes, history }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -62,8 +61,8 @@ function LoginPage({ classes }) {
 				authentication
 					.login(email, password)
 					.then(() => {
-						localStorage.setItem('user', email);
 						setIsLoading(false);
+						history.push('/index');
 					})
 					.catch(({ response }) => {
 						setIsLoading(false);
@@ -84,16 +83,8 @@ function LoginPage({ classes }) {
 		[isLoading],
 	);
 
-	if (authentication.isAuthenticated) {
-		return (
-			<Redirect
-				to={{
-					pathname: '/index',
-					//state: { from: props.location },
-				}}
-			/>
-		);
-	}
+	if (authentication.isAuthenticated)
+		history.push('/index');
 
 	return (
 		<div className={classes.main}>

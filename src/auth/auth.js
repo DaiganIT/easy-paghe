@@ -11,10 +11,18 @@ const authentication = {
     return axios.post('/api/auth/login', { username: email, password: password })
       .then((response) => {
         authentication.isAuthenticated = true;
+        localStorage.setItem('user', response.data);
         return response;
       });
   },
-	logout: () => {},
+	logout: () => {
+    return axios.post('/api/auth/logout')
+    .then((response) => {
+      authentication.isAuthenticated = false;
+      localStorage.removeItem('user');
+      return response;
+    });
+  },
 };
 
 export default authentication;

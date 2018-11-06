@@ -13,9 +13,9 @@ function App() {
 			<Route path="/login" exact component={LoginPage} />
 			<Route
 				path="/index"
-				render={() =>
+				render={(routeProps) =>
 					authentication.isAuthenticated ? (
-						<LoggedInLayout />
+						<LoggedInLayout {...routeProps} />
 					) : (
 						<Redirect
 							to={{
