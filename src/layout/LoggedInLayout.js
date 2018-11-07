@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TopBar from './TopBar';
 import LeftDrawer from './LeftDrawer';
 import Dashboard from '../dashboard/Dashboard';
+import Companies from '../companies/Companies';
+import EditCompany from '../companies/EditCompany';
 
 import authentication from '../auth/auth';
 
@@ -46,7 +48,9 @@ function LoggedInLayout({ classes, history, children }) {
       <LeftDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 			<main className={classes.content}>
           <div className={classes.toolbar} />
-          <Route path="/index" component={Dashboard} />
+          <Route exact path="/index" component={Dashboard} />
+          <Route exact path="/index/companies" component={Companies} />
+          <Route exact path="/index/companies/add" component={EditCompany} />
         </main>
 		</div>
 	);

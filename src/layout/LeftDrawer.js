@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -9,6 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BusinessIcon from '@material-ui/icons/Business';
 import PeopleIcon from '@material-ui/icons/People';
+import HomeIcon from '@material-ui/icons/Home';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const drawerWidth = 240;
@@ -40,6 +42,9 @@ const styles = (theme) => ({
 			width: theme.spacing.unit * 9 + 1,
 		},
 	},
+	link: {
+		textDecoration: 'none',
+	},
 });
 
 function LeftDrawer({ classes, theme, drawerOpen, setDrawerOpen }) {
@@ -61,12 +66,22 @@ function LeftDrawer({ classes, theme, drawerOpen, setDrawerOpen }) {
 			<div className={classes.margin} />
 			<Divider />
 			<List>
-				<ListItem button key="companies">
-					<ListItemIcon>
-						<BusinessIcon />
-					</ListItemIcon>
-					<ListItemText primary="Aziende" />
-				</ListItem>
+				<Link to="/index" className={classes.link}>
+					<ListItem button key="home">
+						<ListItemIcon>
+							<HomeIcon />
+						</ListItemIcon>
+						<ListItemText primary="Home" />
+					</ListItem>
+				</Link>
+				<Link to="/index/companies" className={classes.link}>
+					<ListItem button key="companies">
+						<ListItemIcon>
+							<BusinessIcon />
+						</ListItemIcon>
+						<ListItemText primary="Aziende" />
+					</ListItem>
+				</Link>
 				<ListItem button key="people">
 					<ListItemIcon>
 						<PeopleIcon />
