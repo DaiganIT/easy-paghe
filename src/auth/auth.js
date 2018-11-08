@@ -1,4 +1,5 @@
 import axios from 'axios';
+import './authInterceptor';
 
 const authentication = {
   isAuthenticated: localStorage.getItem('user'),
