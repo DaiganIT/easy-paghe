@@ -26,9 +26,12 @@ const styles = {
 	link: {
 		textDecoration: 'none',
 	},
+	pointer: {
+		cursor: 'pointer',
+	},
 };
 
-function Companies({ classes }) {
+function Companies({ classes, history }) {
 	const [companies, setCompanies] = useState([]);
 	const [loadCompanies, setLoadCompanies] = useState(false);
 
@@ -51,6 +54,10 @@ function Companies({ classes }) {
 	useEffect(() => {
 		setLoadCompanies(true);
 	}, []);
+
+	const navigateTo = (companyId) => {
+		history.push(`/index/companies/${companyId}`);
+	};
 
 	return (
 		<div>
@@ -76,8 +83,15 @@ function Companies({ classes }) {
 					</TableHead>
 					<TableBody>
 						{companies.map((company) => (
-							<TableRow key={company.id}>
-								<TableCell component="th" scope="row">{company.name}</TableCell>
+							<TableRow
+								hover
+								key={company.id}
+								className={classes.pointer}
+								onClick={() => navigateTo(company.id)}
+							>
+								<TableCell component="th" scope="row">
+									{company.name}
+								</TableCell>
 								<TableCell>{company.address}</TableCell>
 								<TableCell>{company.phone}</TableCell>
 							</TableRow>

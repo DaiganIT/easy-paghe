@@ -5,7 +5,7 @@ import TopBar from './TopBar';
 import LeftDrawer from './LeftDrawer';
 import Dashboard from '../dashboard/Dashboard';
 import Companies from '../companies/Companies';
-import EditCompany from '../companies/EditCompany';
+import AddCompany from '../companies/AddCompany';
 
 import authentication from '../auth/auth';
 
@@ -50,7 +50,7 @@ function LoggedInLayout({ classes, history, children }) {
           <div className={classes.toolbar} />
           <Route exact path="/index" component={Dashboard} />
           <Route exact path="/index/companies" component={Companies} />
-          <Route exact path="/index/companies/add" component={EditCompany} />
+          <Route exact path="/index/companies/add" component={AddCompany} />
         </main>
 		</div>
 	);
