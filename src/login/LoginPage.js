@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Login } from './';
@@ -84,7 +85,7 @@ function LoginPage({ classes, history }) {
 	);
 
 	if (authentication.isAuthenticated)
-		history.push('/index');
+		return <Redirect to="/index" />
 
 	return (
 		<div className={classes.main}>

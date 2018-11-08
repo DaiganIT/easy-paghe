@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import http from './http';
+import axios from 'axios';
 
 const styles = {
 	menu: {
@@ -38,14 +39,21 @@ function Companies({ classes, history }) {
 	useEffect(
 		() => {
 			if (loadCompanies) {
-				http.getCompanies()
+				const { promise, tokenSource } = http.getCompanies();
+				promise
 					.then(({ data }) => {
 						setLoadCompanies(false);
 						setCompanies(data);
 					})
-					.catch(({ response }) => {
-						setLoadCompanies(false);
+					.catch((error) => {
+						if (!axios.isCancel(error)) {
+							setLoadCompanies(false);
+						}
 					});
+
+				return function cleanup() {
+					if (setLoadCompanies) tokenSource.cancel();
+				};
 			}
 		},
 		[loadCompanies],
