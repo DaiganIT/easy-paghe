@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import CompanyDetails from './CompanyDetails';
 import Employees from './Employees';
 import useCompanyForm from './useCompanyForm';
+import http from './http';
 
 const styles = {
 	menu: {
@@ -16,8 +17,20 @@ const styles = {
 		flexGrow: 1,
 	},
 };
-function EditCompany({ classes }) {
+function EditCompany({ classes, match }) {
 	const { isSaving, setIsSaving, name, setName, address, setAddress, phone, setPhone, employees, setEmployees } = useCompanyForm({});
+
+	useEffect(() => {
+		http.loadCompany(match.params.companyId)
+			.then(({ data }) => {
+				setName(data.name);
+				setAddress(data.address);
+				setPhone(data.phone);
+			})
+			.catch(() => {
+
+			});
+	}, []);
 
 	const save = () => {
 		setIsSaving(true);
@@ -27,7 +40,7 @@ function EditCompany({ classes }) {
 		<div>
 			<span className={classes.menu}>
 				<Typography variant="title" className={classes.grow}>
-					Aggiungi Azienda
+					Modifica Azienda
 				</Typography>
 			</span>
 			<form>
