@@ -29,10 +29,11 @@ function useCompanyForm({ loadId, defaultName, defaultAddress, defaultPhone }, o
 		setId,
 		onSave,
 	});
-	const [isLoading, setIsLoading] = useLoadable({ id, loadPromise: loadCompany, setForm });
+	const [isLoading] = useLoadable({ id, loadPromise: loadCompany, setForm });
 	const [isDeleting, setIsDeleting] = useDeleteable({ deletePromise: deleteCompany, onDelete });
 
-	return [
+	return {
+		isLoading,
 		isSaving,
 		setIsSaving,
 		isDeleting,
@@ -45,7 +46,7 @@ function useCompanyForm({ loadId, defaultName, defaultAddress, defaultPhone }, o
 		setPhone,
 		employees,
 		setEmployees,
-	];
+	};
 }
 
 export default useCompanyForm;

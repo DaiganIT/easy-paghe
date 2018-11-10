@@ -1,8 +1,8 @@
 import React from 'react';
 import EventBus from 'eventbusjs';
-import { withStyles } from '@material-ui/core';
 import ButtonWithLoader from '../common/ButtonWithLoader';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import CompanyDetails from './CompanyDetails';
 import Employees from './Employees';
 import useCompanyForm from './useCompanyForm';
@@ -10,8 +10,7 @@ import ConfirmDialog from '../dialogs/ConfirmDialog';
 import useConfirmDialog from '../dialogs/useConfirmDialog';
 import Page from '../common/Page';
 
-const styles = {};
-function EditCompany({ classes, match, history }) {
+function EditCompany({ match, history }) {
 	const onUpdate = () => {
 		EventBus.dispatch('global-notification-show', undefined, 'Azienda aggiornata');
 	};
@@ -20,7 +19,8 @@ function EditCompany({ classes, match, history }) {
 		history.push('/index/companies');
 	};
 
-	const [
+	const {
+		isLoading,
 		isSaving,
 		setIsSaving,
 		isDeleting,
@@ -33,7 +33,7 @@ function EditCompany({ classes, match, history }) {
 		setPhone,
 		employees,
 		setEmployees,
-	] = useCompanyForm({ loadId: match.params.companyId }, onUpdate, onDelete);
+	} = useCompanyForm({ loadId: match.params.companyId }, onUpdate, onDelete);
 
 	const onDeleteConfirm = () => {
 		setIsDeleting(true);
@@ -51,7 +51,7 @@ function EditCompany({ classes, match, history }) {
 			size="small"
 			color="primary"
 			onClick={openDialog}
-			isLoading={isDialogOpen || isDeleting}
+			isLoading={isDialogOpen || isDeleting || isLoading}
 		>
 			Elimina
 		</ButtonWithLoader>
@@ -59,6 +59,7 @@ function EditCompany({ classes, match, history }) {
 
 	return (
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
+			{isLoading ? <LinearProgress /> : undefined}
 			<form>
 				<Grid container>
 					<Grid item xs={6}>
@@ -72,7 +73,13 @@ function EditCompany({ classes, match, history }) {
 					</Grid>
 				</Grid>
 			</form>
-			<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isSaving}>
+			<ButtonWithLoader
+				variant="contained"
+				size="small"
+				color="primary"
+				onClick={save}
+				isLoading={isSaving || isLoading}
+			>
 				Salva
 			</ButtonWithLoader>
 			<ConfirmDialog
@@ -88,4 +95,4 @@ function EditCompany({ classes, match, history }) {
 	);
 }
 
-export default withStyles(styles)(EditCompany);
+export default EditCompany;
