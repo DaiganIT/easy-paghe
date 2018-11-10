@@ -1,6 +1,5 @@
 import React from 'react';
 import EventBus from 'eventbusjs';
-import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import CompanyDetails from './CompanyDetails';
 import Employees from './Employees';
@@ -8,12 +7,10 @@ import useCompanyForm from './useCompanyForm';
 import Page from '../common/Page';
 import ButtonWithLoader from '../common/ButtonWithLoader';
 
-const styles = {};
-
 function AddCompany({ history }) {
 	const onCreate = ({ id }) => {
 		history.push(`/index/companies/${id}`);
-		EventBus.dispatch('global-notification-show', undefined, 'Azienda creata');
+		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
 	};
 
 	const {
@@ -27,7 +24,7 @@ function AddCompany({ history }) {
 		setPhone,
 		employees,
 		setEmployees,
-	 } = useCompanyForm({}, onCreate);
+	} = useCompanyForm({ onSave: onCreate });
 
 	const save = () => {
 		setIsSaving(true);
@@ -55,4 +52,4 @@ function AddCompany({ history }) {
 	);
 }
 
-export default withStyles(styles)(AddCompany);
+export default AddCompany;

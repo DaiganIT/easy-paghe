@@ -7,7 +7,7 @@ function useDeleteable({ deletePromise, onDelete }) {
 	useEffect(
 		() => {
 			if (isDeleting) {
-				const [promise, cleanup] = cancellablePromise(deletePromise);
+				const [promise, cleanup] = cancellablePromise({ httpCall: deletePromise });
 				promise
 					.then(() => {
 						setIsDeleting(false);

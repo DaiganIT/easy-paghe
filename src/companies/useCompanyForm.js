@@ -4,7 +4,7 @@ import useSaveable from '../commonHooks/useSaveable';
 import useLoadable from '../commonHooks/useLoadable';
 import useDeleteable from '../commonHooks/useDeleteable';
 
-function useCompanyForm({ loadId, defaultName, defaultAddress, defaultPhone }, onSave, onDelete) {
+function useCompanyForm({ loadId, defaultName, defaultAddress, defaultPhone, onSave, onDelete}) {
 	const [id, setId] = useState(loadId || 0);
 	const [name, setName] = useState(defaultName || '');
 	const [address, setAddress] = useState(defaultAddress || '');
@@ -12,7 +12,7 @@ function useCompanyForm({ loadId, defaultName, defaultAddress, defaultPhone }, o
 	const [employees, setEmployees] = useState([]);
 
 	const createNewCompany = () => http.createCompany({ name, address, phone });
-	const updateCompany = () => http.updateCompany(id, { name, address, phone });
+	const updateCompany = () => http.updateCompany({ id, name, address, phone });
 	const loadCompany = () => http.loadCompany(id);
 	const deleteCompany = () => http.deleteCompany(id);
 	const setForm = (form) => {

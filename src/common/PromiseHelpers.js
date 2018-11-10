@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function QueryablePromise(promise) {
+export function QueryablePromise({ promise }) {
 	let isPending = !promise.isResolved;
 
 	var result = promise.then(
@@ -24,7 +24,7 @@ function cancelled(err) {
 	}
 }
 
-export function cancellablePromise(httpCall) {
+export function cancellablePromise({ httpCall }) {
 	const [promise, tokenSource] = httpCall();
 	promise.catch(cancelled);
 	return [
@@ -40,6 +40,6 @@ export function getTokenSource() {
 	return CancelToken.source();
 }
 
-export function CancellableQueryablePromise(promise, tokenSource) {
-	return [ QueryablePromise(promise), tokenSource ];
+export function CancellableQueryablePromise({ promise, tokenSource }) {
+	return [QueryablePromise(promise), tokenSource];
 }

@@ -12,7 +12,7 @@ import Page from '../common/Page';
 
 function EditCompany({ match, history }) {
 	const onUpdate = () => {
-		EventBus.dispatch('global-notification-show', undefined, 'Azienda aggiornata');
+		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda aggiornata' });
 	};
 
 	const onDelete = () => {
@@ -33,13 +33,15 @@ function EditCompany({ match, history }) {
 		setPhone,
 		employees,
 		setEmployees,
-	} = useCompanyForm({ loadId: match.params.companyId }, onUpdate, onDelete);
+	} = useCompanyForm({ loadId: match.params.companyId, onSave: onUpdate, onDelete });
 
 	const onDeleteConfirm = () => {
 		setIsDeleting(true);
 	};
 
-	const { isDialogOpen, openDialog, closeDialog, confirmDialog } = useConfirmDialog(onDeleteConfirm);
+	const { isDialogOpen, openDialog, closeDialog, confirmDialog } = useConfirmDialog({
+		confirmAction: onDeleteConfirm,
+	});
 
 	const save = () => {
 		setIsSaving(true);

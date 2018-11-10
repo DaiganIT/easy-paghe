@@ -23,7 +23,7 @@ const styles = {
 };
 
 function Companies({ classes, history }) {
-	const { data, loadData } = useList(http.getCompanies);
+	const { data, loadData } = useList({ getPromise: http.getCompanies });
 
 	const navigateTo = (companyId) => {
 		history.push(`/index/companies/${companyId}`);

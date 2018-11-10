@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function useList(getPromise) {
+function useList({ getPromise }) {
 	const [data, setData] = useState([]);
 	const [loadData, setLoadData] = useState(false);
 

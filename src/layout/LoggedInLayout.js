@@ -28,7 +28,7 @@ const styles = (theme) => ({
 	},
 });
 
-function LoggedInLayout({ classes, history, children }) {
+function LoggedInLayout({ classes, history }) {
 	const [isLoggingOut, setIsLoggingOut] = useState(false);
 	const [drawerOpen, setDrawerOpen] = useState(true);
 
@@ -47,7 +47,7 @@ function LoggedInLayout({ classes, history, children }) {
 	return (
 		<div className={classes.root}>
 			<TopBar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setIsLoggingOut={setIsLoggingOut} />
-			<LeftDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+			<LeftDrawer drawerOpen={drawerOpen} />
 			<main className={classes.content}>
 				<GlobalNotification />
 				<div className={classes.toolbar} />

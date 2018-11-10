@@ -5,8 +5,8 @@ function useNotification() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [message, setMessage] = useState('');
 
-	const openNotification = (event, args) => {
-		setMessage(args);
+	const openNotification = (event, { message }) => {
+		setMessage(message);
 		setIsOpen(true);
 	};
 

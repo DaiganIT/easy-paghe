@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function useConfirmDialog(confirmAction) {
+function useConfirmDialog({ confirmAction }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   const openDialog = () => {

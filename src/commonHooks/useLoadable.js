@@ -7,7 +7,7 @@ function useLoadable({ id, loadPromise, setForm }) {
 	useEffect(
 		() => {
 			if (isLoading) {
-				const [promise, cleanup] = cancellablePromise(loadPromise);
+				const [promise, cleanup] = cancellablePromise({ httpCall: loadPromise });
 				promise
 					.then(({ data }) => {
 						setIsLoading(false);

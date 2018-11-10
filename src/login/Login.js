@@ -6,11 +6,11 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 
-const styles = (theme) => ({
+const styles = {
 	input: {
 		marginTop: '1em',
 	},
-});
+};
 
 function Login({ classes, email, emailError, password, passwordError, setEmail, setPassword, isLoading }) {
 	return (

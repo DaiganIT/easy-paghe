@@ -47,7 +47,7 @@ const styles = (theme) => ({
 	},
 });
 
-function LeftDrawer({ classes, theme, drawerOpen, setDrawerOpen }) {
+function LeftDrawer({ classes, drawerOpen }) {
 	return (
 		<Drawer
 			variant="permanent"

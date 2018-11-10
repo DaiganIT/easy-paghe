@@ -23,7 +23,7 @@ const styles = {
 };
 
 function People({ classes, history }) {
-	const { data, loadData } = useList(http.getPeople);
+	const { data, loadData } = useList({ getPromise: http.getPeople });
 
 	const navigateTo = (personId) => {
 		history.push(`/index/people/${personId}`);

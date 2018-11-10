@@ -5,7 +5,7 @@ function useSaveable({ createPromise, updatePromise, id, setId, onSave }) {
 	const [isSaving, setIsSaving] = useState(false);
 
 	const create = () => {
-		const [promise, cleanup] = cancellablePromise(createPromise);
+		const [promise, cleanup] = cancellablePromise({ httpCall: createPromise });
 		promise
 			.then((response) => {
 				setIsSaving(false);
@@ -19,7 +19,7 @@ function useSaveable({ createPromise, updatePromise, id, setId, onSave }) {
 	};
 
 	const update = () => {
-		const [promise, cleanup] = cancellablePromise(updatePromise);
+		const [promise, cleanup] = cancellablePromise({ httpCall: updatePromise });
 		promise
 			.then((response) => {
 				setIsSaving(false);
