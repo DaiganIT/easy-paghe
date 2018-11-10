@@ -41,5 +41,5 @@ export function getTokenSource() {
 }
 
 export function CancellableQueryablePromise({ promise, tokenSource }) {
-	return [QueryablePromise(promise), tokenSource];
+	return [QueryablePromise({ promise }), tokenSource];
 }
