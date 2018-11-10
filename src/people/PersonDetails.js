@@ -1,14 +1,10 @@
 import React from 'react';
-import classnames from 'classnames';
 import { withStyles, Paper, Typography, TextField } from '@material-ui/core';
 
 const styles = {
   paper: {
     padding: '1em',
 		marginBottom: '1em',
-  },
-  companyDetails: {
-    marginRight: '1em',
   },
   miniTitle: {
     marginBottom: '1em',
@@ -21,7 +17,7 @@ const styles = {
 
 function PersonDetails({ classes, isSaving, form }) {
 	return (
-		<Paper className={classnames(classes.paper, classes.companyDetails)}>
+		<Paper className={classes.paper}>
 			<Typography variant="title" className={classes.miniTitle}>
 				Dettagli persona
 			</Typography>
