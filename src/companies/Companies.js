@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -39,6 +40,7 @@ function Companies({ classes, history }) {
 
 	return (
 		<Page title="Gestione Aziende" menuComponent={menuButton}>
+			{loadData ? <LinearProgress /> : undefined}
 			<Table>
 				<TableHead>
 					<TableRow>

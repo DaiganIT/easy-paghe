@@ -1,16 +1,21 @@
 import React from 'react';
+import EventBus from 'eventbusjs';
 import { withStyles } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import CompanyDetails from './CompanyDetails';
 import Employees from './Employees';
 import useCompanyForm from './useCompanyForm';
 import Page from '../common/Page';
+import ButtonWithLoader from '../common/ButtonWithLoader';
 
-const styles = {
-};
+const styles = {};
 
-function AddCompany({ classes }) {
+function AddCompany({ history }) {
+	const onCreate = ({ id }) => {
+		history.push(`/index/companies/${id}`);
+		EventBus.dispatch('global-notification-show', undefined, 'Azienda creata');
+	};
+
 	const {
 		isSaving,
 		setIsSaving,
@@ -22,14 +27,14 @@ function AddCompany({ classes }) {
 		setPhone,
 		employees,
 		setEmployees,
-	} = useCompanyForm({});
+	} = useCompanyForm({}, onCreate);
 
 	const save = () => {
 		setIsSaving(true);
 	};
 
 	return (
-		<Page title="Aggiungi Azienda">
+		<Page title="Aggiungi Azienda" noPaper>
 			<form>
 				<Grid container>
 					<Grid item xs={6}>
@@ -43,9 +48,9 @@ function AddCompany({ classes }) {
 					</Grid>
 				</Grid>
 			</form>
-			<Button variant="contained" size="small" color="primary" onClick={save} disabled={isSaving}>
-				Salva
-			</Button>
+			<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isSaving}>
+				Save
+			</ButtonWithLoader>
 		</Page>
 	);
 }

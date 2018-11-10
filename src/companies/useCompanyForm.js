@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import http from './http';
 import Axios from 'axios';
 
-function useCompanyForm({ defaultName, defaultAddress, defaultPhone }) {
+function useCompanyForm({ defaultName, defaultAddress, defaultPhone }, onCreate) {
 	const [isSaving, setIsSaving] = useState(false);
 	const [id, setId] = useState(0);
 	const [name, setName] = useState(defaultName || '');
@@ -20,8 +20,10 @@ function useCompanyForm({ defaultName, defaultAddress, defaultPhone }) {
 	const createNewCompany = ({ name, address, phone }) => {
 		const { promise, tokenSource } = http.createCompany({ name, address, phone });
 		promise
-			.then(() => {
+			.then((response) => {
 				setIsSaving(false);
+				setId(response.data.id);
+				onCreate && onCreate(response.data);
 			})
 			.catch((error) => {
 				if (!Axios.isCancel(error)) {

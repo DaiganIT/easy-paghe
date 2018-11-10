@@ -8,7 +8,7 @@ import Companies from '../companies/Companies';
 import AddCompany from '../companies/AddCompany';
 import EditCompany from '../companies/EditCompany';
 import People from '../people/People';
-
+import GlobalNotification from '../common/GlobalNotification';
 import authentication from '../auth/auth';
 
 const styles = (theme) => ({
@@ -46,16 +46,17 @@ function LoggedInLayout({ classes, history, children }) {
 
 	return (
 		<div className={classes.root}>
-      <TopBar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setIsLoggingOut={setIsLoggingOut} />
-      <LeftDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+			<TopBar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setIsLoggingOut={setIsLoggingOut} />
+			<LeftDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 			<main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Route exact path="/index" component={Dashboard} />
-          <Route exact path="/index/companies" component={Companies} />
-          <Route exact path="/index/companies/add" component={AddCompany} />
-          <Route exact path="/index/companies/:companyId(\d)" component={EditCompany} />
-          <Route exact path="/index/people" component={People} />
-        </main>
+				<GlobalNotification />
+				<div className={classes.toolbar} />
+				<Route exact path="/index" component={Dashboard} />
+				<Route exact path="/index/companies" component={Companies} />
+				<Route exact path="/index/companies/add" component={AddCompany} />
+				<Route exact path="/index/companies/:companyId(\d*)" component={EditCompany} />
+				<Route exact path="/index/people" component={People} />
+			</main>
 		</div>
 	);
 }

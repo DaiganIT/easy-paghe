@@ -72,13 +72,13 @@ function EditCompany({ classes, match, history }) {
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
 			<form>
 				<Grid container>
-					<Grid item lg={6}>
+					<Grid item xs={6}>
 						<CompanyDetails
 							form={{ name, address, phone, setName, setAddress, setPhone }}
 							isSaving={isSaving}
 						/>
 					</Grid>
-					<Grid item lg={6}>
+					<Grid item xs={6}>
 						<Employees employees={employees} setEmployees={setEmployees} />
 					</Grid>
 				</Grid>

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -41,6 +40,7 @@ function People({ classes, history }) {
 
 	return (
 		<Page title="Gestione Persone" menuComponent={addButton}>
+			{loadData ? <LinearProgress /> : undefined}
 			<Table>
 				<TableHead>
 					<TableRow>
