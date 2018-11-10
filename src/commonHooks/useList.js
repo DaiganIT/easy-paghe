@@ -8,7 +8,7 @@ function useList(getPromise) {
 	useEffect(
 		() => {
 			if (loadData) {
-				const { promise, tokenSource } = getPromise();
+				const [ promise, tokenSource ] = getPromise();
 				promise
 					.then(({ data }) => {
 						setLoadData(false);
