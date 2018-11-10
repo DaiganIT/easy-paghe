@@ -46,7 +46,7 @@ function AddCompany({ history }) {
 				</Grid>
 			</form>
 			<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isSaving}>
-				Save
+				Salva
 			</ButtonWithLoader>
 		</Page>
 	);

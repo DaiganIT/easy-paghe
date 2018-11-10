@@ -8,6 +8,8 @@ import Companies from '../companies/Companies';
 import AddCompany from '../companies/AddCompany';
 import EditCompany from '../companies/EditCompany';
 import People from '../people/People';
+import AddPerson from '../people/AddPerson';
+import EditPerson from '../people/EditPerson';
 import GlobalNotification from '../common/GlobalNotification';
 import authentication from '../auth/auth';
 
@@ -56,6 +58,8 @@ function LoggedInLayout({ classes, history }) {
 				<Route exact path="/index/companies/add" component={AddCompany} />
 				<Route exact path="/index/companies/:companyId(\d*)" component={EditCompany} />
 				<Route exact path="/index/people" component={People} />
+				<Route exact path="/index/people/add" component={AddPerson} />
+				<Route exact path="/index/people/:personId(\d*)" component={EditPerson} />
 			</main>
 		</div>
 	);

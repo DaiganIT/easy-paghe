@@ -12,15 +12,15 @@ function getPeople() {
 function createPerson(person) {
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
-		promise: axios.post('/api/people', { cancelToken: tokenSource.token }),
+		promise: axios.post('/api/people', person, { cancelToken: tokenSource.token }),
 		tokenSource,
 	});
 }
 
-function updatePerson(id, person) {
+function updatePerson({ id, ...person }) {
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
-		promise: axios.put(`/api/people/${id}`, { cancelToken: tokenSource.token }),
+		promise: axios.put(`/api/people/${id}`, person, { cancelToken: tokenSource.token }),
 		tokenSource,
 	});
 }
@@ -33,9 +33,18 @@ function loadPerson(personId) {
 	});
 }
 
+function deletePerson(personId) {
+	const tokenSource = getTokenSource();
+	return CancellableQueryablePromise({
+		promise: axios.delete(`/api/people/${personId}`, { cancelToken: tokenSource.token }),
+		tokenSource,
+	});
+}
+
 export default {
 	getPeople,
 	createPerson,
 	updatePerson,
 	loadPerson,
+	deletePerson,
 };
