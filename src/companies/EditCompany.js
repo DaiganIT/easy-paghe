@@ -1,27 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import EventBus from 'eventbusjs';
 import { withStyles } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import ButtonWithLoader from '../common/ButtonWithLoader';
 import Grid from '@material-ui/core/Grid';
 import CompanyDetails from './CompanyDetails';
 import Employees from './Employees';
 import useCompanyForm from './useCompanyForm';
-import http from './http';
-import axios from 'axios';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
 import useConfirmDialog from '../dialogs/useConfirmDialog';
 import Page from '../common/Page';
 
-const styles = {
-};
+const styles = {};
 function EditCompany({ classes, match, history }) {
 	const onUpdate = () => {
 		EventBus.dispatch('global-notification-show', undefined, 'Azienda aggiornata');
 	};
 
-	const {
+	const onDelete = () => {
+		history.push('/index/companies');
+	};
+
+	const [
 		isSaving,
 		setIsSaving,
+		isDeleting,
+		setIsDeleting,
 		name,
 		setName,
 		address,
@@ -30,47 +33,28 @@ function EditCompany({ classes, match, history }) {
 		setPhone,
 		employees,
 		setEmployees,
-		setForm,
-	} = useCompanyForm({}, null, onUpdate);
+	] = useCompanyForm({ loadId: match.params.companyId }, onUpdate, onDelete);
 
-	const deleteCompany = (companyId) => {
-		const { promise, tokenSource } = http.deleteCompany(companyId);
-		promise.then(() => {
-			history.push('/index/companies');
-		});
+	const onDeleteConfirm = () => {
+		setIsDeleting(true);
 	};
 
-	const { isDialogOpen, openDialog, closeDialog, confirmDialog } = useConfirmDialog(() =>
-		deleteCompany(match.params.companyId),
-	);
-	const [isLoading, setIsLoading] = useState(true);
-
-	useEffect(() => {
-		const { promise, tokenSource } = http.loadCompany(match.params.companyId);
-		promise
-			.then(({ data }) => {
-				setIsLoading(false);
-				setForm(data);
-			})
-			.catch((error) => {
-				if (!axios.isCancel(error)) {
-					setIsLoading(false);
-				}
-			});
-
-		return function cleanup() {
-			if (isLoading) tokenSource.cancel();
-		};
-	}, []);
+	const { isDialogOpen, openDialog, closeDialog, confirmDialog } = useConfirmDialog(onDeleteConfirm);
 
 	const save = () => {
 		setIsSaving(true);
 	};
 
 	const deleteButton = (
-		<Button variant="contained" color="secondary" onClick={openDialog}>
+		<ButtonWithLoader
+			variant="contained"
+			size="small"
+			color="primary"
+			onClick={openDialog}
+			isLoading={isDialogOpen || isDeleting}
+		>
 			Elimina
-		</Button>
+		</ButtonWithLoader>
 	);
 
 	return (
@@ -88,9 +72,9 @@ function EditCompany({ classes, match, history }) {
 					</Grid>
 				</Grid>
 			</form>
-			<Button variant="contained" size="small" color="primary" onClick={save} disabled={isSaving}>
+			<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isSaving}>
 				Salva
-			</Button>
+			</ButtonWithLoader>
 			<ConfirmDialog
 				open={isDialogOpen}
 				id="delete-company"

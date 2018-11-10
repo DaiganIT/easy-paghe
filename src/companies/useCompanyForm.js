@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import http from './http';
-import Axios from 'axios';
+import axios from 'axios';
 
-function useCompanyForm({ defaultName, defaultAddress, defaultPhone }, onCreate, onUpdate) {
+function useCompanyForm({ loadId, defaultName, defaultAddress, defaultPhone }, onSave, onDelete) {
 	const [isSaving, setIsSaving] = useState(false);
-	const [id, setId] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
+
+	const [id, setId] = useState(loadId || 0);
 	const [name, setName] = useState(defaultName || '');
 	const [address, setAddress] = useState(defaultAddress || '');
 	const [phone, setPhone] = useState(defaultPhone || '');
@@ -23,10 +26,10 @@ function useCompanyForm({ defaultName, defaultAddress, defaultPhone }, onCreate,
 			.then((response) => {
 				setIsSaving(false);
 				setId(response.data.id);
-				onCreate && onCreate(response.data);
+				onSave && onSave(response.data);
 			})
 			.catch((error) => {
-				if (!Axios.isCancel(error)) {
+				if (!axios.isCancel(error)) {
 					setIsSaving(false);
 				}
 			});
@@ -39,12 +42,12 @@ function useCompanyForm({ defaultName, defaultAddress, defaultPhone }, onCreate,
 	const updateCompany = ({ id, name, address, phone }) => {
 		const { promise, tokenSource } = http.updateCompany(id, { name, address, phone });
 		promise
-			.then(() => {
+			.then((response) => {
 				setIsSaving(false);
-				onUpdate && onUpdate();
+				onSave && onSave(response.data);
 			})
 			.catch((error) => {
-				if (!Axios.isCancel(error)) {
+				if (!axios.isCancel(error)) {
 					setIsSaving(false);
 				}
 			});
@@ -67,21 +70,70 @@ function useCompanyForm({ defaultName, defaultAddress, defaultPhone }, onCreate,
 		[isSaving],
 	);
 
-	return {
-		id,
-		name,
-		address,
-		phone,
-		employees,
+	useEffect(
+		() => {
+			if (isDeleting) {
+				const { promise, tokenSource } = http.deleteCompany(id);
+				promise
+					.then(() => {
+						setIsDeleting(false);
+						onDelete && onDelete();
+					})
+					.catch((error) => {
+						if (!axios.isCancel(error)) {
+							setIsDeleting(false);
+						}
+					});
+
+				return function cleanup() {
+					if (isSaving) tokenSource.cancel();
+				};
+			}
+		},
+		[isDeleting],
+	);
+
+	useEffect(
+		() => {
+			if (isLoading) {
+				const { promise, tokenSource } = http.loadCompany(id);
+				promise
+					.then(({ data }) => {
+						setIsLoading(false);
+						setForm(data);
+					})
+					.catch((error) => {
+						if (!axios.isCancel(error)) {
+							setIsLoading(false);
+						}
+					});
+
+				return function cleanup() {
+					if (isLoading) tokenSource.cancel();
+				};
+			}
+		},
+		[isLoading],
+	);
+
+	useEffect(() => {
+		if (id !== 0) setIsLoading(true);
+	}, []);
+
+	return [
 		isSaving,
 		setIsSaving,
-		setId,
+		isDeleting,
+		setIsDeleting,
+		name,
 		setName,
+		address,
 		setAddress,
+		phone,
 		setPhone,
+		employees,
 		setEmployees,
-		setForm,
-	};
+	];
 }
 
 export default useCompanyForm;

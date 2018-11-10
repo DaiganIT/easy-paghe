@@ -16,9 +16,11 @@ function AddCompany({ history }) {
 		EventBus.dispatch('global-notification-show', undefined, 'Azienda creata');
 	};
 
-	const {
+	const [
 		isSaving,
 		setIsSaving,
+		isDeleting,
+		setIsDeleting,
 		name,
 		setName,
 		address,
@@ -27,7 +29,7 @@ function AddCompany({ history }) {
 		setPhone,
 		employees,
 		setEmployees,
-	} = useCompanyForm({}, onCreate);
+	] = useCompanyForm({}, onCreate);
 
 	const save = () => {
 		setIsSaving(true);

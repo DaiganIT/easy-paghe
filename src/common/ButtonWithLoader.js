@@ -14,7 +14,7 @@ const styles = {
 	},
 };
 
-function ButtonWithLoader({ classes, isLoading, ...props }) {
+function ButtonWithLoader({ classes, isLoading, children, ...props }) {
 	const buttonClassname = classNames({
 		[classes.buttonSuccess]: isLoading,
 		[props.className]: true,
@@ -23,7 +23,7 @@ function ButtonWithLoader({ classes, isLoading, ...props }) {
 	return (
 		<div>
 			<Button {...props} className={buttonClassname} disabled={isLoading}>
-				Salva
+				{children}
         {isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
 			</Button>
 		</div>
