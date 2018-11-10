@@ -7,6 +7,7 @@ import Dashboard from '../dashboard/Dashboard';
 import Companies from '../companies/Companies';
 import AddCompany from '../companies/AddCompany';
 import EditCompany from '../companies/EditCompany';
+import People from '../people/People';
 
 import authentication from '../auth/auth';
 
@@ -53,6 +54,7 @@ function LoggedInLayout({ classes, history, children }) {
           <Route exact path="/index/companies" component={Companies} />
           <Route exact path="/index/companies/add" component={AddCompany} />
           <Route exact path="/index/companies/:companyId(\d)" component={EditCompany} />
+          <Route exact path="/index/people" component={People} />
         </main>
 		</div>
 	);

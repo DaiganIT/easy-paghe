@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -21,24 +23,24 @@ const styles = {
 	},
 };
 
-function Companies({ classes, history }) {
-	const { data, loadData } = useList(http.getCompanies);
+function People({ classes, history }) {
+	const { data, loadData } = useList(http.getPeople);
 
-	const navigateTo = (companyId) => {
-		history.push(`/index/companies/${companyId}`);
+	const navigateTo = (personId) => {
+		history.push(`/index/people/${personId}`);
 	};
 
-	const menuButton = (
-		<Link to="/index/companies/add" className={classes.link}>
+	const addButton = (
+		<Link to="/index/people/add" className={classes.link}>
 			<Button variant="contained" color="primary" size="small">
 				<AddIcon />
-				Nuova azienda
+				Nuova Persona
 			</Button>
 		</Link>
 	);
 
 	return (
-		<Page title="Gestione Aziende" menuComponent={menuButton}>
+		<Page title="Gestione Persone" menuComponent={addButton}>
 			<Table>
 				<TableHead>
 					<TableRow>
@@ -48,18 +50,18 @@ function Companies({ classes, history }) {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{data.map((company) => (
+					{data.map((person) => (
 						<TableRow
 							hover
-							key={company.id}
+							key={person.id}
 							className={classes.pointer}
-							onClick={() => navigateTo(company.id)}
+							onClick={() => navigateTo(person.id)}
 						>
 							<TableCell component="th" scope="row">
-								{company.name}
+								{person.name}
 							</TableCell>
-							<TableCell>{company.address}</TableCell>
-							<TableCell>{company.phone}</TableCell>
+							<TableCell>{person.address}</TableCell>
+							<TableCell>{person.phone}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
@@ -68,4 +70,4 @@ function Companies({ classes, history }) {
 	);
 }
 
-export default withStyles(styles)(Companies);
+export default withStyles(styles)(People);

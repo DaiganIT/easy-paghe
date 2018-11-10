@@ -82,12 +82,14 @@ function LeftDrawer({ classes, theme, drawerOpen, setDrawerOpen }) {
 						<ListItemText primary="Aziende" />
 					</ListItem>
 				</Link>
-				<ListItem button key="people">
-					<ListItemIcon>
-						<PeopleIcon />
-					</ListItemIcon>
-					<ListItemText primary="Persone" />
-				</ListItem>
+				<Link to="/index/people" className={classes.link}>
+					<ListItem button key="people">
+						<ListItemIcon>
+							<PeopleIcon />
+						</ListItemIcon>
+						<ListItemText primary="Persone" />
+					</ListItem>
+				</Link>
 			</List>
 			<Divider />
 			<ListItem button key="users">

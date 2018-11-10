@@ -25,9 +25,15 @@ function loadCompany(companyId) {
 	return { promise: axios.get(`/api/companies/${companyId}`, { cancelToken: tokenSource.token }), tokenSource };
 }
 
+function deleteCompany(companyId) {
+	const tokenSource = getTokenSource();
+	return { promise: axios.delete(`/api/companies/${companyId}`, { cancelToken: tokenSource.token }), tokenSource };
+}
+
 export default {
 	getCompanies,
 	createCompany,
 	updateCompany,
 	loadCompany,
+	deleteCompany
 };
