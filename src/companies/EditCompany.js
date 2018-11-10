@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import EventBus from 'eventbusjs';
 import { withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -14,6 +15,10 @@ import Page from '../common/Page';
 const styles = {
 };
 function EditCompany({ classes, match, history }) {
+	const onUpdate = () => {
+		EventBus.dispatch('global-notification-show', undefined, 'Azienda aggiornata');
+	};
+
 	const {
 		isSaving,
 		setIsSaving,
@@ -26,7 +31,7 @@ function EditCompany({ classes, match, history }) {
 		employees,
 		setEmployees,
 		setForm,
-	} = useCompanyForm({});
+	} = useCompanyForm({}, null, onUpdate);
 
 	const deleteCompany = (companyId) => {
 		const { promise, tokenSource } = http.deleteCompany(companyId);

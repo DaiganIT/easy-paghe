@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import http from './http';
 import Axios from 'axios';
 
-function useCompanyForm({ defaultName, defaultAddress, defaultPhone }, onCreate) {
+function useCompanyForm({ defaultName, defaultAddress, defaultPhone }, onCreate, onUpdate) {
 	const [isSaving, setIsSaving] = useState(false);
 	const [id, setId] = useState(0);
 	const [name, setName] = useState(defaultName || '');
@@ -41,6 +41,7 @@ function useCompanyForm({ defaultName, defaultAddress, defaultPhone }, onCreate)
 		promise
 			.then(() => {
 				setIsSaving(false);
+				onUpdate && onUpdate();
 			})
 			.catch((error) => {
 				if (!Axios.isCancel(error)) {
