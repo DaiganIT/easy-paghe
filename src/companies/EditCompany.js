@@ -38,8 +38,6 @@ function EditCompany({ classes, match, history }) {
 		setAddress,
 		phone,
 		setPhone,
-		employees,
-		setEmployees,
 	} = useCompanyForm({ loadId: match.params.companyId, onSave: onUpdate, onDelete });
 
 	const onDeleteConfirm = () => {
@@ -78,7 +76,7 @@ function EditCompany({ classes, match, history }) {
 						/>
 					</Grid>
 					<Grid item lg={6} xs={12}>
-						<Employees employees={employees} setEmployees={setEmployees} />
+						<Employees companyId={match.params.companyId} />
 					</Grid>
 				</Grid>
 			</form>

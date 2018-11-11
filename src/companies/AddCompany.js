@@ -1,6 +1,5 @@
 import React from 'react';
 import EventBus from 'eventbusjs';
-import Grid from '@material-ui/core/Grid';
 import CompanyDetails from './CompanyDetails';
 import useCompanyForm from './useCompanyForm';
 import Page from '../common/Page';
@@ -12,18 +11,9 @@ function AddCompany({ history }) {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
 	};
 
-	const {
-		isSaving,
-		setIsSaving,
-		name,
-		setName,
-		address,
-		setAddress,
-		phone,
-		setPhone,
-		employees,
-		setEmployees,
-	} = useCompanyForm({ onSave: onCreate });
+	const { isSaving, setIsSaving, name, setName, address, setAddress, phone, setPhone } = useCompanyForm({
+		onSave: onCreate,
+	});
 
 	const save = () => {
 		setIsSaving(true);

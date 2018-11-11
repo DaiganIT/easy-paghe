@@ -3,7 +3,9 @@ import { getTokenSource, CancellableQueryablePromise, QueryablePromise } from '.
 
 function getCompanies({ search, page, pageLimit }) {
 	const tokenSource = getTokenSource();
-	const promise = axios.get(`/api/companies?filter=${search}&page=${page}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token });
+	const promise = axios.get(`/api/companies?filter=${search}&page=${page}&pageLimit=${pageLimit}`, {
+		cancelToken: tokenSource.token,
+	});
 	return QueryablePromise({ promise });
 }
 
@@ -15,7 +17,7 @@ function createCompany(company) {
 	});
 }
 
-function updateCompany(id, company) {
+function updateCompany({ id, ...company }) {
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
 		promise: axios.put(`/api/companies/${id}`, company, { cancelToken: tokenSource.token }),
@@ -39,10 +41,44 @@ function deleteCompany(companyId) {
 	});
 }
 
+function loadEmployees({ companyId, search, page, pageLimit }) {
+	const tokenSource = getTokenSource();
+	const promise = axios.get(
+		`/api/companies/${companyId}/employees?filter=${search}&page=${page}&pageLimit=${pageLimit}`,
+		{
+			cancelToken: tokenSource.token,
+		},
+	);
+	return CancellableQueryablePromise({ promise, tokenSource });
+}
+
+function addEmployee({ companyId, personId }) {
+	const tokenSource = getTokenSource();
+	const promise = axios.put(
+		`/api/companies/${companyId}/employees/${personId}`,
+		{},
+		{ cancelToken: tokenSource.token },
+	);
+	return CancellableQueryablePromise({ promise, tokenSource });
+}
+
+function removeEmployee({ companyId, personId }) {
+	const tokenSource = getTokenSource();
+	const promise = axios.delete(
+		`/api/companies/${companyId}/employees/${personId}`,
+		{},
+		{ cancelToken: tokenSource.token },
+	);
+	return CancellableQueryablePromise({ promise, tokenSource });
+}
+
 export default {
 	getCompanies,
 	createCompany,
 	updateCompany,
 	loadCompany,
 	deleteCompany,
+	loadEmployees,
+	addEmployee,
+	removeEmployee,
 };
