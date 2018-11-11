@@ -8,6 +8,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import http from './http';
@@ -27,7 +28,7 @@ const styles = {
 const debouncedGetPromise = debounce(http.getPeople, 300);
 
 function People({ classes, history }) {
-	const { data, loadData, search, setSearch } = useList({ getPromise: debouncedGetPromise });
+	const { data, loadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: debouncedGetPromise });
 
 	const navigateTo = (personId) => {
 		history.push(`/index/people/${personId}`);
@@ -55,7 +56,7 @@ function People({ classes, history }) {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{data.map((person) => (
+					{data.items.map((person) => (
 						<TableRow
 							hover
 							key={person.id}
@@ -71,6 +72,22 @@ function People({ classes, history }) {
 					))}
 				</TableBody>
 			</Table>
+			<TablePagination
+				component="div"
+				count={data.length}
+				rowsPerPage={pageLimit}
+				rowsPerPageOptions={[]}
+				page={page}
+				backIconButtonProps={{
+					'aria-label': 'Pagina Precedente',
+				}}
+				nextIconButtonProps={{
+					'aria-label': 'Pagina Successiva',
+				}}
+				onChangePage={(event, page) => {
+					setPage(page);
+				}}
+			/>
 		</Page>
 	);
 }

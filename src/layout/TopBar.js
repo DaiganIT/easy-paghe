@@ -19,7 +19,7 @@ const styles = (theme) => ({
 		zIndex: theme.zIndex.drawer + 1,
 	},
 	logoutButton: {
-		marginRight: '1em',
+		marginRight: '2em',
 	},
 });
 

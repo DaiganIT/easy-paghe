@@ -1,4 +1,5 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core';
 import EventBus from 'eventbusjs';
 import ButtonWithLoader from '../common/ButtonWithLoader';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +11,13 @@ import ConfirmDialog from '../dialogs/ConfirmDialog';
 import useConfirmDialog from '../dialogs/useConfirmDialog';
 import Page from '../common/Page';
 
-function EditCompany({ match, history }) {
+const styles = {
+	companyDetails: {
+		marginRight: '1em',
+	},
+};
+
+function EditCompany({ classes, match, history }) {
 	const onUpdate = () => {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda aggiornata' });
 	};
@@ -63,14 +70,14 @@ function EditCompany({ match, history }) {
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
 			{isLoading ? <LinearProgress /> : undefined}
 			<form>
-				<Grid container>
-					<Grid item xs={6}>
+				<Grid container spacing={24}>
+					<Grid item lg={6} xs={12}>
 						<CompanyDetails
 							form={{ name, address, phone, setName, setAddress, setPhone }}
 							isSaving={isSaving}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item lg={6} xs={12}>
 						<Employees employees={employees} setEmployees={setEmployees} />
 					</Grid>
 				</Grid>
@@ -97,4 +104,4 @@ function EditCompany({ match, history }) {
 	);
 }
 
-export default EditCompany;
+export default withStyles(styles)(EditCompany);

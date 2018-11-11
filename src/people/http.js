@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { getTokenSource, CancellableQueryablePromise, QueryablePromise } from '../common/PromiseHelpers';
 
-function getPeople({ search }) {
+function getPeople({ search, page, pageLimit }) {
 	const tokenSource = getTokenSource();
-	const promise = axios.get(`/api/people?filter=${search}`, { cancelToken: tokenSource.token });
+	const promise = axios.get(`/api/people?filter=${search}&page=${page}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token });
 	return QueryablePromise({ promise });
 }
 
