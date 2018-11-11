@@ -1,4 +1,5 @@
 import React from 'react';
+import debounce from 'debounce-promise';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -12,6 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import http from './http';
 import useList from '../commonHooks/useList';
 import Page from '../common/Page';
+import SearchField from '../common/SearchField';
 
 const styles = {
 	link: {
@@ -22,8 +24,10 @@ const styles = {
 	},
 };
 
+const debouncedGetPromise = debounce(http.getPeople, 300);
+
 function People({ classes, history }) {
-	const { data, loadData } = useList({ getPromise: http.getPeople });
+	const { data, loadData, search, setSearch } = useList({ getPromise: debouncedGetPromise });
 
 	const navigateTo = (personId) => {
 		history.push(`/index/people/${personId}`);
@@ -41,6 +45,7 @@ function People({ classes, history }) {
 	return (
 		<Page title="Gestione Persone" menuComponent={addButton}>
 			{loadData ? <LinearProgress /> : undefined}
+			<SearchField value={search} setSearch={setSearch} />
 			<Table>
 				<TableHead>
 					<TableRow>

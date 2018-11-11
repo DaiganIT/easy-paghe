@@ -4,11 +4,19 @@ import axios from 'axios';
 function useList({ getPromise }) {
 	const [data, setData] = useState([]);
 	const [loadData, setLoadData] = useState(false);
+	const [search, setSearch] = useState('');
 
 	useEffect(
 		() => {
+			setLoadData(true);
+		},
+		[search],
+	);
+	
+	useEffect(
+		() => {
 			if (loadData) {
-				const [ promise, tokenSource ] = getPromise();
+				const promise = getPromise({ search });
 				promise
 					.then(({ data }) => {
 						setLoadData(false);
@@ -21,18 +29,18 @@ function useList({ getPromise }) {
 					});
 
 				return function cleanup() {
-					if (setLoadData) tokenSource.cancel();
+					//if (setLoadData) tokenSource.cancel();
 				};
 			}
 		},
-		[loadData],
+		[loadData, search],
 	);
 
 	useEffect(() => {
 		setLoadData(true);
 	}, []);
 
-	return { data, loadData };
+	return { data, loadData, search, setSearch };
 }
 
 export default useList;

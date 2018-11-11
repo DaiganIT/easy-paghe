@@ -1,12 +1,14 @@
 import axios from 'axios';
-import { getTokenSource, CancellableQueryablePromise } from '../common/PromiseHelpers';
+import { getTokenSource, CancellableQueryablePromise, QueryablePromise } from '../common/PromiseHelpers';
 
-function getCompanies() {
+function getCompanies({ search }) {
 	const tokenSource = getTokenSource();
-	return CancellableQueryablePromise({
-		promise: axios.get('/api/companies', { cancelToken: tokenSource.token }),
-		tokenSource,
-	});
+	const promise = axios.get(`/api/companies?filter=${search}`, { cancelToken: tokenSource.token });
+	return QueryablePromise({ promise });
+	// return CancellableQueryablePromise({
+	// 	promise: axios.get(`/api/companies?filter=${search}`, { cancelToken: tokenSource.token }),
+	// 	tokenSource,
+	// });
 }
 
 function createCompany(company) {

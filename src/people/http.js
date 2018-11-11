@@ -1,12 +1,10 @@
 import axios from 'axios';
-import { getTokenSource, CancellableQueryablePromise } from '../common/PromiseHelpers';
+import { getTokenSource, CancellableQueryablePromise, QueryablePromise } from '../common/PromiseHelpers';
 
-function getPeople() {
+function getPeople({ search }) {
 	const tokenSource = getTokenSource();
-	return CancellableQueryablePromise({
-		promise: axios.get('/api/people', { cancelToken: tokenSource.token }),
-		tokenSource,
-	});
+	const promise = axios.get(`/api/people?filter=${search}`, { cancelToken: tokenSource.token });
+	return QueryablePromise({ promise });
 }
 
 function createPerson(person) {
