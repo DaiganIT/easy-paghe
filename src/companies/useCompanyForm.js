@@ -40,6 +40,22 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		}));
 	};
 
+	const addBase = () => {
+		setCompany(update(company, {
+			bases: { $push: [{ name: 'Nuova sede', address: '' }] }
+		}));
+		setSelectedBaseIndex(company.bases.length);
+	}
+
+	const deleteBase = (index) => {
+		setCompany(update(company, {
+			bases: { $splice: [[index, 1]] }
+		}));
+		if (selectedBaseIndex === index || selectedBaseIndex === company.bases.length - 1) {
+			setSelectedBaseIndex(selectedBaseIndex - 1);
+		}
+	}
+
 	const setId = (value) => updateField('id', value);
 
 	const createNewCompany = () => http.createCompany(company);
@@ -60,7 +76,9 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		company,
 		updateField,
 		updateBaseField,
-		selectedBaseIndex
+		selectedBaseIndex,
+		addBase,
+		deleteBase
 	};
 }
 
