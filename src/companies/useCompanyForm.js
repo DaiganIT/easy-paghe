@@ -14,7 +14,7 @@ const defaultCompany = {
 	inpsRegistrationNumber: '',
 	inailRegistrationNumber: '',
 	bases: [{
-		name: '',
+		name: 'Sede principale',
 		address: ''
 	}]
 };
@@ -22,6 +22,7 @@ const defaultCompany = {
 function useCompanyForm({ loadId, onSave, onDelete }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
+	const [selectedBaseIndex, setSelectedBaseIndex] = useState(0);
 
 	const updateField = (name, value) => {
 		setCompany(update(company, {
@@ -58,7 +59,8 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		setIsDeleting,
 		company,
 		updateField,
-		updateBaseField
+		updateBaseField,
+		selectedBaseIndex
 	};
 }
 

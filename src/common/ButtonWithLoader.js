@@ -21,12 +21,12 @@ function ButtonWithLoader({ classes, isLoading, children, ...props }) {
 	});
 
 	return (
-		<div>
+		<React.Fragment>
 			<Button {...props} className={buttonClassname} disabled={isLoading}>
 				{children}
         {isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
 			</Button>
-		</div>
+		</React.Fragment>
 	);
 }
 
