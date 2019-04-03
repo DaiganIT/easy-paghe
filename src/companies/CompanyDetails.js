@@ -17,7 +17,7 @@ const styles = {
 	}
 }
 
-function CompanyDetails({ classes, isSaving, company, updateField, updateBaseField, selectedBaseIndex, addBase, deleteBase }) {
+function CompanyDetails({ classes, isSaving, company, updateField, updateBaseField, selectedBaseIndex, addBase, deleteBase, selectBase }) {
 	return (
 		<Grid container spacing={24}>
 			<Grid item lg={6} xs={12}>
@@ -73,7 +73,7 @@ function CompanyDetails({ classes, isSaving, company, updateField, updateBaseFie
 				</Paper>
 			</Grid>
 			<Grid item lg={6} xs={12}>
-				<CompanyBases bases={company.bases} addBase={addBase} deleteBase={deleteBase} />
+				<CompanyBases bases={company.bases} addBase={addBase} deleteBase={deleteBase} selectBase={selectBase} selectedBaseIndex={selectedBaseIndex} />
 			</Grid>
 			{company.bases.length > 0
 				? <Grid item lg={6} xs={12} if={company.bases.length > 0}>

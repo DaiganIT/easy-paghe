@@ -32,7 +32,7 @@ const styles = theme => ({
   },
 });
 
-function CompanyBases({ classes, bases, addBase, deleteBase }) {
+function CompanyBases({ classes, bases, selectBase, addBase, deleteBase, selectedBaseIndex }) {
 	return (
 		<React.Fragment>
 			<Paper className={classes.paper}>
@@ -51,7 +51,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase }) {
 					</TableHead>
 					<TableBody>
 						{bases.map((base, index) => (
-							<TableRow hover key={base.id || index}>
+							<TableRow hover key={base.id || index} onClick={() => selectBase(index)} selected={index === selectedBaseIndex}>
 								<TableCell component="th" scope="row" padding="checkbox">
 									<IconButton onClick={() => deleteBase(index)}>
 										<Delete color="secondary" />

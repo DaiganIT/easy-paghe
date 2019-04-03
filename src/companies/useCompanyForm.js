@@ -56,6 +56,10 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		}
 	}
 
+	const selectBase = (index) => {
+		setSelectedBaseIndex(index);
+	}
+
 	const setId = (value) => updateField('id', value);
 
 	const createNewCompany = () => http.createCompany(company);
@@ -78,7 +82,8 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		updateBaseField,
 		selectedBaseIndex,
 		addBase,
-		deleteBase
+		deleteBase,
+		selectBase
 	};
 }
 
