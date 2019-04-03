@@ -11,7 +11,7 @@ function AddCompany({ history }) {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
 	};
 
-	const { isSaving, setIsSaving, name, setName, address, setAddress, phone, setPhone } = useCompanyForm({
+	const { isSaving, setIsSaving, company, updateField, updateBaseField } = useCompanyForm({
 		onSave: onCreate,
 	});
 
@@ -22,7 +22,7 @@ function AddCompany({ history }) {
 	return (
 		<Page title="Aggiungi Azienda" noPaper>
 			<form>
-				<CompanyDetails form={{ name, address, phone, setName, setAddress, setPhone }} isSaving={isSaving} />
+				<CompanyDetails company={company} isSaving={isSaving} updateField={updateField} updateBaseField={updateBaseField} />
 			</form>
 			<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isSaving}>
 				Salva

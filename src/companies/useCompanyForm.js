@@ -1,34 +1,53 @@
 import { useState } from 'react';
+import update from 'immutability-helper';
+
 import http from './http';
 import useSaveable from '../commonHooks/useSaveable';
 import useLoadable from '../commonHooks/useLoadable';
 import useDeleteable from '../commonHooks/useDeleteable';
 
-function useCompanyForm({ loadId, defaultName, defaultAddress, defaultPhone, onSave, onDelete }) {
-	const [id, setId] = useState(loadId || 0);
-	const [name, setName] = useState(defaultName || '');
-	const [address, setAddress] = useState(defaultAddress || '');
-	const [phone, setPhone] = useState(defaultPhone || '');
+const defaultCompany = {
+	id: 0,
+	name: '',
+	fiscalCode: '',
+	ivaCode: '',
+	inpsRegistrationNumber: '',
+	inailRegistrationNumber: '',
+	bases: [{
+		name: '',
+		address: ''
+	}]
+};
 
-	const createNewCompany = () => http.createCompany({ name, address, phone });
-	const updateCompany = () => http.updateCompany({ id, name, address, phone });
-	const loadCompany = () => http.loadCompany(id);
-	const deleteCompany = () => http.deleteCompany(id);
-	const setForm = (form) => {
-		setId(form.id);
-		setName(form.name);
-		setAddress(form.address);
-		setPhone(form.phone);
+function useCompanyForm({ loadId, onSave, onDelete }) {
+	defaultCompany.id = loadId || 0;
+	const [company, setCompany] = useState(defaultCompany);
+
+	const updateField = (name, value) => {
+		setCompany(update(company, {
+			[name]: { $set: value }
+		}));
 	};
 
-	const [isSaving, setIsSaving] = useSaveable({
-		createPromise: createNewCompany,
-		updatePromise: updateCompany,
-		id,
-		setId,
-		onSave,
-	});
-	const [isLoading] = useLoadable({ id, loadPromise: loadCompany, setForm });
+	const updateBaseField = (name, index, value) => {
+		setCompany(update(company, {
+			bases: {
+				[index]: {
+					[name]: { $set: value }
+				}
+			}
+		}));
+	};
+
+	const setId = (value) => updateField('id', value);
+
+	const createNewCompany = () => http.createCompany(company);
+	const updateCompany = () => http.updateCompany(company.id, company);
+	const loadCompany = () => http.loadCompany(company.id);
+	const deleteCompany = () => http.deleteCompany(company.id);
+
+	const [isSaving, setIsSaving] = useSaveable({ createPromise: createNewCompany, updatePromise: updateCompany, id: company.id, setId, onSave, });
+	const [isLoading] = useLoadable({ id: company.id, loadPromise: loadCompany, setId });
 	const [isDeleting, setIsDeleting] = useDeleteable({ deletePromise: deleteCompany, onDelete });
 
 	return {
@@ -37,12 +56,9 @@ function useCompanyForm({ loadId, defaultName, defaultAddress, defaultPhone, onS
 		setIsSaving,
 		isDeleting,
 		setIsDeleting,
-		name,
-		setName,
-		address,
-		setAddress,
-		phone,
-		setPhone,
+		company,
+		updateField,
+		updateBaseField
 	};
 }
 

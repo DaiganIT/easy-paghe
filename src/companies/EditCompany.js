@@ -32,12 +32,9 @@ function EditCompany({ classes, match, history }) {
 		setIsSaving,
 		isDeleting,
 		setIsDeleting,
-		name,
-		setName,
-		address,
-		setAddress,
-		phone,
-		setPhone,
+		company,
+		updateField,
+		updateBaseField
 	} = useCompanyForm({ loadId: match.params.companyId, onSave: onUpdate, onDelete });
 
 	const onDeleteConfirm = () => {
@@ -71,7 +68,9 @@ function EditCompany({ classes, match, history }) {
 				<Grid container spacing={24}>
 					<Grid item lg={6} xs={12}>
 						<CompanyDetails
-							form={{ name, address, phone, setName, setAddress, setPhone }}
+							company={company}
+							updateField={updateField}
+							updateBaseField={updateBaseField}
 							isSaving={isSaving}
 						/>
 					</Grid>
