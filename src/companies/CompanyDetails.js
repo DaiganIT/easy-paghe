@@ -76,7 +76,7 @@ function CompanyDetails({ classes, isSaving, company, updateField, updateBaseFie
 				<CompanyBases bases={company.bases} addBase={addBase} deleteBase={deleteBase} selectBase={selectBase} selectedBaseIndex={selectedBaseIndex} />
 			</Grid>
 			{company.bases.length > 0
-				? <Grid item lg={6} xs={12} if={company.bases.length > 0}>
+				? <Grid item lg={6} xs={12}>
 					<CompanyBase base={company.bases[selectedBaseIndex]} updateBaseField={updateBaseField} index={selectedBaseIndex} />
 				</Grid>
 				: null}

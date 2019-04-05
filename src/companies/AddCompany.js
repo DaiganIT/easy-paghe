@@ -22,7 +22,7 @@ function AddCompany({ history }) {
 	return (
 		<Page title="Aggiungi Azienda" noPaper>
 			<form>
-				<CompanyDetails company={company} isSaving={isSaving} updateField={updateField} updateBaseField={updateBaseField} selectedBaseIndex={selectedBaseIndex} addBase={addBase} deleteBase={deleteBase} selectBase={selectBase} />
+				<CompanyDetails company={company} isSaving={isSaving} updateField={updateField} updateBaseField={updateBaseField} selectedBaseIndex={selectedBaseIndex} addBase={addBase} deleteBase={deleteBase} selectBase={selectBase} withEmployees={false} />
 			</form>
 			<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isSaving}>
 				Salva

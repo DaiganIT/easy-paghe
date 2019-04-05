@@ -19,6 +19,29 @@ const defaultCompany = {
 	}]
 };
 
+function removeEmpties(form) {
+	const newForm = Object.assign({}, form);
+
+	for(const key in newForm) {
+		if(form.hasOwnProperty(key)) {
+			if(newForm[key] === '') {
+				delete newForm[key];
+			}
+			if(Array.isArray(newForm[key])) {
+				const newArray = [];
+				for(const arrayElem of newForm[key]) {
+					newArray.push(removeEmpties(arrayElem));
+				}
+			}
+			if(typeof newForm[key] === 'object') {
+				newForm[key] = removeEmpties(newForm[key]);
+			}
+		}
+	}
+
+	return newForm;
+}
+
 function useCompanyForm({ loadId, onSave, onDelete }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
@@ -62,8 +85,8 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 
 	const setId = (value) => updateField('id', value);
 
-	const createNewCompany = () => http.createCompany(company);
-	const updateCompany = () => http.updateCompany(company.id, company);
+	const createNewCompany = () => http.createCompany(removeEmpties(company));
+	const updateCompany = () => http.updateCompany(company.id, removeEmpties(company));
 	const loadCompany = () => http.loadCompany(company.id);
 	const deleteCompany = () => http.deleteCompany(company.id);
 

@@ -2,10 +2,8 @@ import React from 'react';
 import { withStyles } from '@material-ui/core';
 import EventBus from 'eventbusjs';
 import ButtonWithLoader from '../common/ButtonWithLoader';
-import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CompanyDetails from './CompanyDetails';
-import Employees from './Employees';
 import useCompanyForm from './useCompanyForm';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
 import useConfirmDialog from '../dialogs/useConfirmDialog';
@@ -34,7 +32,8 @@ function EditCompany({ classes, match, history }) {
 		setIsDeleting,
 		company,
 		updateField,
-		updateBaseField
+		updateBaseField,
+		selectedBaseIndex, addBase, deleteBase, selectBase
 	} = useCompanyForm({ loadId: match.params.companyId, onSave: onUpdate, onDelete });
 
 	const onDeleteConfirm = () => {
@@ -65,19 +64,17 @@ function EditCompany({ classes, match, history }) {
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
 			{isLoading ? <LinearProgress /> : undefined}
 			<form>
-				<Grid container spacing={24}>
-					<Grid item lg={6} xs={12}>
-						<CompanyDetails
-							company={company}
-							updateField={updateField}
-							updateBaseField={updateBaseField}
-							isSaving={isSaving}
-						/>
-					</Grid>
-					<Grid item lg={6} xs={12}>
-						<Employees companyId={match.params.companyId} />
-					</Grid>
-				</Grid>
+				<CompanyDetails
+					company={company}
+					updateField={updateField}
+					updateBaseField={updateBaseField}
+					isSaving={isSaving}
+					withEmployees={true}
+					selectedBaseIndex={selectedBaseIndex} 
+					addBase={addBase} 
+					deleteBase={deleteBase}
+					selectBase={selectBase}
+				/>
 			</form>
 			<ButtonWithLoader
 				variant="contained"
