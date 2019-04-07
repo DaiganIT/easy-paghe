@@ -10,6 +10,7 @@ function getCompanies({ search, page, pageLimit }) {
 }
 
 function createCompany(company) {
+	console.log(company);
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
 		promise: axios.post('/api/companies', company, { cancelToken: tokenSource.token }),

@@ -1,17 +1,15 @@
 import React from 'react';
 import {
 	withStyles,
-	Typography,
-	Paper,
+	TextField,
 	Table,
 	TableBody,
-	TableHead,
 	TableRow,
 	TableCell,
-	Button,
+	Typography,
+	IconButton
 } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
-import IconButton from '@material-ui/core/IconButton';
+import { Delete, Add } from '@material-ui/icons';
 
 const styles = theme => ({
 	paper: {
@@ -26,47 +24,59 @@ const styles = theme => ({
 		textAlign: 'center',
 	},
 	fab: {
-		position: 'absolute',
-    top: theme.spacing.unit * 2,
-		right: theme.spacing.unit * 2,
-  },
+		marginBottom: '1em'
+	},
+	addBase: {
+		cursor: 'pointer'
+	},
+	colPadding: {
+		border: 0,
+		padding: '10px'
+	}
 });
 
-function CompanyBases({ classes, bases, selectBase, addBase, deleteBase, selectedBaseIndex }) {
+function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBaseField }) {
 	return (
 		<React.Fragment>
-			<Paper className={classes.paper}>
-				<Typography variant="title" className={classes.miniTitle}>
-					Sedi
-				</Typography>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableCell padding="checkbox" className={classes.hash}>
-								#
+			<Table>
+				<TableBody>
+					{bases.map((base, index) => (
+						<TableRow key={base.id || index}>
+							<TableCell className={classes.colPadding} >
+								<TextField
+									variant="outlined"
+									label="Nome"
+									fullWidth
+									className={classes.textField}
+									disabled={isSaving}
+									value={base.name}
+									onChange={(e) => updateBaseField('name', index, e.target.value)}
+								/></TableCell>
+							<TableCell className={classes.colPadding}>
+								<TextField
+									variant="outlined"
+									label="Indirizzo"
+									fullWidth
+									className={classes.textField}
+									disabled={isSaving}
+									value={base.address}
+									onChange={(e) => updateBaseField('address', index, e.target.value)}
+								/>
 							</TableCell>
-							<TableCell>Nome</TableCell>
-							<TableCell>Indirizzo</TableCell>
+							<TableCell component="th" scope="row" padding="checkbox" className={classes.deleteClass} className={classes.colPadding}>
+								<IconButton onClick={() => deleteBase(index)}>
+									<Delete color="secondary" />
+								</IconButton>
+							</TableCell>
 						</TableRow>
-					</TableHead>
-					<TableBody>
-						{bases.map((base, index) => (
-							<TableRow hover key={base.id || index} onClick={() => selectBase(index)} selected={index === selectedBaseIndex}>
-								<TableCell component="th" scope="row" padding="checkbox">
-									<IconButton onClick={() => deleteBase(index)}>
-										<Delete color="secondary" />
-									</IconButton>
-								</TableCell>
-								<TableCell>{base.name}</TableCell>
-								<TableCell>{base.address}</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-				<Button variant="contained" size="small" color="primary" className={classes.fab} onClick={addBase}>
-					Aggiungi Sede
-				</Button>
-			</Paper>
+					))}
+					<TableRow hover>
+						<TableCell component="th" scope="row" colSpan={3} onClick={addBase} align="center" className={classes.addBase}>
+							<Typography><Add color="secondary" /> Aggiungi sede</Typography>
+						</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
 		</React.Fragment>
 	);
 }

@@ -1,30 +1,18 @@
 import React from 'react';
-import { withStyles, Paper, Typography, TextField, Grid } from '@material-ui/core';
-import CompanyBases from './CompanyBases';
-import CompanyBase from './CompanyBase';
+import { withStyles, TextField, Grid } from '@material-ui/core';
 
 const styles = {
-	paper: {
-		padding: '1em',
-		marginBottom: '1em',
-	},
-	miniTitle: {
-		marginBottom: '1em',
-	},
 	textField: {
 		marginRight: '1em',
 		marginBottom: '1em',
 	}
 }
 
-function CompanyDetails({ classes, isSaving, company, updateField, updateBaseField, selectedBaseIndex, addBase, deleteBase, selectBase }) {
+function CompanyDetails({ classes, isSaving, company, updateField }) {
 	return (
-		<Grid container spacing={24}>
-			<Grid item lg={6} xs={12}>
-				<Paper className={classes.paper}>
-					<Typography variant="title" className={classes.miniTitle}>
-						Dettagli azienda
-			</Typography>
+		<React.Fragment>
+			<Grid container spacing={16}>
+				<Grid item xs={12}>
 					<TextField
 						variant="outlined"
 						label="Nome"
@@ -34,53 +22,49 @@ function CompanyDetails({ classes, isSaving, company, updateField, updateBaseFie
 						value={company.name}
 						onChange={(e) => updateField('name', e.target.value)}
 					/>
+				</Grid>
+				<Grid item xs={6}>
 					<TextField
 						variant="outlined"
-						label="Codice Fiscale"
 						fullWidth
+						label="Codice Fiscale"
 						className={classes.textField}
 						disabled={isSaving}
 						value={company.fiscalCode}
 						onChange={(e) => updateField('fiscalCode', e.target.value)}
-					/>
+					/></Grid>
+				<Grid item xs={6}>
 					<TextField
 						variant="outlined"
-						label="Partita IVA"
 						fullWidth
+						label="Partita IVA"
 						className={classes.textField}
 						disabled={isSaving}
 						value={company.ivaCode}
 						onChange={(e) => updateField('ivaCode', e.target.value)}
-					/>
+					/></Grid>
+				<Grid item xs={6}>
 					<TextField
 						variant="outlined"
-						label="Codice INPS"
 						fullWidth
+						label="Codice INPS"
 						className={classes.textField}
 						disabled={isSaving}
 						value={company.inpsRegistrationNumber}
 						onChange={(e) => updateField('inpsRegistrationNumber', e.target.value)}
-					/>
+					/></Grid>
+				<Grid item xs={6}>
 					<TextField
 						variant="outlined"
-						label="Codice INAIL"
 						fullWidth
+						label="Codice INAIL"
 						className={classes.textField}
 						disabled={isSaving}
 						value={company.inailRegistrationNumber}
 						onChange={(e) => updateField('inailRegistrationNumber', e.target.value)}
-					/>
-				</Paper>
+					/></Grid>
 			</Grid>
-			<Grid item lg={6} xs={12}>
-				<CompanyBases bases={company.bases} addBase={addBase} deleteBase={deleteBase} selectBase={selectBase} selectedBaseIndex={selectedBaseIndex} />
-			</Grid>
-			{company.bases.length > 0
-				? <Grid item lg={6} xs={12}>
-					<CompanyBase base={company.bases[selectedBaseIndex]} updateBaseField={updateBaseField} index={selectedBaseIndex} />
-				</Grid>
-				: null}
-		</Grid>
+		</React.Fragment>
 	);
 }
 

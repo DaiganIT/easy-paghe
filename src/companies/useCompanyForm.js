@@ -23,18 +23,15 @@ function removeEmpties(form) {
 	const newForm = Object.assign({}, form);
 
 	for(const key in newForm) {
-		if(form.hasOwnProperty(key)) {
+		if(newForm.hasOwnProperty(key)) {
 			if(newForm[key] === '') {
 				delete newForm[key];
-			}
-			if(Array.isArray(newForm[key])) {
-				const newArray = [];
+			} else if(Array.isArray(newForm[key])) {
 				for(const arrayElem of newForm[key]) {
-					newArray.push(removeEmpties(arrayElem));
+					removeEmpties(arrayElem);
 				}
-			}
-			if(typeof newForm[key] === 'object') {
-				newForm[key] = removeEmpties(newForm[key]);
+			} else if(typeof newForm[key] === 'object') {
+				removeEmpties(newForm[key]);
 			}
 		}
 	}
@@ -45,7 +42,6 @@ function removeEmpties(form) {
 function useCompanyForm({ loadId, onSave, onDelete }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
-	const [selectedBaseIndex, setSelectedBaseIndex] = useState(0);
 
 	const updateField = (name, value) => {
 		setCompany(update(company, {
@@ -67,22 +63,13 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		setCompany(update(company, {
 			bases: { $push: [{ name: 'Nuova sede', address: '' }] }
 		}));
-		setSelectedBaseIndex(company.bases.length);
 	}
 
 	const deleteBase = (index) => {
 		setCompany(update(company, {
 			bases: { $splice: [[index, 1]] }
 		}));
-		if (selectedBaseIndex === index || selectedBaseIndex === company.bases.length - 1) {
-			setSelectedBaseIndex(selectedBaseIndex - 1);
-		}
 	}
-
-	const selectBase = (index) => {
-		setSelectedBaseIndex(index);
-	}
-
 	const setId = (value) => updateField('id', value);
 
 	const createNewCompany = () => http.createCompany(removeEmpties(company));
@@ -103,10 +90,8 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		company,
 		updateField,
 		updateBaseField,
-		selectedBaseIndex,
 		addBase,
 		deleteBase,
-		selectBase
 	};
 }
 
