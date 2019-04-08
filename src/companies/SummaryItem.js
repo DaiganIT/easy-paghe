@@ -21,7 +21,7 @@ function SummaryItem({ classes, name, value, errors }) {
 		</Grid>
 		{!!errors
 			? <Grid item xs={12}>
-				{errors.map(err => <Typography color="error">{err}</Typography>)}
+				{errors.map((err, index) => <Typography key={index} color="error">{err}</Typography>)}
 			</Grid>
 			: null}
 	</Grid>;

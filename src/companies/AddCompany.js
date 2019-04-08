@@ -7,7 +7,6 @@ import CompanySummary from './CompanySummary';
 import useCompanyForm from './useCompanyForm';
 import Page from '../common/Page';
 import StepButtons from '../common/StepButtons';
-import useSteps, { StepData } from '../commonHooks/useSteps';
 import buildStepMap from './stepsMap';
 
 const styles = {
@@ -22,8 +21,7 @@ function AddCompany({ classes, history }) {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
 	};
 
-	const { activeStep, steps, next, prev } = useSteps([new StepData({ label: 'Dettagli azienda' }), new StepData({ label: 'Sedi azienda' }), new StepData({ label: 'Sommario' })], 0);
-	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase, errors } = useCompanyForm({
+	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase, errors, activeStep, steps, next, prev } = useCompanyForm({
 		onSave: onCreate,
 	});
 
@@ -48,6 +46,9 @@ function AddCompany({ classes, history }) {
 					}
 					if (step.isSkipped) {
 						props.completed = false;
+					}
+					if (step.hasErrors) {
+						labelProps.error = true;
 					}
 					return (
 						<Step key={step.label} {...props}>
