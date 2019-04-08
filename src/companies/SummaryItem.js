@@ -7,10 +7,10 @@ const styles = {
 	}
 }
 
-function SummaryItem({ classes, name, value }) {
+function SummaryItem({ classes, name, value, errors }) {
 	return <Grid container justify="space-between">
 		<Grid item xs={6}>
-			<Typography variant="subtitle1">
+			<Typography variant="subtitle1" color={!!errors ? 'error' : 'default' }>
 				{name}:
 			</Typography>
 		</Grid>
@@ -19,6 +19,11 @@ function SummaryItem({ classes, name, value }) {
 				{value}
 			</Typography>
 		</Grid>
+		{!!errors
+			? <Grid item xs={12}>
+				{errors.map(err => <Typography color="error">{err}</Typography>)}
+			</Grid>
+			: null}
 	</Grid>;
 }
 
