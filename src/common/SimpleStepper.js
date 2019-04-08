@@ -9,14 +9,6 @@ const styles = {
   }
 };
 
-function buildProps(step) {
-  const props = {
-    completed: !step.isSkipped
-  };
-
-  return props;
-}
-
 function buildLabelProps(step) {
   const props = {
     optional: step.isOptional ? <Typography variant="caption">Optional</Typography> : null,
@@ -30,10 +22,9 @@ function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next
   return <React.Fragment>
     <Stepper activeStep={activeStep}>
       {steps.map(step => {
-        const props = buildProps(step);
         const labelProps = buildLabelProps(step);
         return (
-          <Step key={step.label} {...props}>
+          <Step key={step.label}>
             <StepLabel {...labelProps}>{step.label}</StepLabel>
           </Step>
         );
