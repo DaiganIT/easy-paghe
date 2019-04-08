@@ -1,6 +1,6 @@
 import React from 'react';
 import EventBus from 'eventbusjs';
-import { Grid, Stepper, Step, StepLabel, Typography, withStyles } from '@material-ui/core';
+import { Grid, withStyles } from '@material-ui/core';
 import CompanyDetails from './CompanyDetails';
 import CompanyBases from './CompanyBases';
 import CompanySummary from './CompanySummary';
@@ -8,6 +8,7 @@ import useCompanyForm from './useCompanyForm';
 import Page from '../common/Page';
 import StepButtons from '../common/StepButtons';
 import buildStepMap from './stepsMap';
+import SimpleStepper from '../common/SimpleStepper';
 
 const styles = {
 	step: {
@@ -37,26 +38,7 @@ function AddCompany({ classes, history }) {
 
 	return (
 		<Page title="Aggiungi Azienda" noPaper>
-			<Stepper activeStep={activeStep}>
-				{steps.map(step => {
-					const props = {};
-					const labelProps = {};
-					if (step.isOptional) {
-						labelProps.optional = <Typography variant="caption">Optional</Typography>;
-					}
-					if (step.isSkipped) {
-						props.completed = false;
-					}
-					if (step.hasErrors) {
-						labelProps.error = true;
-					}
-					return (
-						<Step key={step.label} {...props}>
-							<StepLabel {...labelProps}>{step.label}</StepLabel>
-						</Step>
-					);
-				})}
-			</Stepper>
+			<SimpleStepper activeStep={activeStep} steps={steps} />
 			<Grid container spacing={24} className={classes.step} justify="center">
 				<Grid item {...stepMap[activeStep].gridProps}>
 					{stepMap[activeStep].template}
