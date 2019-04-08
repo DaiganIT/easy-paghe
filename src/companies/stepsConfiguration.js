@@ -3,7 +3,7 @@ import { companyDetailsValidation, basesValidation } from './validation';
 
 export const stepsConfiguration = [
 	new StepData({ label: 'Dettagli azienda', validator: companyDetailsValidation }),
-	new StepData({ label: 'Sedi azienda', validator: basesValidation }),
+	new StepData({ label: 'Sedi azienda', validator: basesValidation, validatorPath: 'bases' }),
 	new StepData({ label: 'Sommario', isSummary: true })
 ];
 

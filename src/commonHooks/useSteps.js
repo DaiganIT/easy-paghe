@@ -46,7 +46,26 @@ export default function (defaultSteps, beginningStep, stepErrorMap, form, errors
   const next = () => {
     // validate model before going forward
     if (steps[activeStep].validator) {
-      const errors = validate(removeEmpties(form), steps[activeStep].validator);
+      let modelToValidate = form;
+      if (steps[activeStep].validatorPath) {
+        modelToValidate = form[steps[activeStep].validatorPath];
+      }
+
+      console.log(modelToValidate);
+
+      let errors;
+      if (Array.isArray(modelToValidate)) {
+        let baseErrors;
+        let index;
+        for(const modelToValidateItem of modelToValidate) {
+          baseErrors = validate(removeEmpties(modelToValidateItem), steps[activeStep].validator);
+          if(baseErrors) errors = Object.assign({}, errors, { bases: { [index]: baseErrors } });
+          index++;
+        }
+      } else {
+        errors = validate(removeEmpties(form), steps[activeStep].validator);
+      }
+
       onValidationError && onValidationError(errors);
       if (errors)
         return;
