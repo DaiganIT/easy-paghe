@@ -1,5 +1,7 @@
 import React from 'react';
+import classnames from 'classnames';
 import { Grid, Stepper, Step, StepLabel, Typography, withStyles } from '@material-ui/core';
+import StepButtons from './StepButtons';
 import StepElement from './StepElement';
 import './stepper.css';
 
@@ -19,6 +21,9 @@ function buildLabelProps(step) {
 }
 
 function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next, prev, save, isSaving }) {
+
+  const animationName = activeStep >= previousStep ? 'slide-in-right' : 'slide-in-left';
+
   return <React.Fragment>
     <Stepper activeStep={activeStep}>
       {steps.map(step => {
@@ -30,19 +35,17 @@ function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next
         );
       })}
     </Stepper>
-    <Grid container spacing={24} className={classes.step} justify="center">
-      {(() => {
-        let jsxArray = [];
-        for (const stepElement in stepMap) {
-          jsxArray.push(<StepElement key={stepElement} stepElement={stepElement} previousStep={previousStep} activeStep={activeStep} steps={steps}
-            stepMap={stepMap} next={next} prev={prev} save={save} isSaving={isSaving} classes={classes} />);
-        }
-        return <React.Fragment>
-          {jsxArray}
-        </React.Fragment>;
-      })()}
+    <Grid key={`element.${activeStep}`} container spacing={24} className={classnames(classes.step, animationName)} justify="center">
+      <StepElement activeStep={activeStep} stepMap={stepMap} />
     </Grid>
-  </React.Fragment>;
+    <Grid key={`pagination.${activeStep}`} container className={classnames(classes.step, animationName)} justify="center">
+      <Grid item {...stepMap[activeStep].gridProps}>
+        <Grid container spacing={24} className={classes.step} justify="space-between">
+          <StepButtons activeStep={activeStep} lastStepNumber={steps.length - 1} next={next} prev={prev} save={save} isSaving={isSaving}></StepButtons>
+        </Grid>
+      </Grid>
+    </Grid>
+  </React.Fragment >;
 }
 
 export default withStyles(styles)(SimpleStepper);
