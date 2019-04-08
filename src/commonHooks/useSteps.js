@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react';
+import validate from 'validate.js';
 import update from 'immutability-helper';
+import { removeEmpties } from '../utils';
 
-export function StepData({ label, isOptional, isSkipped, hasErrors, isSummary }) {
+export function StepData({ label, isOptional, isSkipped, hasErrors, isSummary, validator, validatorPath }) {
   return {
     label,
     isOptional,
     isSkipped,
     hasErrors,
     isSummary,
-    isCompleted: false
+    isCompleted: false,
+    validator,
+    validatorPath
   }
 }
 
-export default function (defaultSteps, beginningStep, stepErrorMap, errors) {
+export default function (defaultSteps, beginningStep, stepErrorMap, form, errors, onValidationError) {
   const [steps, setSteps] = useState(defaultSteps);
   const [activeStep, setActiveStep] = useState(beginningStep);
   const [previousStep, setPreviousStep] = useState(0);
@@ -40,6 +44,14 @@ export default function (defaultSteps, beginningStep, stepErrorMap, errors) {
   }
 
   const next = () => {
+    // validate model before going forward
+    if (steps[activeStep].validator) {
+      const errors = validate(removeEmpties(form), steps[activeStep].validator);
+      onValidationError && onValidationError(errors);
+      if (errors)
+        return;
+    }
+
     setCompleted(activeStep);
 
     setPreviousStep(activeStep);

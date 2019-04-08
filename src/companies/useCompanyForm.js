@@ -16,8 +16,8 @@ import * as stepsUtils from './stepsConfiguration';
 function useCompanyForm({ loadId, onSave, onDelete, baseTab }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
-	const [errors, onError] = useValidation();
-	const { previousStep, activeStep, moveToStep, steps, next, prev } = useSteps(stepsUtils.stepsConfiguration, baseTab || 0, stepsUtils.stepErrorMap, errors);
+	const [errors, onError, onValidationError] = useValidation();
+	const { previousStep, activeStep, moveToStep, steps, next, prev } = useSteps(stepsUtils.stepsConfiguration, baseTab || 0, stepsUtils.stepErrorMap, company, errors, onValidationError);
 	const [updateField] = useUpdate(company, setCompany);
 
 	const updateBaseField = (name, index, value) => {
