@@ -16,7 +16,7 @@ function AddCompany({ classes, history }) {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
 	};
 
-	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase, errors, previousStep, activeStep, steps, next, prev } = useCompanyForm({
+	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase, errors, previousStep, activeStep, steps, next, prev, moveToStep } = useCompanyForm({
 		onSave: onCreate,
 	});
 
@@ -26,13 +26,13 @@ function AddCompany({ classes, history }) {
 
 	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} errors={errors} />;
 	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteBase} updateBaseField={updateBaseField} errors={errors} />;
-	const summary = <CompanySummary company={company} errors={errors} />
+	const summary = <CompanySummary company={company} errors={errors} moveToStep={moveToStep} />
 
 	const stepMap = buildStepMap(companyDetails, bases, summary);
 
 	return (
 		<Page title="Aggiungi Azienda" noPaper>
-			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isSaving={isSaving} />
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isLoading={isSaving} />
 		</Page >
 	);
 }

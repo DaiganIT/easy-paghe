@@ -1,21 +1,18 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 import EventBus from 'eventbusjs';
 import ButtonWithLoader from '../common/ButtonWithLoader';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import CompanyDetails from './CompanyDetails';
+import CompanyBases from './CompanyBases';
+import CompanySummary from './CompanySummary';
 import useCompanyForm from './useCompanyForm';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
 import useConfirmDialog from '../dialogs/useConfirmDialog';
 import Page from '../common/Page';
+import buildStepMap from './stepsMap';
+import SimpleStepper from '../common/SimpleStepper';
 
-const styles = {
-	companyDetails: {
-		marginRight: '1em',
-	},
-};
-
-function EditCompany({ classes, match, history }) {
+function EditCompany({ match, history }) {
 	const onUpdate = () => {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda aggiornata' });
 	};
@@ -24,17 +21,12 @@ function EditCompany({ classes, match, history }) {
 		history.push('/index/companies');
 	};
 
-	const {
-		isLoading,
-		isSaving,
-		setIsSaving,
-		isDeleting,
-		setIsDeleting,
-		company,
-		updateField,
-		updateBaseField,
-		selectedBaseIndex, addBase, deleteBase, selectBase
-	} = useCompanyForm({ loadId: match.params.companyId, onSave: onUpdate, onDelete });
+	const { isSaving, setIsSaving, isDeleting, isLoading, company, updateField, updateBaseField, addBase, deleteBase, setIsDeleting, errors, previousStep, activeStep, steps, next, prev, moveToStep } = useCompanyForm({
+		loadId: match.params.companyId,
+		onSave: onUpdate,
+		onDelete,
+		baseTab: 2
+	});
 
 	const onDeleteConfirm = () => {
 		setIsDeleting(true);
@@ -60,31 +52,17 @@ function EditCompany({ classes, match, history }) {
 		</ButtonWithLoader>
 	);
 
+	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} errors={errors} />;
+	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteBase} updateBaseField={updateBaseField} errors={errors} />;
+	const summary = <CompanySummary company={company} errors={errors} moveToStep={moveToStep} />
+
+	const stepMap = buildStepMap(companyDetails, bases, summary);
+
 	return (
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
 			{isLoading ? <LinearProgress /> : undefined}
-			<form>
-				<CompanyDetails
-					company={company}
-					updateField={updateField}
-					updateBaseField={updateBaseField}
-					isSaving={isSaving}
-					withEmployees={true}
-					selectedBaseIndex={selectedBaseIndex} 
-					addBase={addBase} 
-					deleteBase={deleteBase}
-					selectBase={selectBase}
-				/>
-			</form>
-			<ButtonWithLoader
-				variant="contained"
-				size="small"
-				color="primary"
-				onClick={save}
-				isLoading={isSaving || isLoading}
-			>
-				Salva
-			</ButtonWithLoader>
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isLoading={isSaving} />
+
 			<ConfirmDialog
 				open={isDialogOpen}
 				id="delete-company"
@@ -98,4 +76,4 @@ function EditCompany({ classes, match, history }) {
 	);
 }
 
-export default withStyles(styles)(EditCompany);
+export default EditCompany;

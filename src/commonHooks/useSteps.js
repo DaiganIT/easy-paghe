@@ -39,6 +39,11 @@ export default function (defaultSteps, beginningStep, stepErrorMap, errors) {
     setActiveStep(activeStep - 1);
   }
 
+  const moveToStep = (step) => {
+    setPreviousStep(activeStep);
+    setActiveStep(step);
+  }
+
   const setStepError = (stepIndex, hasErrors) => {
     setSteps(update(steps, {
       [stepIndex]: {
@@ -47,5 +52,5 @@ export default function (defaultSteps, beginningStep, stepErrorMap, errors) {
     }));
   }
 
-  return { previousStep, activeStep, steps, next, prev };
+  return { previousStep, activeStep, steps, next, prev, moveToStep };
 }

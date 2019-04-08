@@ -13,11 +13,11 @@ import { removeEmpties } from '../utils';
 import defaultCompany from './defaultNewCompany';
 import * as stepsUtils from './stepsConfiguration';
 
-function useCompanyForm({ loadId, onSave, onDelete }) {
+function useCompanyForm({ loadId, onSave, onDelete, baseTab }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
 	const [errors, onError] = useValidation();
-	const { previousStep, activeStep, steps, next, prev } = useSteps(stepsUtils.stepsConfiguration, 0, stepsUtils.stepErrorMap, errors);
+	const { previousStep, activeStep, moveToStep, steps, next, prev } = useSteps(stepsUtils.stepsConfiguration, baseTab || 0, stepsUtils.stepErrorMap, errors);
 	const [updateField] = useUpdate(company, setCompany);
 
 	const updateBaseField = (name, index, value) => {
@@ -49,7 +49,7 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 	const deleteCompany = () => http.deleteCompany(company.id);
 
 	const [isSaving, setIsSaving] = useSaveable({ createPromise: createNewCompany, updatePromise: updateCompany, id: company.id, setId, onSave, onError });
-	const [isLoading] = useLoadable({ id: company.id, loadPromise: loadCompany, setId });
+	const [isLoading] = useLoadable({ id: company.id, loadPromise: loadCompany, setForm: setCompany });
 	const [isDeleting, setIsDeleting] = useDeleteable({ deletePromise: deleteCompany, onDelete });
 
 	return {
@@ -64,7 +64,7 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		addBase,
 		deleteBase,
 		errors,
-		previousStep, activeStep, steps, next, prev
+		previousStep, activeStep, steps, next, prev, moveToStep
 	};
 }
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { cancellablePromise } from '../common/PromiseHelpers';
 
 function useLoadable({ id, loadPromise, setForm }) {
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(!!id);
 
 	useEffect(
 		() => {

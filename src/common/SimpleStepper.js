@@ -20,7 +20,7 @@ function buildLabelProps(step) {
   return props;
 }
 
-function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next, prev, save, isSaving }) {
+function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next, prev, save, isLoading }) {
 
   const animationName = activeStep >= previousStep ? 'slide-in-right' : 'slide-in-left';
 
@@ -41,7 +41,7 @@ function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next
     <Grid key={`pagination.${activeStep}`} container className={classnames(classes.step, animationName)} justify="center">
       <Grid item {...stepMap[activeStep].gridProps}>
         <Grid container spacing={24} className={classes.step} justify="space-between">
-          <StepButtons activeStep={activeStep} lastStepNumber={steps.length - 1} next={next} prev={prev} save={save} isSaving={isSaving}></StepButtons>
+          <StepButtons activeStep={activeStep} lastStepNumber={steps.length - 1} next={next} prev={prev} save={save} isLoading={isLoading}></StepButtons>
         </Grid>
       </Grid>
     </Grid>
