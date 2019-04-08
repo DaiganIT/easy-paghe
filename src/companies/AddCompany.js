@@ -1,20 +1,14 @@
 import React from 'react';
 import EventBus from 'eventbusjs';
-import { Grid, withStyles } from '@material-ui/core';
 import CompanyDetails from './CompanyDetails';
 import CompanyBases from './CompanyBases';
 import CompanySummary from './CompanySummary';
 import useCompanyForm from './useCompanyForm';
 import Page from '../common/Page';
-import StepButtons from '../common/StepButtons';
 import buildStepMap from './stepsMap';
 import SimpleStepper from '../common/SimpleStepper';
 
-const styles = {
-	step: {
-		marginTop: '1em',
-	}
-};
+
 
 function AddCompany({ classes, history }) {
 	const onCreate = ({ id }) => {
@@ -22,7 +16,7 @@ function AddCompany({ classes, history }) {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
 	};
 
-	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase, errors, activeStep, steps, next, prev } = useCompanyForm({
+	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase, errors, previousStep, activeStep, steps, next, prev } = useCompanyForm({
 		onSave: onCreate,
 	});
 
@@ -38,17 +32,9 @@ function AddCompany({ classes, history }) {
 
 	return (
 		<Page title="Aggiungi Azienda" noPaper>
-			<SimpleStepper activeStep={activeStep} steps={steps} />
-			<Grid container spacing={24} className={classes.step} justify="center">
-				<Grid item {...stepMap[activeStep].gridProps}>
-					{stepMap[activeStep].template}
-					<Grid container spacing={24} className={classes.step} justify="space-between">
-						<StepButtons activeStep={activeStep} lastStepNumber={steps.length - 1} next={next} prev={prev} save={save} isLoading={isSaving}></StepButtons>
-					</Grid>
-				</Grid>
-			</Grid>
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isSaving={isSaving} />
 		</Page >
 	);
 }
 
-export default withStyles(styles)(AddCompany);
+export default AddCompany;

@@ -7,6 +7,7 @@ import useLoadable from '../commonHooks/useLoadable';
 import useDeleteable from '../commonHooks/useDeleteable';
 import useValidation from '../commonHooks/useValidation';
 import useSteps from '../commonHooks/useSteps';
+import useUpdate from '../commonHooks/useUpdate';
 
 import { removeEmpties } from '../utils';
 import defaultCompany from './defaultNewCompany';
@@ -16,13 +17,8 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
 	const [errors, onError] = useValidation();
-	const { activeStep, steps, next, prev } = useSteps(stepsUtils.stepsConfiguration, 0, stepsUtils.stepErrorMap, errors);
-
-	const updateField = (name, value) => {
-		setCompany(update(company, {
-			[name]: { $set: value }
-		}));
-	};
+	const { previousStep, activeStep, steps, next, prev } = useSteps(stepsUtils.stepsConfiguration, 0, stepsUtils.stepErrorMap, errors);
+	const [updateField] = useUpdate(company, setCompany);
 
 	const updateBaseField = (name, index, value) => {
 		setCompany(update(company, {
@@ -68,7 +64,7 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		addBase,
 		deleteBase,
 		errors,
-		activeStep, steps, next, prev
+		previousStep, activeStep, steps, next, prev
 	};
 }
 

@@ -13,6 +13,7 @@ export function StepData({label, isOptional, isSkipped, hasErrors}) {
 export default function (defaultSteps, beginningStep, stepErrorMap, errors) {
   const [steps, setSteps] = useState(defaultSteps);
   const [activeStep, setActiveStep] = useState(beginningStep);
+  const [previousStep, setPreviousStep] = useState(0);
 
   useEffect(() => {
 		for (const stepErrorIndex in stepErrorMap) {
@@ -29,10 +30,12 @@ export default function (defaultSteps, beginningStep, stepErrorMap, errors) {
 	}, [errors]);
 
   const next = () => {
+    setPreviousStep(activeStep);
     setActiveStep(activeStep + 1);
   }
 
   const prev = () => {
+    setPreviousStep(activeStep);
     setActiveStep(activeStep - 1);
   }
 
@@ -44,5 +47,5 @@ export default function (defaultSteps, beginningStep, stepErrorMap, errors) {
     }));
   }
 
-  return { activeStep, steps, next, prev };
+  return { previousStep, activeStep, steps, next, prev };
 }

@@ -14,7 +14,7 @@ const styles = {
 	},
 };
 
-function ButtonWithLoader({ classes, isLoading, children, ...props }) {
+function ButtonWithLoader({ classes, isLoading, disabled, children, ...props }) {
 	const buttonClassname = classNames({
 		[classes.buttonSuccess]: isLoading,
 		[props.className]: true,
@@ -22,7 +22,7 @@ function ButtonWithLoader({ classes, isLoading, children, ...props }) {
 
 	return (
 		<React.Fragment>
-			<Button {...props} className={buttonClassname} disabled={isLoading}>
+			<Button {...props} className={buttonClassname} disabled={isLoading || disabled}>
 				{children}
         {isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
 			</Button>
