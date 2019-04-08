@@ -51,7 +51,7 @@ function AddCompany({ classes, history }) {
 		},
 		2: {
 			gridProps: {
-				lg: 6,
+				lg: 4,
 				md: 12
 			},
 			template: summary
