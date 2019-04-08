@@ -67,10 +67,12 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 									onChange={(e) => updateBaseField('address', index, e.target.value)}
 								/>
 							</TableCell>
-							<TableCell component="th" scope="row" padding="checkbox" className={classnames(classes.deleteClass, classes.colPadding)}>
-								<IconButton onClick={() => deleteBase(index)}>
-									<Delete color="secondary" />
-								</IconButton>
+							<TableCell component="th" scope="row" padding="checkbox" className={classnames(classes.deleteClass, classes.colPadding)} align="right">
+								{index > 0
+									? <IconButton onClick={() => deleteBase(index)}>
+										<Delete color="secondary" />
+									</IconButton>
+									: null}
 							</TableCell>
 						</TableRow>
 					))}
