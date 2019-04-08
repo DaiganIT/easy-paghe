@@ -1,8 +1,14 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, withStyles } from '@material-ui/core';
 import ButtonWithLoader from './ButtonWithLoader';
 
-function StepButtons({ activeStep, lastStepNumber, prev, next, save, isLoading }) {
+const styles = {
+	saveButton: {
+		marginLeft: '1em'
+	}
+};
+
+function StepButtons({ classes, activeStep, lastStepNumber, prev, next, save, allStepsDone, isLoading }) {
 	return (
 		<React.Fragment>
 			<Grid item>
@@ -10,25 +16,21 @@ function StepButtons({ activeStep, lastStepNumber, prev, next, save, isLoading }
 					Precedente
 				</ButtonWithLoader>
 			</Grid>
-			{activeStep < lastStepNumber
-				?
-				<Grid item>
-					<ButtonWithLoader variant="contained" size="small" color="primary" onClick={next} disabled={activeStep === lastStepNumber}>
+			<Grid item>
+				{activeStep < lastStepNumber
+					? <ButtonWithLoader variant="contained" size="small" color="primary" onClick={next} disabled={activeStep === lastStepNumber}>
 						Prossimo
 					</ButtonWithLoader>
-				</Grid>
-				: null}
-			{activeStep === lastStepNumber
-				?
-				<Grid item>
-					<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isLoading} disabled={activeStep !== lastStepNumber}>
+					: null}
+				{activeStep === lastStepNumber || allStepsDone
+					?
+					<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isLoading} className={classes.saveButton}>
 						Salva
 					</ButtonWithLoader>
-				</Grid>
-				: null}
-
+					: null}
+			</Grid>
 		</React.Fragment>
 	);
 }
 
-export default StepButtons;
+export default withStyles(styles)(StepButtons);

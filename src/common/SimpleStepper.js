@@ -11,6 +11,14 @@ const styles = {
   }
 };
 
+function buildStepProps(step) {
+  const props = {
+    completed: step.isCompleted
+  };
+
+  return props;
+}
+
 function buildLabelProps(step) {
   const props = {
     optional: step.isOptional ? <Typography variant="caption">Optional</Typography> : null,
@@ -23,13 +31,15 @@ function buildLabelProps(step) {
 function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next, prev, save, isLoading }) {
 
   const animationName = activeStep >= previousStep ? 'slide-in-right' : 'slide-in-left';
+  const allStepsDone = steps.reduce((agg, item) => agg && (item.isCompleted || item.isSummary), true);
 
   return <React.Fragment>
     <Stepper activeStep={activeStep}>
       {steps.map(step => {
+        const stepProps = buildStepProps(step);
         const labelProps = buildLabelProps(step);
         return (
-          <Step key={step.label}>
+          <Step key={step.label} {...stepProps}>
             <StepLabel {...labelProps}>{step.label}</StepLabel>
           </Step>
         );
@@ -41,7 +51,7 @@ function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next
     <Grid key={`pagination.${activeStep}`} container className={classnames(classes.step, animationName)} justify="center">
       <Grid item {...stepMap[activeStep].gridProps}>
         <Grid container spacing={24} className={classes.step} justify="space-between">
-          <StepButtons activeStep={activeStep} lastStepNumber={steps.length - 1} next={next} prev={prev} save={save} isLoading={isLoading}></StepButtons>
+          <StepButtons activeStep={activeStep} lastStepNumber={steps.length - 1} allStepsDone={allStepsDone} next={next} prev={prev} save={save} isLoading={isLoading}></StepButtons>
         </Grid>
       </Grid>
     </Grid>
