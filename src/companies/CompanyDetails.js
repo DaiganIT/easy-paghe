@@ -8,12 +8,14 @@ const styles = {
 	}
 }
 
-function CompanyDetails({ classes, isSaving, company, updateField }) {
+function CompanyDetails({ classes, isSaving, company, updateField, errors }) {
 	return (
 		<React.Fragment>
 			<Grid container spacing={16}>
 				<Grid item xs={12}>
 					<TextField
+						error={!!errors.name}
+						required
 						variant="outlined"
 						label="Nome"
 						fullWidth
@@ -25,6 +27,7 @@ function CompanyDetails({ classes, isSaving, company, updateField }) {
 				</Grid>
 				<Grid item xs={6}>
 					<TextField
+						error={!!errors.fiscalCode}
 						variant="outlined"
 						fullWidth
 						label="Codice Fiscale"
@@ -35,9 +38,11 @@ function CompanyDetails({ classes, isSaving, company, updateField }) {
 					/></Grid>
 				<Grid item xs={6}>
 					<TextField
+						error={!!errors.ivaCode}
 						variant="outlined"
 						fullWidth
 						label="Partita IVA"
+						type="number"
 						className={classes.textField}
 						disabled={isSaving}
 						value={company.ivaCode}
@@ -45,9 +50,11 @@ function CompanyDetails({ classes, isSaving, company, updateField }) {
 					/></Grid>
 				<Grid item xs={6}>
 					<TextField
+						error={!!errors.inpsRegistrationNumber}
 						variant="outlined"
 						fullWidth
 						label="Codice INPS"
+						type="number"
 						className={classes.textField}
 						disabled={isSaving}
 						value={company.inpsRegistrationNumber}
@@ -55,9 +62,11 @@ function CompanyDetails({ classes, isSaving, company, updateField }) {
 					/></Grid>
 				<Grid item xs={6}>
 					<TextField
+						error={!!errors.inailRegistrationNumber}
 						variant="outlined"
 						fullWidth
 						label="Codice INAIL"
+						type="number"
 						className={classes.textField}
 						disabled={isSaving}
 						value={company.inailRegistrationNumber}

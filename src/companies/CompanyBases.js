@@ -36,7 +36,7 @@ const styles = theme => ({
 	}
 });
 
-function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBaseField }) {
+function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBaseField, errors }) {
 	return (
 		<React.Fragment>
 			<Table>
@@ -45,6 +45,8 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 						<TableRow key={base.id || index}>
 							<TableCell className={classes.colPadding} >
 								<TextField
+									required
+									error={!!errors.bases && !!errors.bases[index].name}
 									variant="outlined"
 									label="Nome"
 									fullWidth
@@ -55,6 +57,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 								/></TableCell>
 							<TableCell className={classes.colPadding}>
 								<TextField
+									error={!!errors.bases && !!errors.bases[index].address}
 									variant="outlined"
 									label="Indirizzo"
 									fullWidth

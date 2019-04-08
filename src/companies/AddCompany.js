@@ -8,6 +8,7 @@ import useCompanyForm from './useCompanyForm';
 import Page from '../common/Page';
 import StepButtons from '../common/StepButtons';
 import useSteps, { StepData } from '../commonHooks/useSteps';
+import buildStepMap from './stepsMap';
 
 const styles = {
 	step: {
@@ -22,7 +23,7 @@ function AddCompany({ classes, history }) {
 	};
 
 	const { activeStep, steps, next, prev } = useSteps([new StepData({ label: 'Dettagli azienda' }), new StepData({ label: 'Sedi azienda' }), new StepData({ label: 'Sommario' })], 0);
-	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase } = useCompanyForm({
+	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase, errors } = useCompanyForm({
 		onSave: onCreate,
 	});
 
@@ -30,33 +31,11 @@ function AddCompany({ classes, history }) {
 		setIsSaving(true);
 	};
 
-	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} />;
-	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteBase} updateBaseField={updateBaseField} />;
-	const summary = <CompanySummary company={company} />
+	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} errors={errors} />;
+	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteBase} updateBaseField={updateBaseField} errors={errors} />;
+	const summary = <CompanySummary company={company} errors={errors} />
 
-	const stepMap = {
-		0: {
-			gridProps: {
-				lg: 4,
-				md: 12
-			},
-			template: companyDetails
-		},
-		1: {
-			gridProps: {
-				lg: 6,
-				md: 12
-			},
-			template: bases
-		},
-		2: {
-			gridProps: {
-				lg: 4,
-				md: 12
-			},
-			template: summary
-		}
-	};
+	const stepMap = buildStepMap(companyDetails, bases, summary);
 
 	return (
 		<Page title="Aggiungi Azienda" noPaper>
