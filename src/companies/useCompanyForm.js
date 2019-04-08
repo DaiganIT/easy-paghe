@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import update from 'immutability-helper';
 
 import http from './http';
@@ -6,27 +6,17 @@ import useSaveable from '../commonHooks/useSaveable';
 import useLoadable from '../commonHooks/useLoadable';
 import useDeleteable from '../commonHooks/useDeleteable';
 import useValidation from '../commonHooks/useValidation';
-import useSteps, { StepData } from '../commonHooks/useSteps';
+import useSteps from '../commonHooks/useSteps';
 
 import { removeEmpties } from '../utils';
 import defaultCompany from './defaultNewCompany';
-
-const stepsConfiguration = [
-	new StepData({ label: 'Dettagli azienda' }),
-	new StepData({ label: 'Sedi azienda' }),
-	new StepData({ label: 'Sommario' })
-];
-
-const stepErrorMap = {
-	0: ['name', 'fiscalCode', 'ivaCode', 'inpsRegistrationNumber', 'inailRegistrationNumber'],
-	1: ['bases']
-};
+import * as stepsUtils from './stepsConfiguration';
 
 function useCompanyForm({ loadId, onSave, onDelete }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
 	const [errors, onError] = useValidation();
-	const { activeStep, steps, next, prev } = useSteps(stepsConfiguration, 0, stepErrorMap, errors);
+	const { activeStep, steps, next, prev } = useSteps(stepsUtils.stepsConfiguration, 0, stepsUtils.stepErrorMap, errors);
 
 	const updateField = (name, value) => {
 		setCompany(update(company, {
