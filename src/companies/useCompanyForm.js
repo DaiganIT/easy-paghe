@@ -5,44 +5,15 @@ import http from './http';
 import useSaveable from '../commonHooks/useSaveable';
 import useLoadable from '../commonHooks/useLoadable';
 import useDeleteable from '../commonHooks/useDeleteable';
+import useValidation from '../commonHooks/useValidation';
 
-const defaultCompany = {
-	id: 0,
-	name: '',
-	fiscalCode: '',
-	ivaCode: '',
-	inpsRegistrationNumber: '',
-	inailRegistrationNumber: '',
-	bases: [{
-		name: 'Sede principale',
-		address: ''
-	}]
-};
-
-function removeEmpties(form) {
-	const newForm = Object.assign({}, form);
-
-	for (const key in newForm) {
-		if (newForm.hasOwnProperty(key)) {
-			if (newForm[key] === '') {
-				delete newForm[key];
-			} else if (Array.isArray(newForm[key])) {
-				for (const arrayElem of newForm[key]) {
-					removeEmpties(arrayElem);
-				}
-			} else if (typeof newForm[key] === 'object') {
-				removeEmpties(newForm[key]);
-			}
-		}
-	}
-
-	return newForm;
-}
+import { removeEmpties } from '../utils';
+import defaultCompany from './defaultNewCompany';
 
 function useCompanyForm({ loadId, onSave, onDelete }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
-	const [errors, setErrors] = useState({});
+	const [errors, onError] = useValidation();
 
 	const updateField = (name, value) => {
 		setCompany(update(company, {
@@ -72,37 +43,6 @@ function useCompanyForm({ loadId, onSave, onDelete }) {
 		}));
 	}
 	const setId = (value) => updateField('id', value);
-
-	const cleanObject = obj => {
-		const cleanedErrors = Object.assign({}, obj);
-			for (const key in cleanedErrors) {
-				const propertyErrorsArray = cleanedErrors[key];
-
-				if (Array.isArray(propertyErrorsArray)) {
-					const cleanedErrorsArray = [];
-					for (const propertyError of propertyErrorsArray) {
-						cleanedErrorsArray.push(propertyError.split(';')[1]);
-					}
-					cleanedErrors[key] = cleanedErrorsArray;
-				} else {
-					// nested object validation.
-					cleanedErrors[key] = cleanObject(cleanedErrors[key]);
-				}
-			}
-		return cleanedErrors;
-	}
-
-	const onError = err => {
-		if (err.response && err.response.status && err.response.status === 400) {
-			// we have a validation error
-			const validationErrors = err.response.data;
-			const cleanedErrors = cleanObject(validationErrors);
-			console.log(cleanedErrors);
-			setErrors(cleanedErrors);
-		} else {
-			// show a modal dialog common error
-		}
-	};
 
 	const createNewCompany = () => http.createCompany(removeEmpties(company));
 	const updateCompany = () => http.updateCompany(company.id, removeEmpties(company));
