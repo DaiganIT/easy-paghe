@@ -12,9 +12,11 @@ function useDeleteable({ deletePromise, onDelete }) {
 				promise
 					.then(() => {
 						setIsDeleting(false);
-						onDelete && onDelete();
+						onDelete && onDelete(deleteOptions);
+						setDeleteOptions(undefined);
 					})
 					.catch(() => {
+						setDeleteOptions(undefined);
 						setIsDeleting(false);
 					});
 				return cleanup;
@@ -31,7 +33,7 @@ function useDeleteable({ deletePromise, onDelete }) {
 		setIsDeleting(true);
 	}
 
-	return [isDeleting, actionDelete, deleteOptions];
+	return [isDeleting, actionDelete];
 }
 
 export default useDeleteable;

@@ -23,8 +23,8 @@ function EditCompany({ match, history }) {
 		history.push('/index/companies');
 	};
 
-	const { isSaving, setIsSaving, isDeleting, isLoading, company, updateField, updateBaseField, addBase, deleteBase, 
-		hasEmployees, 
+	const { isSaving, setIsSaving, isDeleting, isLoading, company, updateField, updateBaseField, addBase, 
+		deleteBase, baseHasEmployees, hasEmployees, isDeletingBase, setIsDeletingBase,
 		setIsDeleting, errors, previousStep, activeStep, steps, next, prev, moveToStep } = useCompanyForm({
 		loadId: match.params.companyId,
 		onSave: onUpdate,
@@ -46,8 +46,30 @@ function EditCompany({ match, history }) {
 			action: () => setIsDeleting()
 		}
 	];
+	const deleteCompanyBaseChoices = [
+		{
+			text: 'Annulla',
+		},
+		{
+			text: 'Elimina',
+			action: (options) => setIsDeletingBase({ baseId: options.baseId, withEmployees: true }),
+			autoFocus: true
+		},
+		{
+			text: 'Licenzia',
+			action: (options) => setIsDeletingBase({ baseId: options.baseId })
+		}
+	];
 	const [ isDeleteCompanyChoiceDialogOpen, openDeleteCompanyChoiceDialog, closeDeleteCompanyChoiceDialog ] = useChoiceDialog({ choices: deleteCompanyChoices });
-	const [ isDeleteCompanyDialogOpen, openDeleteCompanyDialog, closeDeleteCompanyDialog, closeDeleteCompanyConfirm ] = useConfirmDialog({ confirmAction: () => setIsDeleting(true) });
+	const [ isDeleteCompanyBaseChoiceDialogOpen, openDeleteCompanyBaseChoiceDialog, closeDeleteCompanyBaseChoiceDialog ] = useChoiceDialog({ choices: deleteCompanyBaseChoices });
+	const [ isDeleteCompanyDialogOpen, openDeleteCompanyDialog, closeDeleteCompanyDialog, closeDeleteCompanyConfirm ] = useConfirmDialog({ confirmAction: () => setIsDeleting() });
+	const [ isDeleteCompanyBaseDialogOpen, openDeleteCompanyBaseDialog, closeDeleteCompanyBaseDialog, closeDeleteCompanyBaseConfirm ] = useConfirmDialog({ confirmAction: (options) => setIsDeletingBase(options) });
+
+	const deleteCompanyBase = ({ baseId, index }) => {
+		if (!baseId) { deleteBase({ baseId, index }); return; }
+		if (!baseHasEmployees({ index })) { openDeleteCompanyBaseDialog({ baseId, index }); return; }
+		openDeleteCompanyBaseChoiceDialog({ baseId, index });
+	}
 
 	const deleteButton = (
 		<ButtonWithLoader
@@ -55,14 +77,14 @@ function EditCompany({ match, history }) {
 			size="small"
 			color="primary"
 			onClick={() => hasEmployees() ? openDeleteCompanyChoiceDialog() : openDeleteCompanyDialog()}
-			isLoading={isDeleteCompanyChoiceDialogOpen || isDeleteCompanyDialogOpen || isDeleting || isLoading || isSaving}
+			isLoading={isDeleteCompanyChoiceDialogOpen || isDeleteCompanyDialogOpen || isDeleting || isLoading || isSaving || isDeletingBase}
 		>
 			Elimina
 		</ButtonWithLoader>
 	);
 
 	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} errors={errors} />;
-	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteBase} updateBaseField={updateBaseField} errors={errors} />;
+	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteCompanyBase} updateBaseField={updateBaseField} errors={errors} />;
 	const summary = <CompanySummary company={company} errors={errors} moveToStep={moveToStep} />
 
 	const stepMap = buildStepMap(companyDetails, bases, summary);
@@ -81,6 +103,15 @@ function EditCompany({ match, history }) {
 				Sei sicuro di voler eliminare questa azienda?
 			</ConfirmDialog>
 
+			<ConfirmDialog
+				open={isDeleteCompanyBaseDialogOpen}
+				id="delete-company-base"
+				onClose={closeDeleteCompanyBaseDialog}
+				title="Eliminare questa sede?"
+				onConfirm={closeDeleteCompanyBaseConfirm}>
+				Sei sicuro di voler eliminare questa sede?
+			</ConfirmDialog>
+
 			<ChoiceDialog
 				open={isDeleteCompanyChoiceDialogOpen}
 				id="delete-company-with-employees"
@@ -89,6 +120,16 @@ function EditCompany({ match, history }) {
 				choices={deleteCompanyChoices}
 			>
 				L'azienda ha dipendenti assunti, cosa vuoi fare con loro?
+			</ChoiceDialog>
+
+			<ChoiceDialog
+				open={isDeleteCompanyBaseChoiceDialogOpen}
+				id="delete-company-base-with-employees"
+				onClose={closeDeleteCompanyBaseChoiceDialog}
+				title="Eliminare questa sede?"
+				choices={deleteCompanyBaseChoices}
+			>
+				La sede ha dipendenti assunti, cosa vuoi fare con loro?
 			</ChoiceDialog>
 		</Page>
 	);

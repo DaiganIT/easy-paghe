@@ -69,7 +69,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 							</TableCell>
 							<TableCell component="th" scope="row" padding="checkbox" className={classnames(classes.deleteClass, classes.colPadding)} align="right">
 								{index > 0
-									? <IconButton onClick={() => deleteBase(index)}>
+									? <IconButton onClick={() => deleteBase({ baseId: base.id, index })}>
 										<Delete color="secondary" />
 									</IconButton>
 									: null}
