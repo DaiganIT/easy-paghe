@@ -49,23 +49,17 @@ function EditCompany({ match, history }) {
 	const [ isDeleteCompanyChoiceDialogOpen, openDeleteCompanyChoiceDialog, closeDeleteCompanyChoiceDialog ] = useChoiceDialog({ choices: deleteCompanyChoices });
 	const [ isDeleteCompanyDialogOpen, openDeleteCompanyDialog, closeDeleteCompanyDialog, closeDeleteCompanyConfirm ] = useConfirmDialog({ confirmAction: () => setIsDeleting(true) });
 
-	const save = () => {
-		setIsSaving(true);
-	};
-
 	const deleteButton = (
 		<ButtonWithLoader
 			variant="contained"
 			size="small"
 			color="primary"
 			onClick={() => hasEmployees() ? openDeleteCompanyChoiceDialog() : openDeleteCompanyDialog()}
-			isLoading={isDeleteCompanyChoiceDialogOpen || isDeleteCompanyDialogOpen || isDeleting || isLoading}
+			isLoading={isDeleteCompanyChoiceDialogOpen || isDeleteCompanyDialogOpen || isDeleting || isLoading || isSaving}
 		>
 			Elimina
 		</ButtonWithLoader>
 	);
-
-
 
 	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} errors={errors} />;
 	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteBase} updateBaseField={updateBaseField} errors={errors} />;
@@ -76,7 +70,7 @@ function EditCompany({ match, history }) {
 	return (
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
 			{isLoading ? <LinearProgress /> : undefined}
-			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isLoading={isLoading || isSaving} />
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={() => setIsSaving(true)} isLoading={isLoading || isSaving} />
 
 			<ConfirmDialog
 				open={isDeleteCompanyDialogOpen}
