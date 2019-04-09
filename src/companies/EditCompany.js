@@ -6,7 +6,9 @@ import CompanyDetails from './CompanyDetails';
 import CompanyBases from './CompanyBases';
 import CompanySummary from './CompanySummary';
 import useCompanyForm from './useCompanyForm';
+import ChoiceDialog from '../dialogs/ChoiceDialog';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
+import useChoiceDialog from '../dialogs/useChoiceDialog';
 import useConfirmDialog from '../dialogs/useConfirmDialog';
 import Page from '../common/Page';
 import buildStepMap from './stepsMap';
@@ -21,20 +23,31 @@ function EditCompany({ match, history }) {
 		history.push('/index/companies');
 	};
 
-	const { isSaving, setIsSaving, isDeleting, isLoading, company, updateField, updateBaseField, addBase, deleteBase, setIsDeleting, errors, previousStep, activeStep, steps, next, prev, moveToStep } = useCompanyForm({
+	const { isSaving, setIsSaving, isDeleting, isLoading, company, updateField, updateBaseField, addBase, deleteBase, 
+		hasEmployees, 
+		setIsDeleting, errors, previousStep, activeStep, steps, next, prev, moveToStep } = useCompanyForm({
 		loadId: match.params.companyId,
 		onSave: onUpdate,
 		onDelete,
 		baseTab: 2
 	});
 
-	const onDeleteConfirm = () => {
-		setIsDeleting(true);
-	};
-
-	const { isDialogOpen, openDialog, closeDialog, confirmDialog } = useConfirmDialog({
-		confirmAction: onDeleteConfirm,
-	});
+	const deleteCompanyChoices = [
+		{
+			text: 'Annulla',
+		},
+		{
+			text: 'Elimina',
+			action: () => setIsDeleting({ withEmployees: true }),
+			autoFocus: true
+		},
+		{
+			text: 'Licenzia',
+			action: () => setIsDeleting()
+		}
+	];
+	const [ isDeleteCompanyChoiceDialogOpen, openDeleteCompanyChoiceDialog, closeDeleteCompanyChoiceDialog ] = useChoiceDialog({ choices: deleteCompanyChoices });
+	const [ isDeleteCompanyDialogOpen, openDeleteCompanyDialog, closeDeleteCompanyDialog, closeDeleteCompanyConfirm ] = useConfirmDialog({ confirmAction: () => setIsDeleting(true) });
 
 	const save = () => {
 		setIsSaving(true);
@@ -45,12 +58,14 @@ function EditCompany({ match, history }) {
 			variant="contained"
 			size="small"
 			color="primary"
-			onClick={openDialog}
-			isLoading={isDialogOpen || isDeleting || isLoading}
+			onClick={() => hasEmployees() ? openDeleteCompanyChoiceDialog() : openDeleteCompanyDialog()}
+			isLoading={isDeleteCompanyChoiceDialogOpen || isDeleteCompanyDialogOpen || isDeleting || isLoading}
 		>
 			Elimina
 		</ButtonWithLoader>
 	);
+
+
 
 	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} errors={errors} />;
 	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteBase} updateBaseField={updateBaseField} errors={errors} />;
@@ -61,17 +76,26 @@ function EditCompany({ match, history }) {
 	return (
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
 			{isLoading ? <LinearProgress /> : undefined}
-			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isLoading={isSaving} />
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isLoading={isLoading || isSaving} />
 
 			<ConfirmDialog
-				open={isDialogOpen}
+				open={isDeleteCompanyDialogOpen}
 				id="delete-company"
-				onClose={closeDialog}
-				onConfirm={confirmDialog}
+				onClose={closeDeleteCompanyDialog}
 				title="Eliminare questa azienda?"
-			>
-				L'eliminazione non puo' essere annullata. Sei sicuro?
+				onConfirm={closeDeleteCompanyConfirm}>
+				Sei sicuro di voler eliminare questa azienda?
 			</ConfirmDialog>
+
+			<ChoiceDialog
+				open={isDeleteCompanyChoiceDialogOpen}
+				id="delete-company-with-employees"
+				onClose={closeDeleteCompanyChoiceDialog}
+				title="Eliminare questa azienda?"
+				choices={deleteCompanyChoices}
+			>
+				L'azienda ha dipendenti assunti, cosa vuoi fare con loro?
+			</ChoiceDialog>
 		</Page>
 	);
 }

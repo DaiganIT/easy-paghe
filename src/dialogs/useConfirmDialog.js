@@ -16,7 +16,7 @@ function useConfirmDialog({ confirmAction }) {
     closeDialog();
   }
 
-  return { isDialogOpen, openDialog, closeDialog, confirmDialog };
+  return [ isDialogOpen, openDialog, closeDialog, confirmDialog ];
 }
 
 export default useConfirmDialog;
