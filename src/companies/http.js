@@ -17,10 +17,10 @@ function createCompany(company) {
 	});
 }
 
-function updateCompany({ id, ...company }) {
+function updateCompany(companyId, company) {
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
-		promise: axios.put(`/api/companies/${id}`, company, { cancelToken: tokenSource.token }),
+		promise: axios.put(`/api/companies/${companyId}`, company, { cancelToken: tokenSource.token }),
 		tokenSource,
 	});
 }

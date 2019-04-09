@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cancellablePromise } from '../common/PromiseHelpers';
+import { replaceWithEmpties } from '../utils';
 
 function useLoadable({ id, loadPromise, setForm }) {
 	const [isLoading, setIsLoading] = useState(!!id);
@@ -11,7 +12,7 @@ function useLoadable({ id, loadPromise, setForm }) {
 				promise
 					.then(({ data }) => {
 						setIsLoading(false);
-						setForm(data);
+						setForm(replaceWithEmpties(data));
 					})
 					.catch(() => {
 						setIsLoading(false);
