@@ -5,7 +5,7 @@ function useList({ getPromise }) {
 	const [data, setData] = useState({ items: [], length: 0 });
 	const [loadData, setLoadData] = useState(false);
 	const [search, setSearch] = useState('');
-	const [page, setPage] = useState(1);
+	const [page, setPage] = useState(0);
 	const [pageLimit] = useState(10);
 
 	useEffect(

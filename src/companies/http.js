@@ -3,7 +3,7 @@ import { getTokenSource, CancellableQueryablePromise, QueryablePromise } from '.
 
 function getCompanies({ search, page, pageLimit }) {
 	const tokenSource = getTokenSource();
-	const promise = axios.get(`/api/companies?filter=${search}&page=${page}&pageLimit=${pageLimit}`, {
+	const promise = axios.get(`/api/companies?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, {
 		cancelToken: tokenSource.token,
 	});
 	return QueryablePromise({ promise });

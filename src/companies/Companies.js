@@ -88,7 +88,7 @@ function Companies({ classes, history }) {
           nextIconButtonProps={{
             'aria-label': 'Pagina Successiva',
           }}
-          onChangePage={(event, page) => {setPage(page+1)}}
+          onChangePage={(event, page) => {setPage(page)}}
         />
 		</Page>
 	);
