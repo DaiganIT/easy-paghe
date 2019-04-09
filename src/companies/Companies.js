@@ -51,8 +51,10 @@ function Companies({ classes, history }) {
 				<TableHead>
 					<TableRow>
 						<TableCell>Nome</TableCell>
-						<TableCell>Indirizzo</TableCell>
-						<TableCell>Telefono</TableCell>
+						<TableCell>Codice Fiscale</TableCell>
+						<TableCell>Partita IVA</TableCell>
+						<TableCell>Codice INPS</TableCell>
+						<TableCell>Codice INAIL</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -66,8 +68,10 @@ function Companies({ classes, history }) {
 							<TableCell component="th" scope="row">
 								{company.name}
 							</TableCell>
-							<TableCell>{company.address}</TableCell>
-							<TableCell>{company.phone}</TableCell>
+							<TableCell>{company.fiscalCode}</TableCell>
+							<TableCell>{company.ivaCode}</TableCell>
+							<TableCell>{company.inpsRegistrationNumber}</TableCell>
+							<TableCell>{company.inailRegistrationNumber}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
