@@ -49,7 +49,11 @@ function useList({ getPromise }) {
 		setLoadData(true);
 	}, []);
 
-	return { data, loadData, search, setSearch, page, setPage, pageLimit };
+	const reloadData = () => {
+		setLoadData(true);
+	};
+
+	return { data, loadData, reloadData, search, setSearch, page, setPage, pageLimit };
 }
 
 export default useList;

@@ -13,6 +13,7 @@ import useConfirmDialog from '../dialogs/useConfirmDialog';
 import Page from '../common/Page';
 import buildStepMap from './stepsMap';
 import SimpleStepper from '../common/SimpleStepper';
+import { buildDeleteCompanyChoices, buildDeleteCompanyBaseChoices } from './deleteCompanyChoices';
 
 function EditCompany({ match, history }) {
 	const onUpdate = () => {
@@ -32,34 +33,8 @@ function EditCompany({ match, history }) {
 		baseTab: 2
 	});
 
-	const deleteCompanyChoices = [
-		{
-			text: 'Annulla',
-		},
-		{
-			text: 'Elimina',
-			action: () => setIsDeleting({ withEmployees: true }),
-			autoFocus: true
-		},
-		{
-			text: 'Licenzia',
-			action: () => setIsDeleting()
-		}
-	];
-	const deleteCompanyBaseChoices = [
-		{
-			text: 'Annulla',
-		},
-		{
-			text: 'Elimina',
-			action: (options) => setIsDeletingBase({ baseId: options.baseId, withEmployees: true }),
-			autoFocus: true
-		},
-		{
-			text: 'Licenzia',
-			action: (options) => setIsDeletingBase({ baseId: options.baseId })
-		}
-	];
+	const deleteCompanyChoices = buildDeleteCompanyChoices({ setIsDeleting });
+	const deleteCompanyBaseChoices = buildDeleteCompanyBaseChoices({ setIsDeletingBase });
 	const [ isDeleteCompanyChoiceDialogOpen, openDeleteCompanyChoiceDialog, closeDeleteCompanyChoiceDialog ] = useChoiceDialog({ choices: deleteCompanyChoices });
 	const [ isDeleteCompanyBaseChoiceDialogOpen, openDeleteCompanyBaseChoiceDialog, closeDeleteCompanyBaseChoiceDialog ] = useChoiceDialog({ choices: deleteCompanyBaseChoices });
 	const [ isDeleteCompanyDialogOpen, openDeleteCompanyDialog, closeDeleteCompanyDialog, closeDeleteCompanyConfirm ] = useConfirmDialog({ confirmAction: () => setIsDeleting() });

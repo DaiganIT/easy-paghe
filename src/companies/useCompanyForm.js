@@ -12,6 +12,7 @@ import useUpdate from '../commonHooks/useUpdate';
 import { removeEmpties } from '../utils';
 import defaultCompany from './defaultNewCompany';
 import * as stepsUtils from './stepsConfiguration';
+import { companyHasEmployees } from './utils';
 
 function useCompanyForm({ loadId, onSave, onDelete, onDeleteBase, baseTab }) {
 	defaultCompany.id = loadId || 0;
@@ -64,8 +65,7 @@ function useCompanyForm({ loadId, onSave, onDelete, onDeleteBase, baseTab }) {
 	const [isDeletingBase, setIsDeletingBase] = useDeleteable({ deletePromise: deleteCompanyBase, onDelete: deleteBase });
 
 	const hasEmployees = () => {
-		if (!company.bases) return false;
-		return company.bases.reduce((agg, elem) => !!elem.employees ? agg + elem.employees.length : agg, 0) > 0;
+		return companyHasEmployees(company);
 	}
 
 	const baseHasEmployees = index => {
