@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { cancellablePromise } from '../common/PromiseHelpers';
 
-function useSaveable({ createPromise, updatePromise, id, setId, onSave, onError }) {
+function useSaveable({ createPromise, updatePromise, id, onSave, onError }) {
 	const [isSaving, setIsSaving] = useState(false);
 
 	const create = () => {
@@ -9,7 +9,6 @@ function useSaveable({ createPromise, updatePromise, id, setId, onSave, onError 
 		promise
 			.then(response => {
 				setIsSaving(false);
-				setId(response.data.id);
 				onSave && onSave(response.data);
 			})
 			.catch(err => {

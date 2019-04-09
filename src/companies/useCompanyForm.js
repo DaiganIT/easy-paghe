@@ -42,7 +42,15 @@ function useCompanyForm({ loadId, onSave, onDelete, onDeleteBase, baseTab }) {
 		}));
 		onDeleteBase && onDeleteBase({ baseId, baseIndex });
 	}
-	const setId = (value) => updateField('id', value);
+
+	const onCompanySave = (company) => {
+		let index = 0;
+		for(const base of company.bases) {
+			updateBaseField('id', index, base.id);
+			index++;
+		}
+		onSave && onSave(company);
+	}
 
 	const createNewCompany = () => http.createCompany(removeEmpties(company));
 	const updateCompany = () => http.updateCompany(company.id, removeEmpties(company));
@@ -50,7 +58,7 @@ function useCompanyForm({ loadId, onSave, onDelete, onDeleteBase, baseTab }) {
 	const deleteCompany = (options) => http.deleteCompany(company.id, options.withEmployees);
 	const deleteCompanyBase = (options) => http.deleteBase(company.id, options.baseId, options.withEmployees);
 
-	const [isSaving, setIsSaving] = useSaveable({ createPromise: createNewCompany, updatePromise: updateCompany, id: company.id, setId, onSave, onError });
+	const [isSaving, setIsSaving] = useSaveable({ createPromise: createNewCompany, updatePromise: updateCompany, id: company.id, onSave: onCompanySave, onError });
 	const [isLoading] = useLoadable({ id: company.id, loadPromise: loadCompany, setForm: setCompany });
 	const [isDeleting, setIsDeleting] = useDeleteable({ deletePromise: deleteCompany, onDelete });
 	const [isDeletingBase, setIsDeletingBase] = useDeleteable({ deletePromise: deleteCompanyBase, onDelete: deleteBase });

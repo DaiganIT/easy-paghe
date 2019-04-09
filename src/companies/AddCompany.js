@@ -10,6 +10,7 @@ import SimpleStepper from '../common/SimpleStepper';
 
 function AddCompany({ history }) {
 	const onCreate = ({ id }) => {
+		console.log(id);
 		history.push(`/index/companies/${id}`);
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
 	};
