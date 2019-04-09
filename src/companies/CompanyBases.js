@@ -46,7 +46,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 							<TableCell className={classes.colPadding} >
 								<TextField
 									required
-									error={!!errors.bases && !!errors.bases[index].name}
+									error={!!errors.bases && !!errors.bases[index] && !!errors.bases[index].name}
 									variant="outlined"
 									label="Nome"
 									fullWidth
@@ -57,7 +57,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 								/></TableCell>
 							<TableCell className={classes.colPadding}>
 								<TextField
-									error={!!errors.bases && !!errors.bases[index].address}
+									error={!!errors.bases && !!errors.bases[index] && !!errors.bases[index].address}
 									variant="outlined"
 									label="Indirizzo"
 									fullWidth

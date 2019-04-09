@@ -43,20 +43,17 @@ export default function (defaultSteps, beginningStep, stepErrorMap, form, errors
     }));
   }
 
-  const next = () => {
-    // validate model before going forward
+  function validateModel() {
     if (steps[activeStep].validator) {
       let modelToValidate = form;
       if (steps[activeStep].validatorPath) {
         modelToValidate = form[steps[activeStep].validatorPath];
       }
 
-      console.log(modelToValidate);
-
       let errors;
       if (Array.isArray(modelToValidate)) {
         let baseErrors;
-        let index;
+        let index = 0;
         for(const modelToValidateItem of modelToValidate) {
           baseErrors = validate(removeEmpties(modelToValidateItem), steps[activeStep].validator);
           if(baseErrors) errors = Object.assign({}, errors, { bases: { [index]: baseErrors } });
@@ -67,9 +64,14 @@ export default function (defaultSteps, beginningStep, stepErrorMap, form, errors
       }
 
       onValidationError && onValidationError(errors);
-      if (errors)
-        return;
+      return errors;
     }
+  }
+
+  const next = () => {
+    // validate model before going forward
+    const errors = validateModel();
+    if (errors) return;
 
     setCompleted(activeStep);
 
