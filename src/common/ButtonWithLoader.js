@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import { withStyles, Button, CircularProgress } from '@material-ui/core';
 import green from '@material-ui/core/colors/green';
 
@@ -15,14 +14,9 @@ const styles = {
 };
 
 function ButtonWithLoader({ classes, isLoading, disabled, children, ...props }) {
-	const buttonClassname = classNames({
-		[classes.buttonSuccess]: isLoading,
-		[props.className]: true,
-	});
-
 	return (
 		<React.Fragment>
-			<Button {...props} className={buttonClassname} disabled={isLoading || disabled}>
+			<Button {...props} disabled={isLoading || disabled}>
 				{children}
         {isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
 			</Button>
