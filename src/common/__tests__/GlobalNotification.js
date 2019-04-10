@@ -1,9 +1,7 @@
 import React from 'react';
 import {
   render,
-  fireEvent,
   cleanup,
-  waitForElement,
   act,
 } from 'react-testing-library';
 import 'jest-dom/extend-expect';
@@ -25,7 +23,7 @@ describe('GIVEN I have a Global Notification', () => {
       const { container } = render(<GlobalNotification>
         Save
       </GlobalNotification>);
-      
+
       act(() => {
         EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
       });
