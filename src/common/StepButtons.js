@@ -12,19 +12,19 @@ function StepButtons({ classes, activeStep, lastStepNumber, prev, next, save, al
 	return (
 		<React.Fragment>
 			<Grid item>
-				<ButtonWithLoader variant="contained" size="small" color="primary" onClick={prev} disabled={activeStep === 0 || activeStep === lastStepNumber}>
+				<ButtonWithLoader id="button-step-previous" variant="contained" size="small" color="primary" onClick={prev} isLoading={isLoading} disabled={activeStep === 0}>
 					Precedente
 				</ButtonWithLoader>
 			</Grid>
 			<Grid item>
 				{activeStep < lastStepNumber
-					? <ButtonWithLoader variant="contained" size="small" color="primary" onClick={next} disabled={activeStep === lastStepNumber}>
+					? <ButtonWithLoader id="button-step-next" variant="contained" size="small" color="primary" onClick={next} isLoading={isLoading} disabled={activeStep === lastStepNumber}>
 						Prossimo
 					</ButtonWithLoader>
 					: null}
 				{activeStep === lastStepNumber || allStepsDone
 					?
-					<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isLoading} className={classes.saveButton}>
+					<ButtonWithLoader id="button-step-save" variant="contained" size="small" color="primary" onClick={save} isLoading={isLoading} className={classes.saveButton}>
 						Salva
 					</ButtonWithLoader>
 					: null}

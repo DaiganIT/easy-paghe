@@ -34,21 +34,21 @@ function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next
   const allStepsDone = steps.reduce((agg, item) => agg && (item.isCompleted || item.isSummary), true);
 
   return <React.Fragment>
-    <Stepper activeStep={activeStep}>
+    <Stepper id="step-header" activeStep={activeStep}>
       {steps.map(step => {
         const stepProps = buildStepProps(step);
         const labelProps = buildLabelProps(step);
         return (
-          <Step key={step.label} {...stepProps}>
+          <Step key={step.label} {...stepProps} className={`step-header`}>
             <StepLabel {...labelProps}>{step.label}</StepLabel>
           </Step>
         );
       })}
     </Stepper>
-    <Grid key={`element.${activeStep}`} container spacing={24} className={classnames(classes.step, animationName)} justify="center">
+    <Grid id="step-content" key={`element.${activeStep}`} container spacing={24} className={classnames(classes.step, animationName)} justify="center">
       <StepElement activeStep={activeStep} stepMap={stepMap} />
     </Grid>
-    <Grid key={`pagination.${activeStep}`} container className={classnames(classes.step, animationName)} justify="center">
+    <Grid id="step-footer" key={`pagination.${activeStep}`} container className={classnames(classes.step, animationName)} justify="center">
       <Grid item {...stepMap[activeStep].gridProps}>
         <Grid container spacing={24} className={classes.step} justify="space-between">
           <StepButtons activeStep={activeStep} lastStepNumber={steps.length - 1} allStepsDone={allStepsDone} next={next} prev={prev} save={save} isLoading={isLoading}></StepButtons>

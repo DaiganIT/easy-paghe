@@ -3,14 +3,14 @@ import validate from 'validate.js';
 import update from 'immutability-helper';
 import { removeEmpties } from '../utils';
 
-export function StepData({ label, isOptional, isSkipped, hasErrors, isSummary, validator, validatorPath }) {
+export function StepData({ label, isOptional, isSkipped, hasErrors, isSummary, validator, validatorPath, isCompleted }) {
   return {
     label,
     isOptional,
     isSkipped,
     hasErrors,
     isSummary,
-    isCompleted: false,
+    isCompleted: isCompleted,
     validator,
     validatorPath
   }
