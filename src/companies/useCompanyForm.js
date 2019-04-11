@@ -18,7 +18,52 @@ function useCompanyForm({ loadId, onSave, onDelete, onDeleteBase, baseTab }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
 	const [errors, onError, onValidationError] = useValidation();
-	const { previousStep, activeStep, moveToStep, steps, next, prev } = useSteps(stepsUtils.stepsConfiguration, baseTab || 0, stepsUtils.stepErrorMap, company, errors, onValidationError);
+
+	const onNext = (steps, activeStep) => {
+    if (steps[activeStep].validator) {
+      let modelToValidate = company;
+      if (steps[activeStep].validatorPath) {
+        modelToValidate = company[steps[activeStep].validatorPath];
+      }
+
+      let errors;
+      if (Array.isArray(modelToValidate)) {
+        let baseErrors;
+        let index = 0;
+        for(const modelToValidateItem of modelToValidate) {
+          baseErrors = validate(removeEmpties(modelToValidateItem), steps[activeStep].validator);
+          if(baseErrors) errors = Object.assign({}, errors, { bases: { [index]: baseErrors } });
+          index++;
+        }
+      } else {
+        errors = validate(removeEmpties(company), steps[activeStep].validator);
+      }
+
+			if (errors) {
+				onValidationError(errors);
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	const { previousStep, activeStep, moveToStep, steps, next, prev, setStepError } = useSteps(stepsUtils.stepsConfiguration, baseTab || 0, onNext);
+
+	useEffect(() => {
+    for (const stepErrorIndex in stepsUtils.stepErrorMap) {
+      let indexHasErrors = false;
+      for (const errorPropertyName of stepsUtils.stepErrorMap[stepErrorIndex]) {
+        if (!!errors[errorPropertyName]) {
+          indexHasErrors = true;
+        }
+      }
+      if (steps[stepErrorIndex].hasErrors !== indexHasErrors) {
+        setStepError(stepErrorIndex, indexHasErrors);
+      }
+    }
+  }, [errors]);
+
 	const [updateField] = useUpdate(company, setCompany);
 
 	const updateBaseField = (name, index, value) => {
