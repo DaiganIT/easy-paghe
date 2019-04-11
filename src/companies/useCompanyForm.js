@@ -17,30 +17,18 @@ import { companyHasEmployees } from './utils';
 function useCompanyForm({ loadId, onSave, onDelete, onDeleteBase, baseTab }) {
 	defaultCompany.id = loadId || 0;
 	const [company, setCompany] = useState(defaultCompany);
-	const [errors, onError, onValidationError] = useValidation();
+	const [errors, onError, validate] = useValidation();
 
 	const onNext = (steps, activeStep) => {
     if (steps[activeStep].validator) {
       let modelToValidate = company;
       if (steps[activeStep].validatorPath) {
         modelToValidate = company[steps[activeStep].validatorPath];
-      }
-
-      let errors;
-      if (Array.isArray(modelToValidate)) {
-        let baseErrors;
-        let index = 0;
-        for(const modelToValidateItem of modelToValidate) {
-          baseErrors = validate(removeEmpties(modelToValidateItem), steps[activeStep].validator);
-          if(baseErrors) errors = Object.assign({}, errors, { bases: { [index]: baseErrors } });
-          index++;
-        }
-      } else {
-        errors = validate(removeEmpties(company), steps[activeStep].validator);
-      }
+			}
+			
+			const errors = validate(modelToValidate, steps[activeStep].validator);
 
 			if (errors) {
-				onValidationError(errors);
 				return false;
 			}
 		}

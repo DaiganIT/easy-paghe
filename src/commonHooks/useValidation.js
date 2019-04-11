@@ -1,4 +1,7 @@
+import validate from 'validate.js';
 import { useState } from 'react';
+
+import { removeEmpties } from '../utils';
 
 const cleanObject = obj => {
   const cleanedErrors = Object.assign({}, obj);
@@ -8,7 +11,11 @@ const cleanObject = obj => {
     if (Array.isArray(propertyErrorsArray)) {
       const cleanedErrorsArray = [];
       for (const propertyError of propertyErrorsArray) {
-        cleanedErrorsArray.push(propertyError.split(';')[1]);
+        if (propertyError.indexOf(';') >= 0) {
+          cleanedErrorsArray.push(propertyError.split(';')[1]);
+        } else {
+          cleanedErrorsArray.push(propertyError);
+        }
       }
       cleanedErrors[key] = cleanedErrorsArray;
     } else {
@@ -33,13 +40,27 @@ function useValidation() {
     }
   };
 
-  const onValidationError = err => {
-    const validationErrors = err;
-    const cleanedErrors = cleanObject(validationErrors);
-    setErrors(cleanedErrors);
+  const doValidate = (form, validator) => {
+    let errors;
+    if (Array.isArray(form)) {
+      let groupErrors;
+      let index = 0;
+      for (const formItem of form) {
+        groupErrors = validate(removeEmpties(formItem), validator);
+        if (groupErrors) errors = Object.assign({}, errors, { bases: { [index]: groupErrors } });
+        index++;
+      }
+    } else {
+      errors = validate(removeEmpties(form), validator);
+    }
+    if (errors) {
+      setErrors(cleanObject(errors));
+    }
+
+    return errors;
   }
 
-  return [errors, onError, onValidationError];
+  return [errors, onError, doValidate];
 }
 
 export default useValidation;
