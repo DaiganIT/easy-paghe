@@ -1,5 +1,5 @@
 import { StepData } from '../commonHooks/useSteps';
-import { companyDetailsValidation, basesValidation } from './validation';
+import { companyDetailsValidation, basesValidation } from './validators';
 
 export const stepsConfiguration = [
 	new StepData({ label: 'Dettagli azienda', validator: companyDetailsValidation }),
