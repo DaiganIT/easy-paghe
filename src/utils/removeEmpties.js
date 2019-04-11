@@ -6,11 +6,13 @@ export function removeEmpties(form) {
 			if (newForm[key] === '') {
 				delete newForm[key];
 			} else if (Array.isArray(newForm[key])) {
-				for (const arrayElem of newForm[key]) {
-					removeEmpties(arrayElem);
+				const newArray = [];
+				for (let arrayElem of newForm[key]) {
+					newArray.push(removeEmpties(arrayElem));
 				}
-			} else if (typeof newForm[key] === 'object') {
-				removeEmpties(newForm[key]);
+				newForm[key] = newArray;
+			} else if (newForm[key] && typeof newForm[key] === 'object') {
+				newForm[key] = removeEmpties(newForm[key]);
 			}
 		}
 	}

@@ -6,11 +6,13 @@ export function replaceWithEmpties(form) {
 			if (newForm[key] === null || typeof newForm[key] === 'undefined') {
 				newForm[key] = '';
 			} else if (Array.isArray(newForm[key])) {
-				for (const arrayElem of newForm[key]) {
-					replaceWithEmpties(arrayElem);
+				const newArray = [];
+				for (let arrayElem of newForm[key]) {
+					newArray.push(replaceWithEmpties(arrayElem));
 				}
+				newForm[key] = newArray;
 			} else if (typeof newForm[key] === 'object') {
-				replaceWithEmpties(newForm[key]);
+				newForm[key] = replaceWithEmpties(newForm[key]);
 			}
 		}
 	}
