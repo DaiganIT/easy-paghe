@@ -45,6 +45,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 						<TableRow key={base.id || index}>
 							<TableCell className={classes.colPadding} >
 								<TextField
+									id={`company-base-${index}-name`}
 									required
 									error={!!errors.bases && !!errors.bases[index] && !!errors.bases[index].name}
 									variant="outlined"
@@ -57,6 +58,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 								/></TableCell>
 							<TableCell className={classes.colPadding}>
 								<TextField
+									id={`company-base-${index}-address`}
 									error={!!errors.bases && !!errors.bases[index] && !!errors.bases[index].address}
 									variant="outlined"
 									label="Indirizzo"
@@ -69,7 +71,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 							</TableCell>
 							<TableCell component="th" scope="row" padding="checkbox" className={classnames(classes.deleteClass, classes.colPadding)} align="right">
 								{index > 0
-									? <IconButton onClick={() => deleteBase({ baseId: base.id, index })}>
+									? <IconButton id={`company-base-${index}-delete`} onClick={() => deleteBase({ baseId: base.id, index })}>
 										<Delete color="secondary" />
 									</IconButton>
 									: null}
@@ -78,7 +80,7 @@ function CompanyBases({ classes, bases, addBase, deleteBase, isSaving, updateBas
 					))}
 					<TableRow hover>
 						<TableCell component="th" scope="row" colSpan={3} onClick={addBase} align="center" className={classes.addBase}>
-							<Typography><Add color="secondary" /> Aggiungi sede</Typography>
+							<Typography id="add-company-button"><Add color="secondary" /> Aggiungi sede</Typography>
 						</TableCell>
 					</TableRow>
 				</TableBody>
