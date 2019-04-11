@@ -18,7 +18,7 @@ export function QueryablePromise({ promise }) {
 	return result;
 }
 
-function cancelled(err) {
+function isCancelError(err) {
 	if (!axios.isCancel(err)) {
 		throw err;
 	}
@@ -26,7 +26,7 @@ function cancelled(err) {
 
 export function cancellablePromise({ httpCall }) {
 	const [promise, tokenSource] = httpCall();
-	promise.catch(cancelled);
+	promise.catch(isCancelError);
 	return [
 		promise,
 		function cleanup() {
