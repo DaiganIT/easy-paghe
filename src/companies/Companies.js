@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames';
-import debounce from 'debounce-promise';
 import { Link } from 'react-router-dom';
 import { withStyles, LinearProgress, IconButton } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
@@ -33,10 +32,8 @@ const styles = {
 	}
 };
 
-const debouncedGetPromise = debounce(http.getCompanies, 300);
-
 function Companies({ classes, history }) {
-	const { data, loadData, reloadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: debouncedGetPromise });
+	const { data, loadData, reloadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: http.getCompanies });
 
 	const onDelete = () => {
 		reloadData();
