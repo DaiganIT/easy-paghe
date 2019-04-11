@@ -8,7 +8,26 @@ test('getCompanies has the correct url', () => {
   const page = 0;
   const pageLimit = 10;
 
+  jest.useFakeTimers();
   const promise = http.getCompanies({ search, page, pageLimit });
+  jest.runAllTimers();
+
+  expect(axiosMock.get.mock.calls.length).toEqual(1);
+  expect(axiosMock.get.mock.calls[0][0]).toEqual('/api/companies?filter=hi&page=1&pageLimit=10');
+  expect(axiosMock.get.mock.calls[0][1]).toEqual({ cancelToken: 'token' });
+  expect(promise[1]).toBeTruthy();
+});
+
+test('getCompanies is called just once inside the same timer window', () => {
+  const search = 'hi';
+  const page = 0;
+  const pageLimit = 10;
+
+  jest.useFakeTimers();
+  const promise = http.getCompanies({ search, page, pageLimit });
+  http.getCompanies({ search, page, pageLimit });
+  http.getCompanies({ search, page, pageLimit });
+  jest.runAllTimers();
 
   expect(axiosMock.get.mock.calls.length).toEqual(1);
   expect(axiosMock.get.mock.calls[0][0]).toEqual('/api/companies?filter=hi&page=1&pageLimit=10');

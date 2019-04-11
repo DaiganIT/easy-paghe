@@ -1,10 +1,13 @@
 import axios from 'axios';
+import debounce from 'debounce-promise';
 import { getTokenSource, CancellableQueryablePromise } from '../common/PromiseHelpers';
+
+const debouncedGetCompanies = debounce(axios.get, 300);
 
 function getCompanies({ search, page, pageLimit }) {
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
-		promise: axios.get(`/api/companies?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
+		promise: debouncedGetCompanies(`/api/companies?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
 		tokenSource,
 	});
 }
