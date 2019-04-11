@@ -24,3 +24,8 @@ global.MockPromise = (resolveWith) => () => CancellableQueryablePromise({
   promise: new Promise(r => r(resolveWith)),
   tokenSource: { cancel: jest.fn() }
 });
+
+global.MockPromiseReject = (rejectWith) => () => CancellableQueryablePromise({
+  promise: new Promise((_,r) => r(rejectWith)),
+  tokenSource: { cancel: jest.fn() }
+});
