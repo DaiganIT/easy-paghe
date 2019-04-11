@@ -98,7 +98,6 @@ test('doesn\'t go over step max', () => {
 
 test('first step has errors', () => {
   beginningStep = 0;
-  errors = { name: 'error' };
   let { result } = renderHook(() => useSteps(defaultStep, beginningStep));
 
   act(() => {
