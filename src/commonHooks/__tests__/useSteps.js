@@ -9,11 +9,6 @@ let defaultStep = [
   new StepData({ label: 'Third' })
 ];
 let beginningStep = 0;
-const stepErrorMap = {
-  0: ['name', 'address'],
-  1: ['phone', 'email']
-};
-let errors = {};
 
 test('has the correct default state', () => {
   const { result } = renderHook(() => useSteps(defaultStep, beginningStep));
