@@ -23,11 +23,7 @@ function useLoadable({ id, loadPromise, setForm }) {
 		[isLoading],
 	);
 
-	useEffect(() => {
-		if (id !== 0) setIsLoading(true);
-	}, []);
-
-	return [isLoading, setIsLoading];
+	return [isLoading];
 }
 
 export default useLoadable;
