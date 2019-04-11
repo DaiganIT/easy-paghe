@@ -3,7 +3,7 @@ import useSaveable from '../useSaveable';
 
 afterEach(cleanup);
 beforeEach(() => {
-  jest.clearAllMocks();
+  jest.clearAllMocks()
 });
 
 const createPromise = MockPromise({ data: { id: 10, name: 'Pietro' } });
