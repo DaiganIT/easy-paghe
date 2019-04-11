@@ -4,7 +4,7 @@ import { getTokenSource, CancellableQueryablePromise } from '../common/PromiseHe
 
 function getCompanies({ search, page, pageLimit }) {
 	const tokenSource = getTokenSource();
-	const debouncedPromise = debounce(() => axios.get, 300);
+	const debouncedPromise = debounce(axios.get, 300);
 	return CancellableQueryablePromise({
 		promise: debouncedPromise(`/api/companies?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
 		tokenSource,
