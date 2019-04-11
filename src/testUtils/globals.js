@@ -18,7 +18,12 @@ jest.mock('axios', () => ({
       use: jest.fn()
     }
   },
-  isCancel: jest.fn(() => false)
+  isCancel: jest.fn(() => false),
+  CancelToken: {
+    source: () => ({
+      token: 'token'
+    })
+  }
 }));
 
 global.MockPromise = (resolveWith) => () => CancellableQueryablePromise({
@@ -27,6 +32,6 @@ global.MockPromise = (resolveWith) => () => CancellableQueryablePromise({
 });
 
 global.MockPromiseReject = (rejectWith) => () => CancellableQueryablePromise({
-  promise: new Promise((_,r) => r(rejectWith)),
+  promise: new Promise((_, r) => r(rejectWith)),
   tokenSource: { cancel: jest.fn() }
 });
