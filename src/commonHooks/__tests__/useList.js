@@ -1,14 +1,10 @@
 import { renderHook, cleanup, act } from 'react-hooks-testing-library'
 import useList from '../useList'
-import { CancellableQueryablePromise } from '../../common/PromiseHelpers';
 
 afterEach(cleanup)
 
 test('creates list', async () => {
-  const promise = () => CancellableQueryablePromise({
-    promise: new Promise(r => r({ data: ['hello', 'hi'] })),
-    tokenSource: { cancel: jest.fn() }
-  });
+  const promise = MockPromise({ data: ['hello', 'hi'] });
 
   const { result, waitForNextUpdate } = renderHook(() => useList({ getPromise: promise }));
   expect(result.current.loadData).toBe(true);
@@ -23,10 +19,7 @@ test('creates list', async () => {
 });
 
 test('calls the promise again when changing page', async () => {
-  const promise = () => CancellableQueryablePromise({
-    promise: new Promise(r => r({ data: ['hello', 'hi'] })),
-    tokenSource: { cancel: jest.fn() }
-  });
+  const promise = MockPromise({ data: ['hello', 'hi'] });
 
   const { result, waitForNextUpdate } = renderHook(() => useList({ getPromise: promise }));
   await waitForNextUpdate();
@@ -41,10 +34,7 @@ test('calls the promise again when changing page', async () => {
 });
 
 test('calls the promise again when forcing reload', async () => {
-  const promise = () => CancellableQueryablePromise({
-    promise: new Promise(r => r({ data: ['hello', 'hi'] })),
-    tokenSource: { cancel: jest.fn() }
-  });
+  const promise = MockPromise({ data: ['hello', 'hi'] });
 
   const { result, waitForNextUpdate } = renderHook(() => useList({ getPromise: promise }));
   await waitForNextUpdate();

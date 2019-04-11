@@ -1,14 +1,10 @@
 import { renderHook, cleanup, act } from 'react-hooks-testing-library'
 import useDeleteable from '../useDeleteable'
-import { CancellableQueryablePromise } from '../../common/PromiseHelpers';
 
 afterEach(cleanup)
 
 test('creates deleteable', () => {
-  const promise = () => CancellableQueryablePromise({
-    promise: new Promise(r => r()),
-    tokenSource: { cancel: jest.fn() }
-  });
+  const promise = MockPromise();
   const onDelete = jest.fn();
 
   const { result } = renderHook(() => useDeleteable({ deletePromise: promise, onDelete }))
@@ -19,10 +15,7 @@ test('creates deleteable', () => {
 });
 
 test('calls delete promise', async () => {
-  const promise = () => CancellableQueryablePromise({
-    promise: new Promise(r => r()),
-    tokenSource: { cancel: jest.fn() }
-  });
+  const promise = MockPromise();
   const onDelete = jest.fn();
 
   const { result, waitForNextUpdate } = renderHook(() => useDeleteable({ deletePromise: promise, onDelete }))
@@ -44,10 +37,7 @@ test('calls delete promise', async () => {
 });
 
 test('calls delete promise with options', async () => {
-  const promise = () => CancellableQueryablePromise({
-    promise: new Promise(r => r()),
-    tokenSource: { cancel: jest.fn() }
-  });
+  const promise = MockPromise();
   const onDelete = jest.fn();
 
   const { result, waitForNextUpdate } = renderHook(() => useDeleteable({ deletePromise: promise, onDelete }))
