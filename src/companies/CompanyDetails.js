@@ -14,6 +14,7 @@ function CompanyDetails({ classes, isSaving, company, updateField, errors }) {
 			<Grid container spacing={16}>
 				<Grid item xs={12}>
 					<TextField
+						id="company-name"
 						error={!!errors.name}
 						required
 						variant="outlined"
@@ -27,6 +28,7 @@ function CompanyDetails({ classes, isSaving, company, updateField, errors }) {
 				</Grid>
 				<Grid item xs={6}>
 					<TextField
+						id="company-fiscal-code"
 						error={!!errors.fiscalCode}
 						variant="outlined"
 						fullWidth
@@ -38,6 +40,7 @@ function CompanyDetails({ classes, isSaving, company, updateField, errors }) {
 					/></Grid>
 				<Grid item xs={6}>
 					<TextField
+						id="company-iva-code"
 						error={!!errors.ivaCode}
 						variant="outlined"
 						fullWidth
@@ -50,6 +53,7 @@ function CompanyDetails({ classes, isSaving, company, updateField, errors }) {
 					/></Grid>
 				<Grid item xs={6}>
 					<TextField
+						id="company-inps"
 						error={!!errors.inpsRegistrationNumber}
 						variant="outlined"
 						fullWidth
@@ -62,6 +66,7 @@ function CompanyDetails({ classes, isSaving, company, updateField, errors }) {
 					/></Grid>
 				<Grid item xs={6}>
 					<TextField
+						id="company-inail"
 						error={!!errors.inailRegistrationNumber}
 						variant="outlined"
 						fullWidth
