@@ -12,6 +12,7 @@ function SearchField({ classes, search, setSearch }) {
 	return (
 		<div className={classes.right}>
 			<TextField
+				id="search-box"
 				label="Cerca..."
 				className={classes.textField}
 				value={search}

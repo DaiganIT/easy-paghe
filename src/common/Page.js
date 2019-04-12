@@ -19,8 +19,8 @@ const styles = {
 function Page({ classes, title, noPaper, menuComponent, children }) {
 	return (
 		<div>
-			<span id="page-title" className={classes.menu}>
-				<Typography variant="title" className={classes.grow}>
+			<span className={classes.menu}>
+				<Typography id="page-title" variant="title" className={classes.grow}>
 					{title}
 				</Typography>
 				{menuComponent}

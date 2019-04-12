@@ -21,7 +21,8 @@ jest.mock('axios', () => ({
   isCancel: jest.fn(() => false),
   CancelToken: {
     source: () => ({
-      token: 'token'
+      token: 'token',
+      cancel: jest.fn()
     })
   }
 }));

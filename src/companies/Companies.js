@@ -32,7 +32,7 @@ const styles = {
 	}
 };
 
-function Companies({ classes, history }) {
+function CompaniesWrapper({ classes, history }) {
 	const { data, loadData, reloadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: http.getCompanies });
 
 	const onDelete = () => {
@@ -41,7 +41,6 @@ function Companies({ classes, history }) {
 
 	const deleteCompany = (options) => http.deleteCompany(options.companyId, options.withEmployees);
 	const [isDeleting, setIsDeleting] = useDeleteable({ deletePromise: deleteCompany, onDelete });
-	const deleteCompanyChoices = buildDeleteCompanyChoices({ setIsDeleting });
 	const [isDeleteCompanyChoiceDialogOpen, openDeleteCompanyChoiceDialog, closeDeleteCompanyChoiceDialog] = useChoiceDialog({ choices: deleteCompanyChoices });
 	const [isDeleteCompanyDialogOpen, openDeleteCompanyDialog, closeDeleteCompanyDialog, closeDeleteCompanyConfirm] = useConfirmDialog({ confirmAction: (options) => setIsDeleting(options) });
 
@@ -49,13 +48,29 @@ function Companies({ classes, history }) {
 		companyHasEmployees(company) ? openDeleteCompanyChoiceDialog({ companyId: company.id }) : openDeleteCompanyDialog({ companyId: company.id })
 	}
 
+	const props = {
+		data, loadData, search, setSearch, page, setPage, pageLimit, history, classes, setIsDeleting,
+		onDeleteCompany, isDeleting, isDeleteCompanyChoiceDialogOpen, closeDeleteCompanyChoiceDialog,
+		isDeleteCompanyDialogOpen, closeDeleteCompanyDialog, closeDeleteCompanyConfirm
+	}
+
+	return <Companies {...props} />
+}
+
+export function Companies({
+	data, loadData, search, setSearch, page, setPage, pageLimit, history, classes, setIsDeleting,
+	onDeleteCompany, isDeleting, isDeleteCompanyChoiceDialogOpen, closeDeleteCompanyChoiceDialog,
+	isDeleteCompanyDialogOpen, closeDeleteCompanyDialog, closeDeleteCompanyConfirm
+}) {
+	const deleteCompanyChoices = buildDeleteCompanyChoices({ setIsDeleting });
+
 	const navigateTo = (companyId) => {
 		history.push(`/index/companies/${companyId}`);
 	};
 
 	const menuButton = (
 		<Link to="/index/companies/add" className={classes.link}>
-			<Button variant="contained" color="primary" size="small">
+			<Button id="add-company-button" variant="contained" color="primary" size="small">
 				<AddIcon />
 				Nuova azienda
 			</Button>
@@ -64,7 +79,7 @@ function Companies({ classes, history }) {
 
 	return (
 		<Page title="Gestione Aziende" menuComponent={menuButton}>
-			{loadData ? <LinearProgress /> : undefined}
+			{loadData ? <LinearProgress id="loader-companies" /> : undefined}
 			<SearchField value={search} setSearch={setSearch} />
 			<Table>
 				<TableHead>
@@ -84,14 +99,14 @@ function Companies({ classes, history }) {
 							key={company.id}
 							className={classes.pointer}
 						>
-							<TableCell component="th" scope="row" onClick={() => navigateTo(company.id)}>
+							<TableCell scope="row" onClick={() => navigateTo(company.id)}>
 								{company.name}
 							</TableCell>
 							<TableCell onClick={() => navigateTo(company.id)}>{company.fiscalCode}</TableCell>
 							<TableCell onClick={() => navigateTo(company.id)}>{company.ivaCode}</TableCell>
 							<TableCell onClick={() => navigateTo(company.id)}>{company.inpsRegistrationNumber}</TableCell>
 							<TableCell onClick={() => navigateTo(company.id)}>{company.inailRegistrationNumber}</TableCell>
-							<TableCell component="th" scope="row" padding="checkbox" className={classnames(classes.deleteClass, classes.colPadding)} align="right">
+							<TableCell padding="checkbox" className={classnames(classes.deleteClass, classes.colPadding)} align="right">
 								<IconButton onClick={() => onDeleteCompany({ company })} disabled={isDeleting}>
 									<Delete color="secondary" />
 								</IconButton>
@@ -108,9 +123,11 @@ function Companies({ classes, history }) {
 				page={page}
 				backIconButtonProps={{
 					'aria-label': 'Pagina Precedente',
+					'id': 'page-back-button'
 				}}
 				nextIconButtonProps={{
 					'aria-label': 'Pagina Successiva',
+					'id': 'page-next-button'
 				}}
 				onChangePage={(event, page) => { setPage(page) }}
 			/>
@@ -137,4 +154,4 @@ function Companies({ classes, history }) {
 	);
 }
 
-export default withStyles(styles)(Companies);
+export default withStyles(styles)(CompaniesWrapper);
