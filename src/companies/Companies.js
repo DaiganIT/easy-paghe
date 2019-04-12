@@ -34,13 +34,13 @@ const styles = {
 
 function CompaniesWrapper({ classes, history }) {
 	const { data, loadData, reloadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: http.getCompanies });
-
 	const onDelete = () => {
 		reloadData();
 	}
-
+	
 	const deleteCompany = (options) => http.deleteCompany(options.companyId, options.withEmployees);
 	const [isDeleting, setIsDeleting] = useDeleteable({ deletePromise: deleteCompany, onDelete });
+	const deleteCompanyChoices = buildDeleteCompanyChoices({ setIsDeleting });
 	const [isDeleteCompanyChoiceDialogOpen, openDeleteCompanyChoiceDialog, closeDeleteCompanyChoiceDialog] = useChoiceDialog({ choices: deleteCompanyChoices });
 	const [isDeleteCompanyDialogOpen, openDeleteCompanyDialog, closeDeleteCompanyDialog, closeDeleteCompanyConfirm] = useConfirmDialog({ confirmAction: (options) => setIsDeleting(options) });
 
@@ -49,7 +49,7 @@ function CompaniesWrapper({ classes, history }) {
 	}
 
 	const props = {
-		data, loadData, search, setSearch, page, setPage, pageLimit, history, classes, setIsDeleting,
+		data, loadData, search, setSearch, page, setPage, pageLimit, history, classes, deleteCompanyChoices,
 		onDeleteCompany, isDeleting, isDeleteCompanyChoiceDialogOpen, closeDeleteCompanyChoiceDialog,
 		isDeleteCompanyDialogOpen, closeDeleteCompanyDialog, closeDeleteCompanyConfirm
 	}
@@ -58,12 +58,10 @@ function CompaniesWrapper({ classes, history }) {
 }
 
 export function Companies({
-	data, loadData, search, setSearch, page, setPage, pageLimit, history, classes, setIsDeleting,
+	data, loadData, search, setSearch, page, setPage, pageLimit, history, classes, deleteCompanyChoices,
 	onDeleteCompany, isDeleting, isDeleteCompanyChoiceDialogOpen, closeDeleteCompanyChoiceDialog,
 	isDeleteCompanyDialogOpen, closeDeleteCompanyDialog, closeDeleteCompanyConfirm
 }) {
-	const deleteCompanyChoices = buildDeleteCompanyChoices({ setIsDeleting });
-
 	const navigateTo = (companyId) => {
 		history.push(`/index/companies/${companyId}`);
 	};
@@ -93,8 +91,9 @@ export function Companies({
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{data.items.map(company => (
+					{data.items.map((company, index) => (
 						<TableRow
+							id={`company-row-${company.Id}-${index}`}
 							hover
 							key={company.id}
 							className={classes.pointer}

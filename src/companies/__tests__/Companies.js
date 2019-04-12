@@ -4,6 +4,7 @@ import {
   render,
   cleanup,
   fireEvent,
+  waitForElement
 } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import { Companies } from '../Companies';
@@ -21,6 +22,7 @@ const defaultProps = {
   classes: {},
   isDeleteCompanyDialogOpen: false,
   isDeleteCompanyChoiceDialogOpen: false,
+  deleteCompanyChoices: [],
   history: {
     push: mockHistory
   },
