@@ -1,18 +1,10 @@
 import { CancellableQueryablePromise } from '../common/PromiseHelpers';
 
 jest.mock('axios', () => ({
-  get: jest.fn(() => new Promise((resolve, reject) => {
-    process.nextTick(() => resolve());
-  })),
-  post: jest.fn(() => new Promise((resolve, reject) => {
-    process.nextTick(() => resolve());
-  })),
-  put: jest.fn(() => new Promise((resolve, reject) => {
-    process.nextTick(() => resolve());
-  })),
-  delete: jest.fn(() => new Promise((resolve, reject) => {
-    process.nextTick(() => resolve());
-  })),
+  get: jest.fn(),
+  post: jest.fn(),
+  put: jest.fn(),
+  delete: jest.fn(),
   interceptors: {
     response: {
       use: jest.fn()
