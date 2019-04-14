@@ -35,12 +35,12 @@ function SimpleStepper({ classes, previousStep, activeStep, steps, stepMap, next
 
   return <React.Fragment>
     <Stepper id="step-header" activeStep={activeStep}>
-      {steps.map(step => {
+      {steps.map((step, index) => {
         const stepProps = buildStepProps(step);
         const labelProps = buildLabelProps(step);
         return (
-          <Step key={step.label} {...stepProps} className={`step-header`}>
-            <StepLabel {...labelProps}>{step.label}</StepLabel>
+          <Step key={step.label} {...stepProps} className='step-header'>
+            <StepLabel {...labelProps} className='step-label'>{step.label}</StepLabel>
           </Step>
         );
       })}

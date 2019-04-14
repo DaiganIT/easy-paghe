@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import update from 'immutability-helper';
 
 import http from './http';
@@ -25,9 +25,7 @@ function useCompanyForm({ loadId, onSave, onDelete, onDeleteBase, baseTab }) {
       if (steps[activeStep].validatorPath) {
         modelToValidate = company[steps[activeStep].validatorPath];
 			}
-			
 			const errors = validate(modelToValidate, steps[activeStep].validator);
-
 			if (errors) {
 				return false;
 			}

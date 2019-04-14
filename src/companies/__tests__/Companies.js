@@ -3,8 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 import {
   render,
   cleanup,
-  fireEvent,
-  waitForElement
+  fireEvent
 } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import { Companies } from '../Companies';
