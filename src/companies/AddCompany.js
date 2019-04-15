@@ -1,9 +1,12 @@
 import React from 'react';
 import EventBus from 'eventbusjs';
 import CompanyDetails from './CompanyDetails';
+import CompanyBases from './CompanyBases';
+import CompanySummary from './CompanySummary';
 import useCompanyForm from './useCompanyForm';
 import Page from '../common/Page';
-import ButtonWithLoader from '../common/ButtonWithLoader';
+import buildStepMap from './stepsMap';
+import SimpleStepper from '../common/SimpleStepper';
 
 function AddCompany({ history }) {
 	const onCreate = ({ id }) => {
@@ -11,7 +14,7 @@ function AddCompany({ history }) {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda creata' });
 	};
 
-	const { isSaving, setIsSaving, name, setName, address, setAddress, phone, setPhone } = useCompanyForm({
+	const { isSaving, setIsSaving, company, updateField, updateBaseField, addBase, deleteBase, errors, previousStep, activeStep, steps, next, prev, moveToStep } = useCompanyForm({
 		onSave: onCreate,
 	});
 
@@ -19,15 +22,16 @@ function AddCompany({ history }) {
 		setIsSaving(true);
 	};
 
+	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} errors={errors} />;
+	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteBase} updateBaseField={updateBaseField} errors={errors} />;
+	const summary = <CompanySummary company={company} errors={errors} moveToStep={moveToStep} />
+
+	const stepMap = buildStepMap(companyDetails, bases, summary);
+
 	return (
 		<Page title="Aggiungi Azienda" noPaper>
-			<form>
-				<CompanyDetails form={{ name, address, phone, setName, setAddress, setPhone }} isSaving={isSaving} />
-			</form>
-			<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isSaving}>
-				Salva
-			</ButtonWithLoader>
-		</Page>
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isLoading={isSaving} />
+		</Page >
 	);
 }
 

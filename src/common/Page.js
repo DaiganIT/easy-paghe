@@ -20,7 +20,7 @@ function Page({ classes, title, noPaper, menuComponent, children }) {
 	return (
 		<div>
 			<span className={classes.menu}>
-				<Typography variant="title" className={classes.grow}>
+				<Typography id="page-title" variant="title" className={classes.grow}>
 					{title}
 				</Typography>
 				{menuComponent}

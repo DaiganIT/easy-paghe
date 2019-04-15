@@ -2,21 +2,24 @@ import { useState } from 'react';
 
 function useConfirmDialog({ confirmAction }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [options, setOptions] = useState();
   
-  const openDialog = () => {
+  const openDialog = (options) => {
+    if (options) setOptions(options);
     setIsDialogOpen(true);
   };
 
   const closeDialog = () => {
     setIsDialogOpen(false);
+    setOptions(undefined);
   };
 
   const confirmDialog = () => {
-    confirmAction && confirmAction();
+    confirmAction && confirmAction(options);
     closeDialog();
   }
 
-  return { isDialogOpen, openDialog, closeDialog, confirmDialog };
+  return [ isDialogOpen, openDialog, closeDialog, confirmDialog ];
 }
 
 export default useConfirmDialog;

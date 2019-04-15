@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Company Details structure snapshot is correct 1`] = `
+<div
+  class="MuiGrid-container-2 MuiGrid-spacing-xs-16-25"
+>
+  <div
+    class="MuiGrid-item-3 MuiGrid-grid-xs-12-42"
+  >
+    <div
+      class="MuiFormControl-root-99 MuiFormControl-fullWidth-102 CompanyDetails-textField-1"
+    >
+      <label
+        class="MuiFormLabel-root-114 MuiFormLabel-filled-118 MuiFormLabel-required-119 MuiInputLabel-required-107 MuiInputLabel-root-103 MuiInputLabel-formControl-108 MuiInputLabel-animated-111 MuiInputLabel-shrink-110 MuiInputLabel-outlined-113"
+        data-shrink="true"
+        for="company-name"
+      >
+        Nome
+        <span
+          class="MuiFormLabel-asterisk-120"
+        >
+           *
+        </span>
+      </label>
+      <div
+        class="MuiInputBase-root-134 MuiOutlinedInput-root-121 MuiInputBase-fullWidth-143 MuiInputBase-formControl-135"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-151 MuiOutlinedInput-notchedOutline-128"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-152"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-144 MuiOutlinedInput-input-129"
+          id="company-name"
+          required=""
+          type="text"
+          value="The name"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-item-3 MuiGrid-grid-xs-6-36"
+  >
+    <div
+      class="MuiFormControl-root-99 MuiFormControl-fullWidth-102 CompanyDetails-textField-1"
+    >
+      <label
+        class="MuiFormLabel-root-114 MuiFormLabel-filled-118 MuiInputLabel-root-103 MuiInputLabel-formControl-108 MuiInputLabel-animated-111 MuiInputLabel-shrink-110 MuiInputLabel-outlined-113"
+        data-shrink="true"
+        for="company-fiscal-code"
+      >
+        Codice Fiscale
+      </label>
+      <div
+        class="MuiInputBase-root-134 MuiOutlinedInput-root-121 MuiInputBase-fullWidth-143 MuiInputBase-formControl-135"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-151 MuiOutlinedInput-notchedOutline-128"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-152"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-144 MuiOutlinedInput-input-129"
+          id="company-fiscal-code"
+          type="text"
+          value="TheFiscalCode"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-item-3 MuiGrid-grid-xs-6-36"
+  >
+    <div
+      class="MuiFormControl-root-99 MuiFormControl-fullWidth-102 CompanyDetails-textField-1"
+    >
+      <label
+        class="MuiFormLabel-root-114 MuiFormLabel-filled-118 MuiInputLabel-root-103 MuiInputLabel-formControl-108 MuiInputLabel-animated-111 MuiInputLabel-shrink-110 MuiInputLabel-outlined-113"
+        data-shrink="true"
+        for="company-iva-code"
+      >
+        Partita IVA
+      </label>
+      <div
+        class="MuiInputBase-root-134 MuiOutlinedInput-root-121 MuiInputBase-fullWidth-143 MuiInputBase-formControl-135"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-151 MuiOutlinedInput-notchedOutline-128"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-152"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-144 MuiOutlinedInput-input-129 MuiInputBase-inputType-147"
+          id="company-iva-code"
+          type="number"
+          value="5645"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-item-3 MuiGrid-grid-xs-6-36"
+  >
+    <div
+      class="MuiFormControl-root-99 MuiFormControl-fullWidth-102 CompanyDetails-textField-1"
+    >
+      <label
+        class="MuiFormLabel-root-114 MuiFormLabel-filled-118 MuiInputLabel-root-103 MuiInputLabel-formControl-108 MuiInputLabel-animated-111 MuiInputLabel-shrink-110 MuiInputLabel-outlined-113"
+        data-shrink="true"
+        for="company-inps"
+      >
+        Codice INPS
+      </label>
+      <div
+        class="MuiInputBase-root-134 MuiOutlinedInput-root-121 MuiInputBase-fullWidth-143 MuiInputBase-formControl-135"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-151 MuiOutlinedInput-notchedOutline-128"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-152"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-144 MuiOutlinedInput-input-129 MuiInputBase-inputType-147"
+          id="company-inps"
+          type="number"
+          value="54756"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-item-3 MuiGrid-grid-xs-6-36"
+  >
+    <div
+      class="MuiFormControl-root-99 MuiFormControl-fullWidth-102 CompanyDetails-textField-1"
+    >
+      <label
+        class="MuiFormLabel-root-114 MuiFormLabel-filled-118 MuiInputLabel-root-103 MuiInputLabel-formControl-108 MuiInputLabel-animated-111 MuiInputLabel-shrink-110 MuiInputLabel-outlined-113"
+        data-shrink="true"
+        for="company-inail"
+      >
+        Codice INAIL
+      </label>
+      <div
+        class="MuiInputBase-root-134 MuiOutlinedInput-root-121 MuiInputBase-fullWidth-143 MuiInputBase-formControl-135"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-151 MuiOutlinedInput-notchedOutline-128"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-152"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-144 MuiOutlinedInput-input-129 MuiInputBase-inputType-147"
+          id="company-inail"
+          type="number"
+          value="46854695"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

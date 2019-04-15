@@ -3,17 +3,20 @@ import { cancellablePromise } from '../common/PromiseHelpers';
 
 function useDeleteable({ deletePromise, onDelete }) {
 	const [isDeleting, setIsDeleting] = useState(false);
+	const [deleteOptions, setDeleteOptions] = useState();
 
 	useEffect(
 		() => {
 			if (isDeleting) {
-				const [promise, cleanup] = cancellablePromise({ httpCall: deletePromise });
+				const [promise, cleanup] = cancellablePromise({ httpCall: () => deletePromise(deleteOptions) });
 				promise
 					.then(() => {
 						setIsDeleting(false);
-						onDelete && onDelete();
+						onDelete && onDelete(deleteOptions);
+						setDeleteOptions(undefined);
 					})
 					.catch(() => {
+						setDeleteOptions(undefined);
 						setIsDeleting(false);
 					});
 				return cleanup;
@@ -22,7 +25,15 @@ function useDeleteable({ deletePromise, onDelete }) {
 		[isDeleting],
 	);
 
-	return [isDeleting, setIsDeleting];
+	const actionDelete = (options) => {
+		if(options) {
+			setDeleteOptions(options);
+		}
+
+		setIsDeleting(true);
+	}
+
+	return [isDeleting, actionDelete];
 }
 
 export default useDeleteable;

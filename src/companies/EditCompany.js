@@ -1,23 +1,21 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 import EventBus from 'eventbusjs';
 import ButtonWithLoader from '../common/ButtonWithLoader';
-import Grid from '@material-ui/core/Grid';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import CompanyDetails from './CompanyDetails';
-import Employees from './Employees';
+import CompanyBases from './CompanyBases';
+import CompanySummary from './CompanySummary';
 import useCompanyForm from './useCompanyForm';
+import ChoiceDialog from '../dialogs/ChoiceDialog';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
+import useChoiceDialog from '../dialogs/useChoiceDialog';
 import useConfirmDialog from '../dialogs/useConfirmDialog';
 import Page from '../common/Page';
+import buildStepMap from './stepsMap';
+import SimpleStepper from '../common/SimpleStepper';
+import { buildDeleteCompanyChoices, buildDeleteCompanyBaseChoices } from './deleteCompanyChoices';
 
-const styles = {
-	companyDetails: {
-		marginRight: '1em',
-	},
-};
-
-function EditCompany({ classes, match, history }) {
+function EditCompany({ match, history }) {
 	const onUpdate = () => {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Azienda aggiornata' });
 	};
@@ -26,80 +24,90 @@ function EditCompany({ classes, match, history }) {
 		history.push('/index/companies');
 	};
 
-	const {
-		isLoading,
-		isSaving,
-		setIsSaving,
-		isDeleting,
-		setIsDeleting,
-		name,
-		setName,
-		address,
-		setAddress,
-		phone,
-		setPhone,
-	} = useCompanyForm({ loadId: match.params.companyId, onSave: onUpdate, onDelete });
-
-	const onDeleteConfirm = () => {
-		setIsDeleting(true);
-	};
-
-	const { isDialogOpen, openDialog, closeDialog, confirmDialog } = useConfirmDialog({
-		confirmAction: onDeleteConfirm,
+	const { isSaving, setIsSaving, isDeleting, isLoading, company, updateField, updateBaseField, addBase, 
+		deleteBase, baseHasEmployees, hasEmployees, isDeletingBase, setIsDeletingBase,
+		setIsDeleting, errors, previousStep, activeStep, steps, next, prev, moveToStep } = useCompanyForm({
+		loadId: match.params.companyId,
+		onSave: onUpdate,
+		onDelete,
+		baseTab: 2
 	});
 
-	const save = () => {
-		setIsSaving(true);
-	};
+	const deleteCompanyChoices = buildDeleteCompanyChoices({ setIsDeleting });
+	const deleteCompanyBaseChoices = buildDeleteCompanyBaseChoices({ setIsDeletingBase });
+	const [ isDeleteCompanyChoiceDialogOpen, openDeleteCompanyChoiceDialog, closeDeleteCompanyChoiceDialog ] = useChoiceDialog({ choices: deleteCompanyChoices });
+	const [ isDeleteCompanyBaseChoiceDialogOpen, openDeleteCompanyBaseChoiceDialog, closeDeleteCompanyBaseChoiceDialog ] = useChoiceDialog({ choices: deleteCompanyBaseChoices });
+	const [ isDeleteCompanyDialogOpen, openDeleteCompanyDialog, closeDeleteCompanyDialog, closeDeleteCompanyConfirm ] = useConfirmDialog({ confirmAction: () => setIsDeleting() });
+	const [ isDeleteCompanyBaseDialogOpen, openDeleteCompanyBaseDialog, closeDeleteCompanyBaseDialog, closeDeleteCompanyBaseConfirm ] = useConfirmDialog({ confirmAction: (options) => setIsDeletingBase(options) });
+
+	const deleteCompanyBase = ({ baseId, index }) => {
+		if (!baseId) { deleteBase({ baseId, index }); return; }
+		if (!baseHasEmployees({ index })) { openDeleteCompanyBaseDialog({ baseId, index }); return; }
+		openDeleteCompanyBaseChoiceDialog({ baseId, index });
+	}
 
 	const deleteButton = (
 		<ButtonWithLoader
 			variant="contained"
 			size="small"
 			color="primary"
-			onClick={openDialog}
-			isLoading={isDialogOpen || isDeleting || isLoading}
+			onClick={() => hasEmployees() ? openDeleteCompanyChoiceDialog() : openDeleteCompanyDialog()}
+			isLoading={isDeleteCompanyChoiceDialogOpen || isDeleteCompanyDialogOpen || isDeleting || isLoading || isSaving || isDeletingBase}
 		>
 			Elimina
 		</ButtonWithLoader>
 	);
 
+	const companyDetails = <CompanyDetails company={company} isSaving={isSaving} updateField={updateField} errors={errors} />;
+	const bases = <CompanyBases bases={company.bases} isSaving={isSaving} addBase={addBase} deleteBase={deleteCompanyBase} updateBaseField={updateBaseField} errors={errors} />;
+	const summary = <CompanySummary company={company} errors={errors} moveToStep={moveToStep} />
+
+	const stepMap = buildStepMap(companyDetails, bases, summary);
+
 	return (
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
-			{isLoading ? <LinearProgress /> : undefined}
-			<form>
-				<Grid container spacing={24}>
-					<Grid item lg={6} xs={12}>
-						<CompanyDetails
-							form={{ name, address, phone, setName, setAddress, setPhone }}
-							isSaving={isSaving}
-						/>
-					</Grid>
-					<Grid item lg={6} xs={12}>
-						<Employees companyId={match.params.companyId} />
-					</Grid>
-				</Grid>
-			</form>
-			<ButtonWithLoader
-				variant="contained"
-				size="small"
-				color="primary"
-				onClick={save}
-				isLoading={isSaving || isLoading}
-			>
-				Salva
-			</ButtonWithLoader>
+			{isLoading ? <LinearProgress id='edit-company-progress' /> : undefined}
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={() => setIsSaving(true)} isLoading={isLoading || isSaving} />
+
 			<ConfirmDialog
-				open={isDialogOpen}
+				open={isDeleteCompanyDialogOpen}
 				id="delete-company"
-				onClose={closeDialog}
-				onConfirm={confirmDialog}
+				onClose={closeDeleteCompanyDialog}
 				title="Eliminare questa azienda?"
-			>
-				L'eliminazione non puo' essere annullata. Sei sicuro?
+				onConfirm={closeDeleteCompanyConfirm}>
+				Sei sicuro di voler eliminare questa azienda?
 			</ConfirmDialog>
+
+			<ConfirmDialog
+				open={isDeleteCompanyBaseDialogOpen}
+				id="delete-company-base"
+				onClose={closeDeleteCompanyBaseDialog}
+				title="Eliminare questa sede?"
+				onConfirm={closeDeleteCompanyBaseConfirm}>
+				Sei sicuro di voler eliminare questa sede?
+			</ConfirmDialog>
+
+			<ChoiceDialog
+				open={isDeleteCompanyChoiceDialogOpen}
+				id="delete-company-with-employees"
+				onClose={closeDeleteCompanyChoiceDialog}
+				title="Eliminare questa azienda?"
+				choices={deleteCompanyChoices}
+			>
+				L'azienda ha dipendenti assunti, cosa vuoi fare con loro?
+			</ChoiceDialog>
+
+			<ChoiceDialog
+				open={isDeleteCompanyBaseChoiceDialogOpen}
+				id="delete-company-base-with-employees"
+				onClose={closeDeleteCompanyBaseChoiceDialog}
+				title="Eliminare questa sede?"
+				choices={deleteCompanyBaseChoices}
+			>
+				La sede ha dipendenti assunti, cosa vuoi fare con loro?
+			</ChoiceDialog>
 		</Page>
 	);
 }
 
-export default withStyles(styles)(EditCompany);
+export default EditCompany;

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Summary Item structure snapshot is correct 1`] = `
+<div
+  class="MuiGrid-container-2 MuiGrid-justify-xs-space-between-21"
+>
+  <div
+    class="MuiGrid-item-3 MuiGrid-grid-xs-6-36"
+  >
+    <h6
+      class="MuiTypography-root-99 MuiTypography-subtitle1-117"
+    >
+      Title
+      :
+    </h6>
+  </div>
+  <div
+    class="MuiGrid-item-3 MuiGrid-grid-xs-6-36 SummaryItem-summaryText-1"
+  >
+    <p
+      class="MuiTypography-root-99 MuiTypography-body1-108 MuiTypography-alignRight-123"
+    >
+      Hello
+    </p>
+  </div>
+</div>
+`;

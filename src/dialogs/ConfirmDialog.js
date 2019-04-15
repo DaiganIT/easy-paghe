@@ -3,16 +3,16 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 
 function ConfirmDialog({ id, open, title, onConfirm, onClose, children }) {
 	return (
-		<Dialog open={open} onClose={onClose} aria-labelledby="simple-dialog-title">
-			<DialogTitle id={`dialog-${id}`}>{title}</DialogTitle>
+		<Dialog id={`dialog-${id}`} open={open} onClose={onClose} aria-labelledby="simple-dialog-title">
+			<DialogTitle id={`dialog-${id}-title`}>{title}</DialogTitle>
 			<DialogContent>
-				<DialogContentText id="alert-dialog-description">{children}</DialogContentText>
+				<DialogContentText id={`dialog-${id}-description`}>{children}</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={onClose} color="primary">
+				<Button id={`dialog-${id}-cancel-button`} onClick={onClose} color="primary">
 					Annulla
 				</Button>
-				<Button onClick={onConfirm} color="primary" autoFocus>
+				<Button id={`dialog-${id}-confirm-button`} onClick={onConfirm} color="primary" autoFocus>
 					Conferma
 				</Button>
 			</DialogActions>

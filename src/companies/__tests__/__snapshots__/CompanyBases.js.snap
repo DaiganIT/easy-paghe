@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Company Bases structure snapshot is correct 1`] = `
+<table
+  class="MuiTable-root-7"
+>
+  <tbody
+    class="MuiTableBody-root-8"
+  >
+    <tr
+      class="MuiTableRow-root-9"
+    >
+      <td
+        class="MuiTableCell-root-14 MuiTableCell-body-16 CompanyBases-colPadding-6"
+      >
+        <div
+          class="MuiFormControl-root-26 MuiFormControl-fullWidth-29"
+        >
+          <label
+            class="MuiFormLabel-root-41 MuiFormLabel-filled-45 MuiFormLabel-required-46 MuiInputLabel-required-34 MuiInputLabel-root-30 MuiInputLabel-formControl-35 MuiInputLabel-animated-38 MuiInputLabel-shrink-37 MuiInputLabel-outlined-40"
+            data-shrink="true"
+            for="company-base-0-name"
+          >
+            Nome
+            <span
+              class="MuiFormLabel-asterisk-47"
+            >
+               *
+            </span>
+          </label>
+          <div
+            class="MuiInputBase-root-61 MuiOutlinedInput-root-48 MuiInputBase-fullWidth-70 MuiInputBase-formControl-62"
+          >
+            <fieldset
+              aria-hidden="true"
+              class="MuiPrivateNotchedOutline-root-78 MuiOutlinedInput-notchedOutline-55"
+              style="padding-left: 8px;"
+            >
+              <legend
+                class="MuiPrivateNotchedOutline-legend-79"
+                style="width: 0px;"
+              >
+                <span>
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input-71 MuiOutlinedInput-input-56"
+              id="company-base-0-name"
+              required=""
+              type="text"
+              value="Main Base"
+            />
+          </div>
+        </div>
+      </td>
+      <td
+        class="MuiTableCell-root-14 MuiTableCell-body-16 CompanyBases-colPadding-6"
+      >
+        <div
+          class="MuiFormControl-root-26 MuiFormControl-fullWidth-29"
+        >
+          <label
+            class="MuiFormLabel-root-41 MuiFormLabel-filled-45 MuiInputLabel-root-30 MuiInputLabel-formControl-35 MuiInputLabel-animated-38 MuiInputLabel-shrink-37 MuiInputLabel-outlined-40"
+            data-shrink="true"
+            for="company-base-0-address"
+          >
+            Indirizzo
+          </label>
+          <div
+            class="MuiInputBase-root-61 MuiOutlinedInput-root-48 MuiInputBase-fullWidth-70 MuiInputBase-formControl-62"
+          >
+            <fieldset
+              aria-hidden="true"
+              class="MuiPrivateNotchedOutline-root-78 MuiOutlinedInput-notchedOutline-55"
+              style="padding-left: 8px;"
+            >
+              <legend
+                class="MuiPrivateNotchedOutline-legend-79"
+                style="width: 0px;"
+              >
+                <span>
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input-71 MuiOutlinedInput-input-56"
+              id="company-base-0-address"
+              type="text"
+              value="The address"
+            />
+          </div>
+        </div>
+      </td>
+      <th
+        class="MuiTableCell-root-14 MuiTableCell-body-16 MuiTableCell-alignRight-24 MuiTableCell-paddingCheckbox-20 CompanyBases-colPadding-6"
+        scope="row"
+      />
+    </tr>
+    <tr
+      class="MuiTableRow-root-9 MuiTableRow-hover-11"
+    >
+      <th
+        class="MuiTableCell-root-14 MuiTableCell-body-16 MuiTableCell-alignCenter-23 CompanyBases-addBase-5"
+        colspan="3"
+        scope="row"
+      >
+        <p
+          class="MuiTypography-root-80 MuiTypography-body1-89"
+          id="add-company-button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-116 MuiSvgIcon-colorSecondary-118"
+            focusable="false"
+            role="presentation"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+           Aggiungi sede
+        </p>
+      </th>
+    </tr>
+  </tbody>
+</table>
+`;

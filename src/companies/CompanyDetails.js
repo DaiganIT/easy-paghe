@@ -1,54 +1,84 @@
 import React from 'react';
-import { withStyles, Paper, Typography, TextField } from '@material-ui/core';
+import { withStyles, TextField, Grid } from '@material-ui/core';
 
 const styles = {
-  paper: {
-    padding: '1em',
+	textField: {
+		marginRight: '1em',
 		marginBottom: '1em',
-  },
-  miniTitle: {
-    marginBottom: '1em',
-  },
-  textField: {
-    marginRight: '1em',
-		marginBottom: '1em',
-  }
+	}
 }
 
-function CompanyDetails({ classes, isSaving, form }) {
+function CompanyDetails({ classes, isSaving, company, updateField, errors }) {
 	return (
-		<Paper className={classes.paper}>
-			<Typography variant="title" className={classes.miniTitle}>
-				Dettagli azienda
-			</Typography>
-			<TextField
-				variant="outlined"
-				label="Nome"
-				fullWidth
-				className={classes.textField}
-				disabled={isSaving}
-				value={form.name}
-				onChange={(e) => form.setName(e.target.value)}
-			/>
-			<TextField
-				variant="outlined"
-				label="Indirizzo"
-				fullWidth
-				className={classes.textField}
-				disabled={isSaving}
-				value={form.address}
-				onChange={(e) => form.setAddress(e.target.value)}
-			/>
-			<TextField
-				variant="outlined"
-				label="Telefono"
-				fullWidth
-				className={classes.textField}
-				disabled={isSaving}
-				value={form.phone}
-				onChange={(e) => form.setPhone(e.target.value)}
-			/>
-		</Paper>
+		<React.Fragment>
+			<Grid container spacing={16}>
+				<Grid item xs={12}>
+					<TextField
+						id="company-name"
+						error={!!errors.name}
+						required
+						variant="outlined"
+						label="Nome"
+						fullWidth
+						className={classes.textField}
+						disabled={isSaving}
+						value={company.name}
+						onChange={(e) => updateField('name', e.target.value)}
+					/>
+				</Grid>
+				<Grid item xs={6}>
+					<TextField
+						id="company-fiscal-code"
+						error={!!errors.fiscalCode}
+						variant="outlined"
+						fullWidth
+						label="Codice Fiscale"
+						className={classes.textField}
+						disabled={isSaving}
+						value={company.fiscalCode}
+						onChange={(e) => updateField('fiscalCode', e.target.value)}
+					/></Grid>
+				<Grid item xs={6}>
+					<TextField
+						id="company-iva-code"
+						error={!!errors.ivaCode}
+						variant="outlined"
+						fullWidth
+						label="Partita IVA"
+						type="number"
+						className={classes.textField}
+						disabled={isSaving}
+						value={company.ivaCode}
+						onChange={(e) => updateField('ivaCode', e.target.value)}
+					/></Grid>
+				<Grid item xs={6}>
+					<TextField
+						id="company-inps"
+						error={!!errors.inpsRegistrationNumber}
+						variant="outlined"
+						fullWidth
+						label="Codice INPS"
+						type="number"
+						className={classes.textField}
+						disabled={isSaving}
+						value={company.inpsRegistrationNumber}
+						onChange={(e) => updateField('inpsRegistrationNumber', e.target.value)}
+					/></Grid>
+				<Grid item xs={6}>
+					<TextField
+						id="company-inail"
+						error={!!errors.inailRegistrationNumber}
+						variant="outlined"
+						fullWidth
+						label="Codice INAIL"
+						type="number"
+						className={classes.textField}
+						disabled={isSaving}
+						value={company.inailRegistrationNumber}
+						onChange={(e) => updateField('inailRegistrationNumber', e.target.value)}
+					/></Grid>
+			</Grid>
+		</React.Fragment>
 	);
 }
 
