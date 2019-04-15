@@ -22,25 +22,25 @@ function CompanySummary({ classes, company, errors, moveToStep }) {
 							</Typography>
 						</Grid>
 						<Grid item xs={6} align="right">
-							<ButtonWithLoader variant="contained" size="small" color="primary" onClick={() => moveToStep(0)}>
+							<ButtonWithLoader id="company-summary-edit-details" variant="contained" size="small" color="primary" onClick={() => moveToStep(0)}>
 								Modifica
 							</ButtonWithLoader>
 						</Grid>
 					</Grid>
 				</Grid>
-				<Grid item xs={12}>
+				<Grid item xs={12} className="summary-item">
 					<SummaryItem name="Nome" value={company.name} errors={errors.name} />
 				</Grid>
-				<Grid item xs={12}>
+				<Grid item xs={12} className="summary-item">
 					<SummaryItem name="Codice Fiscale" value={company.fiscalCode} errors={errors.fiscalCode} />
 				</Grid>
-				<Grid item xs={12}>
+				<Grid item xs={12} className="summary-item">
 					<SummaryItem name="Partita IVA" value={company.ivaCode} errors={errors.ivaCode} />
 				</Grid>
-				<Grid item xs={12}>
+				<Grid item xs={12} className="summary-item">
 					<SummaryItem name="Codice INPS" value={company.inpsRegistrationNumber} errors={errors.inpsRegistrationNumber} />
 				</Grid>
-				<Grid item xs={12}>
+				<Grid item xs={12} className="summary-item">
 					<SummaryItem name="Codice INAIL" value={company.inailRegistrationNumber} errors={errors.inailRegistrationNumber} />
 				</Grid>
 				<Grid item xs={12} className={classes.withBorder}>
@@ -51,7 +51,7 @@ function CompanySummary({ classes, company, errors, moveToStep }) {
 							</Typography>
 						</Grid>
 						<Grid item xs={6} align="right">
-							<ButtonWithLoader variant="contained" size="small" color="primary" onClick={() => moveToStep(1)}>
+							<ButtonWithLoader id="company-summary-edit-bases" variant="contained" size="small" color="primary" onClick={() => moveToStep(1)}>
 								Modifica
 							</ButtonWithLoader>
 						</Grid>
@@ -60,10 +60,10 @@ function CompanySummary({ classes, company, errors, moveToStep }) {
 				<Grid item xs={12}>
 					{company.bases.map((base, index) =>
 						<Grid container spacing={16} key={index}>
-							<Grid item xs={12}>
+							<Grid item xs={12} className="summary-item">
 								<SummaryItem name="Nome" value={base.name} errors={(() => !!errors.bases ? errors.bases[index].name : null)()} />
 							</Grid>
-							<Grid item xs={12}>
+							<Grid item xs={12} className="summary-item">
 								<SummaryItem name="Indirizzo" value={base.address} errors={(() => !!errors.bases ? errors.bases[index].address : null)()} />
 							</Grid>
 						</Grid>)}

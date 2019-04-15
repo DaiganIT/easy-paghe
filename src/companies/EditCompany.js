@@ -66,7 +66,7 @@ function EditCompany({ match, history }) {
 
 	return (
 		<Page title="Modifica Azienda" menuComponent={deleteButton} noPaper>
-			{isLoading ? <LinearProgress /> : undefined}
+			{isLoading ? <LinearProgress id='edit-company-progress' /> : undefined}
 			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={() => setIsSaving(true)} isLoading={isLoading || isSaving} />
 
 			<ConfirmDialog
