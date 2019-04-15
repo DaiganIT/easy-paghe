@@ -4,6 +4,7 @@ import PersonDetails from './PersonDetails';
 import usePersonForm from './usePersonForm';
 import Page from '../common/Page';
 import buildStepMap from './stepsMap';
+import PersonSummary from './PersonSummary';
 
 function AddPerson({ history }) {
 	const onCreate = ({ id }) => {
@@ -20,7 +21,7 @@ function AddPerson({ history }) {
 	};
 
 	const personDetails = <PersonDetails person={person} updateField={updateField} isSaving={isSaving} errors={errors} />
-	const personSummary = 'ciao';
+	const personSummary = <PersonSummary person={person} moveToStep={moveToStep} errors={errors} />
 
 	const stepMap = buildStepMap(personDetails, personSummary);
 
