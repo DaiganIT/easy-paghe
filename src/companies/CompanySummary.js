@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles, Grid, Typography } from '@material-ui/core';
 import ButtonWithLoader from '../common/ButtonWithLoader';
 
-import SummaryItem from './SummaryItem';
+import SummaryItem from '../common/SummaryItem';
 
 const styles = theme => ({
 	withBorder: {
