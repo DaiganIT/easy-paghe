@@ -6,7 +6,7 @@ import useSaveable from '../commonHooks/useSaveable';
 import useLoadable from '../commonHooks/useLoadable';
 import useDeleteable from '../commonHooks/useDeleteable';
 import useValidation from '../commonHooks/useValidation';
-import useSteps from '../commonHooks/useSteps';
+import useSteps, { validateOnNext, useStepErrorEffect } from '../commonHooks/useSteps';
 import useUpdate from '../commonHooks/useUpdate';
 
 import { removeEmpties } from '../utils';
@@ -19,36 +19,8 @@ function useCompanyForm({ loadId, onSave, onDelete, onDeleteBase, baseTab }) {
 	const [company, setCompany] = useState(defaultCompany);
 	const [errors, onError, validate] = useValidation();
 
-	const onNext = (steps, activeStep) => {
-    if (steps[activeStep].validator) {
-      let modelToValidate = company;
-      if (steps[activeStep].validatorPath) {
-        modelToValidate = company[steps[activeStep].validatorPath];
-			}
-			const errors = validate(modelToValidate, steps[activeStep].validator);
-			if (errors) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	const { previousStep, activeStep, moveToStep, steps, next, prev, setStepError } = useSteps(stepsUtils.stepsConfiguration, baseTab || 0, onNext);
-
-	useEffect(() => {
-    for (const stepErrorIndex in stepsUtils.stepErrorMap) {
-      let indexHasErrors = false;
-      for (const errorPropertyName of stepsUtils.stepErrorMap[stepErrorIndex]) {
-        if (!!errors[errorPropertyName]) {
-          indexHasErrors = true;
-        }
-      }
-      if (steps[stepErrorIndex].hasErrors !== indexHasErrors) {
-        setStepError(stepErrorIndex, indexHasErrors);
-      }
-    }
-  }, [errors]);
+	const { previousStep, activeStep, moveToStep, steps, next, prev, setStepError } = useSteps(stepsUtils.stepsConfiguration, baseTab || 0, validateOnNext(validate, company));
+	useStepErrorEffect({ errors, setStepError, stepErrorMap: stepsUtils.stepErrorMap, steps });
 
 	const [updateField] = useUpdate(company, setCompany);
 

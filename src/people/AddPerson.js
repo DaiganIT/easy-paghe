@@ -3,7 +3,7 @@ import EventBus from 'eventbusjs';
 import PersonDetails from './PersonDetails';
 import usePersonForm from './usePersonForm';
 import Page from '../common/Page';
-import ButtonWithLoader from '../common/ButtonWithLoader';
+import buildStepMap from './stepsMap';
 
 function AddPerson({ history }) {
 	const onCreate = ({ id }) => {
@@ -11,7 +11,7 @@ function AddPerson({ history }) {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Persona creata' });
 	};
 
-	const { isSaving, setIsSaving, name, setName, address, setAddress, phone, setPhone, email, setEmail } = usePersonForm({
+	const { isSaving, setIsSaving, person, updateField, previousStep, activeStep, steps, next, prev, moveToStep } = usePersonForm({
 		onSave: onCreate,
 	});
 
@@ -19,14 +19,14 @@ function AddPerson({ history }) {
 		setIsSaving(true);
 	};
 
+	const personDetails = <PersonDetails person={person} updateField={updateField} isSaving={isSaving} errors={errors} />
+	const personSummary = 'ciao';
+
+	const stepMap = buildStepMap(personDetails, personSummary);
+
 	return (
 		<Page title="Aggiungi Persona" noPaper>
-			<form>
-				<PersonDetails form={{ name, address, phone, email, setName, setAddress, setPhone, setEmail }} isSaving={isSaving} />
-			</form>
-			<ButtonWithLoader variant="contained" size="small" color="primary" onClick={save} isLoading={isSaving}>
-				Salva
-			</ButtonWithLoader>
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isLoading={isSaving} />
 		</Page>
 	);
 }

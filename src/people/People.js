@@ -1,5 +1,4 @@
 import React from 'react';
-import debounce from 'debounce-promise';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -25,10 +24,8 @@ const styles = {
 	},
 };
 
-const debouncedGetPromise = debounce(http.getPeople, 300);
-
 function People({ classes, history }) {
-	const { data, loadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: debouncedGetPromise });
+	const { data, loadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: http.getPeople });
 
 	const navigateTo = (personId) => {
 		history.push(`/index/people/${personId}`);
@@ -36,7 +33,7 @@ function People({ classes, history }) {
 
 	const addButton = (
 		<Link to="/index/people/add" className={classes.link}>
-			<Button variant="contained" color="primary" size="small">
+			<Button id="add-person-button" variant="contained" color="primary" size="small">
 				<AddIcon />
 				Nuova Persona
 			</Button>
@@ -45,7 +42,7 @@ function People({ classes, history }) {
 
 	return (
 		<Page title="Gestione Persone" menuComponent={addButton}>
-			{loadData ? <LinearProgress /> : undefined}
+			{loadData ? <LinearProgress id="loader-people" /> : undefined}
 			<SearchField value={search} setSearch={setSearch} />
 			<Table>
 				<TableHead>
@@ -61,13 +58,12 @@ function People({ classes, history }) {
 							hover
 							key={person.id}
 							className={classes.pointer}
-							onClick={() => navigateTo(person.id)}
 						>
-							<TableCell component="th" scope="row">
-								{person.name}
+							<TableCell onClick={() => navigateTo(person.id)}>
+								{person.firstName} {person.lastName}
 							</TableCell>
-							<TableCell>{person.address}</TableCell>
-							<TableCell>{person.phone}</TableCell>
+							<TableCell onClick={() => navigateTo(person.id)}>{person.address}</TableCell>
+							<TableCell onClick={() => navigateTo(person.id)}>{person.phone}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
@@ -80,9 +76,11 @@ function People({ classes, history }) {
 				page={page}
 				backIconButtonProps={{
 					'aria-label': 'Pagina Precedente',
+					'id': 'page-back-button'
 				}}
 				nextIconButtonProps={{
 					'aria-label': 'Pagina Successiva',
+					'id': 'page-next-button'
 				}}
 				onChangePage={(event, page) => {
 					setPage(page);
