@@ -4,9 +4,10 @@ import useSaveable from '../commonHooks/useSaveable';
 import useLoadable from '../commonHooks/useLoadable';
 import useDeleteable from '../commonHooks/useDeleteable';
 import useValidation from '../commonHooks/useValidation';
+import useUpdate from '../commonHooks/useUpdate';
 import useSteps, { validateOnNext, useStepErrorEffect } from '../commonHooks/useSteps';
 import defaultPerson from './defaultPerson';
-import * as stepsUtils from '../stepsConfiguration';
+import * as stepsUtils from './stepsConfiguration';
 
 function usePersonForm({ loadId, onSave, onDelete, baseTab }) {
 	defaultPerson.id = loadId || 0;

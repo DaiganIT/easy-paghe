@@ -5,6 +5,7 @@ import usePersonForm from './usePersonForm';
 import Page from '../common/Page';
 import buildStepMap from './stepsMap';
 import PersonSummary from './PersonSummary';
+import SimpleStepper from '../common/SimpleStepper';
 
 function AddPerson({ history }) {
 	const onCreate = ({ id }) => {
@@ -12,7 +13,7 @@ function AddPerson({ history }) {
 		EventBus.dispatch('global-notification-show', undefined, { message: 'Persona creata' });
 	};
 
-	const { isSaving, setIsSaving, person, updateField, previousStep, activeStep, steps, next, prev, moveToStep } = usePersonForm({
+	const { isSaving, setIsSaving, person, updateField, previousStep, activeStep, steps, next, prev, moveToStep, errors } = usePersonForm({
 		onSave: onCreate,
 	});
 
