@@ -28,10 +28,6 @@ function EditPerson({ match, history }) {
 		baseTab: 1
 	});
 
-	const onDeleteConfirm = () => {
-		setIsDeleting(true);
-	};
-
 	const [ isDeletePersonDialogOpen, openDeletePersonDialog, closeDeletePersonDialog, closeDeletePersonConfirm ] = useConfirmDialog({ confirmAction: () => setIsDeleting() });
 
 	const save = () => {
