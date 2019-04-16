@@ -7,6 +7,9 @@ import usePersonForm from './usePersonForm';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
 import useConfirmDialog from '../dialogs/useConfirmDialog';
 import Page from '../common/Page';
+import PersonSummary from './PersonSummary';
+import SimpleStepper from '../common/SimpleStepper';
+import buildStepMap from './stepsMap';
 
 function EditPerson({ match, history }) {
 	const onUpdate = () => {
@@ -17,29 +20,19 @@ function EditPerson({ match, history }) {
 		history.push('/index/people');
 	};
 
-	const {
-		isLoading,
-		isSaving,
-		setIsSaving,
-		isDeleting,
-		setIsDeleting,
-		name,
-		setName,
-		address,
-		setAddress,
-		phone,
-		setPhone,
-		email,
-		setEmail,
-	} = usePersonForm({ loadId: match.params.personId, onSave: onUpdate, onDelete });
+	const { isSaving, setIsSaving, isDeleting, isLoading, person, updateField, 
+		setIsDeleting, errors, previousStep, activeStep, steps, next, prev, moveToStep } = usePersonForm({
+		loadId: match.params.personId,
+		onSave: onUpdate,
+		onDelete,
+		baseTab: 1
+	});
 
 	const onDeleteConfirm = () => {
 		setIsDeleting(true);
 	};
 
-	const { isDialogOpen, openDialog, closeDialog, confirmDialog } = useConfirmDialog({
-		confirmAction: onDeleteConfirm,
-	});
+	const [ isDeletePersonDialogOpen, openDeletePersonDialog, closeDeletePersonDialog, closeDeletePersonConfirm ] = useConfirmDialog({ confirmAction: () => setIsDeleting() });
 
 	const save = () => {
 		setIsSaving(true);
@@ -47,42 +40,35 @@ function EditPerson({ match, history }) {
 
 	const deleteButton = (
 		<ButtonWithLoader
+			id="delete-person-button"
 			variant="contained"
 			size="small"
 			color="primary"
-			onClick={openDialog}
-			isLoading={isDialogOpen || isDeleting || isLoading}
+			onClick={openDeletePersonDialog}
+			isLoading={isDeletePersonDialogOpen || isDeleting || isLoading || isSaving}
 		>
 			Elimina
 		</ButtonWithLoader>
 	);
 
+	const personDetails = <PersonDetails person={person} updateField={updateField} isSaving={isSaving} errors={errors} />
+	const personSummary = <PersonSummary person={person} moveToStep={moveToStep} errors={errors} />
+
+	const stepMap = buildStepMap(personDetails, personSummary);
+
 	return (
 		<Page title="Modifica Persona" menuComponent={deleteButton} noPaper>
-			{isLoading ? <LinearProgress /> : undefined}
-			<form>
-				<PersonDetails
-					form={{ name, address, phone, email, setName, setAddress, setPhone, setEmail }}
-					isSaving={isSaving}
-				/>
-			</form>
-			<ButtonWithLoader
-				variant="contained"
-				size="small"
-				color="primary"
-				onClick={save}
-				isLoading={isSaving || isLoading}
-			>
-				Salva
-			</ButtonWithLoader>
+			{isLoading ? <LinearProgress id="edit-person-progress" /> : undefined}
+			<SimpleStepper previousStep={previousStep} activeStep={activeStep} steps={steps} stepMap={stepMap} next={next} prev={prev} save={save} isLoading={isSaving} />
+
 			<ConfirmDialog
-				open={isDialogOpen}
+				open={isDeletePersonDialogOpen}
 				id="delete-person"
-				onClose={closeDialog}
-				onConfirm={confirmDialog}
+				onClose={closeDeletePersonDialog}
+				onConfirm={closeDeletePersonConfirm}
 				title="Eliminare questa persona?"
 			>
-				L'eliminazione non puo' essere annullata. Sei sicuro?
+				Sei sicuro di volere eliminare questa persona?
 			</ConfirmDialog>
 		</Page>
 	);

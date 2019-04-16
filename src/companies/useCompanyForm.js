@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import update from 'immutability-helper';
 
 import http from './http';

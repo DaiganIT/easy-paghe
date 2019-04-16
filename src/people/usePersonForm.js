@@ -21,8 +21,8 @@ function usePersonForm({ loadId, onSave, onDelete, baseTab }) {
 
 	const createNewPerson = () => http.createPerson(removeEmpties(person));
 	const updatePerson = () => http.updatePerson(person.id, removeEmpties(person));
-	const loadPerson = () => http.loadPerson(id);
-	const deletePerson = () => http.deletePerson(id);
+	const loadPerson = () => http.loadPerson(person.id);
+	const deletePerson = () => http.deletePerson(person.id);
 
 	const [isSaving, setIsSaving] = useSaveable({ createPromise: createNewPerson, updatePromise: updatePerson, id: person.id, onSave, onError});
 	const [isLoading] = useLoadable({ id: person.id, loadPromise: loadPerson, setForm: setPerson });
