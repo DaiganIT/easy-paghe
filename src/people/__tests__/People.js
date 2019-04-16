@@ -39,10 +39,11 @@ test('has the correct table headers', () => {
   </MemoryRouter>);
 
   const headers = container.firstChild.querySelectorAll('thead th');
-  expect(headers.length).toBe(3);
+  expect(headers.length).toBe(4);
   expect(headers[0].textContent).toBe('Nome');
   expect(headers[1].textContent).toBe('Indirizzo');
   expect(headers[2].textContent).toBe('Telefono');
+  expect(headers[3].textContent).toBe('');
 });
 
 test('has the add person button', () => {
@@ -84,10 +85,11 @@ test('loaded people show up in the table', async () => {
   await waitForDomChange();
 
   const columns = container.firstChild.querySelectorAll('tbody td');
-  expect(columns.length).toBe(3);
+  expect(columns.length).toBe(4);
   expect(columns[0].textContent).toBe('Pietro Carta');
   expect(columns[1].textContent).toBe('inkerman');
   expect(columns[2].textContent).toBe('546');
+  expect(columns[3].textContent).toBe('');
 });
 
 test('click on columns triggers navigation', async () => {
@@ -109,6 +111,10 @@ test('click on columns triggers navigation', async () => {
 
   fireEvent.click(columns[2]);
   expect(mockHistory.push).toHaveBeenCalledWith('/index/people/10');
+  jest.clearAllMocks();
+
+  fireEvent.click(columns[3]);
+  expect(mockHistory.push).not.toHaveBeenCalledWith('/index/people/10');
   jest.clearAllMocks();
 });
 

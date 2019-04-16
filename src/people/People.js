@@ -1,19 +1,15 @@
 import React from 'react';
+import classnames from 'classnames';
 import { Link } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TablePagination from '@material-ui/core/TablePagination';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import { withStyles, IconButton, LinearProgress, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, Button } from '@material-ui/core';
+import { Delete, Add } from '@material-ui/icons';
 import http from './http';
 import useList from '../commonHooks/useList';
 import Page from '../common/Page';
 import SearchField from '../common/SearchField';
+import useConfirmDialog from '../dialogs/useConfirmDialog';
+import useDeleteable from '../commonHooks/useDeleteable';
+import ConfirmDialog from '../dialogs/ConfirmDialog';
 
 const styles = {
 	link: {
@@ -25,7 +21,15 @@ const styles = {
 };
 
 function People({ classes, history }) {
-	const { data, loadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: http.getPeople });
+	const { data, loadData, reloadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: http.getPeople });
+
+	const onDelete = () => {
+		reloadData();
+	}
+
+	const deletePerson = (options) => http.deletePerson(options.personId);
+	const [isDeleting, setIsDeleting] = useDeleteable({ deletePromise: deletePerson, onDelete });
+	const [isDeletePersonDialogOpen, openDeletePersonDialog, closeDeletePersonDialog, closeDeletePersonConfirm] = useConfirmDialog({ confirmAction: (options) => setIsDeleting(options) });
 
 	const navigateTo = (personId) => {
 		history.push(`/index/people/${personId}`);
@@ -34,7 +38,7 @@ function People({ classes, history }) {
 	const addButton = (
 		<Link to="/index/people/add" className={classes.link}>
 			<Button id="add-person-button" variant="contained" color="primary" size="small">
-				<AddIcon />
+				<Add />
 				Nuova Persona
 			</Button>
 		</Link>
@@ -50,6 +54,7 @@ function People({ classes, history }) {
 						<TableCell>Nome</TableCell>
 						<TableCell>Indirizzo</TableCell>
 						<TableCell>Telefono</TableCell>
+						<TableCell></TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -64,6 +69,11 @@ function People({ classes, history }) {
 							</TableCell>
 							<TableCell onClick={() => navigateTo(person.id)}>{person.address}</TableCell>
 							<TableCell onClick={() => navigateTo(person.id)}>{person.phone}</TableCell>
+							<TableCell padding="checkbox" className={classnames(classes.deleteClass, classes.colPadding)} align="right">
+								<IconButton onClick={() => openDeletePersonDialog({ personId: person.id })} disabled={isDeleting}>
+									<Delete color="secondary" />
+								</IconButton>
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
@@ -86,6 +96,17 @@ function People({ classes, history }) {
 					setPage(page);
 				}}
 			/>
+
+			<ConfirmDialog
+				open={isDeletePersonDialogOpen}
+				id="delete-person"
+				onClose={closeDeletePersonDialog}
+				onConfirm={closeDeletePersonConfirm}
+				title="Eliminare questa persona?"
+			>
+				Sei sicuro di volere eliminare questa persona?
+			</ConfirmDialog>
+
 		</Page>
 	);
 }

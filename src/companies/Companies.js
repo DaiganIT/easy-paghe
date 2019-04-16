@@ -1,16 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
-import { withStyles, LinearProgress, IconButton } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TablePagination from '@material-ui/core/TablePagination';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import { withStyles, IconButton, LinearProgress, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, Button } from '@material-ui/core';
+import { Delete, Add } from '@material-ui/icons';
 import http from './http';
 import useList from '../commonHooks/useList';
 import Page from '../common/Page';
@@ -69,7 +61,7 @@ export function Companies({
 	const menuButton = (
 		<Link to="/index/companies/add" className={classes.link}>
 			<Button id="add-company-button" variant="contained" color="primary" size="small">
-				<AddIcon />
+				<Add />
 				Nuova azienda
 			</Button>
 		</Link>
