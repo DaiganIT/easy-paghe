@@ -29,19 +29,19 @@ function PersonSummary({ classes, person, errors, moveToStep }) {
 					</Grid>
 				</Grid>
 				<Grid item xs={12} className="summary-item">
-					<SummaryItem name="Nome" value={person.firstName} errors={errors.name} />
+					<SummaryItem name="Nome" value={person.firstName} errors={errors.firstName} />
 				</Grid>
 				<Grid item xs={12} className="summary-item">
-					<SummaryItem name="Cognome" value={company.lastName} errors={errors.fiscalCode} />
+					<SummaryItem name="Cognome" value={person.lastName} errors={errors.lastName} />
 				</Grid>
 				<Grid item xs={12} className="summary-item">
-					<SummaryItem name="Indirizzo" value={person.address} errors={errors.ivaCode} />
+					<SummaryItem name="Indirizzo" value={person.address} errors={errors.address} />
 				</Grid>
 				<Grid item xs={12} className="summary-item">
-					<SummaryItem name="Telefono" value={person.phone} errors={errors.inpsRegistrationNumber} />
+					<SummaryItem name="Telefono" value={person.phone} errors={errors.phone} />
 				</Grid>
 				<Grid item xs={12} className="summary-item">
-					<SummaryItem name="Email" value={person.email} errors={errors.inailRegistrationNumber} />
+					<SummaryItem name="Email" value={person.email} errors={errors.email} />
 				</Grid>
 			</Grid>
 		</React.Fragment >

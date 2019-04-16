@@ -63,191 +63,67 @@ test('first step is active', () => {
   expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
 });
 
-// test('validation is showing for name after hitting next', () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
+test('validation is showing for first name and last name after hitting next', () => {
+  const { container } = render(<AddPerson {...defaultProps} />);
 
-//   const nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
+  const nextButton = container.firstChild.querySelector('#button-step-next');
+  fireEvent.click(nextButton);
 
-//   expect(container.firstChild.querySelector('input#company-name').parentElement.className).toContain('MuiInputBase-error');
-//   expect(container.firstChild.querySelector('input#company-fiscal-code').parentElement.className).not.toContain('MuiInputBase-error');
-//   expect(container.firstChild.querySelector('input#company-iva-code').parentElement.className).not.toContain('MuiInputBase-error');
-//   expect(container.firstChild.querySelector('input#company-inps').parentElement.className).not.toContain('MuiInputBase-error');
-//   expect(container.firstChild.querySelector('input#company-inail').parentElement.className).not.toContain('MuiInputBase-error');
+  expect(container.firstChild.querySelector('input#person-first-name').parentElement.className).toContain('MuiInputBase-error');
+  expect(container.firstChild.querySelector('input#person-last-name').parentElement.className).toContain('MuiInputBase-error');
+  expect(container.firstChild.querySelector('input#person-address').parentElement.className).not.toContain('MuiInputBase-error');
+  expect(container.firstChild.querySelector('input#person-phone').parentElement.className).not.toContain('MuiInputBase-error');
+  expect(container.firstChild.querySelector('input#person-email').parentElement.className).not.toContain('MuiInputBase-error');
 
-//   const steps = container.firstChild.querySelectorAll('.step-header');
-//   expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-error');
-//   expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-active');
-//   expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-//   expect((steps[2].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-// });
+  const steps = container.firstChild.querySelectorAll('.step-header');
+  expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-error');
+  expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-active');
+  expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
+});
 
-// test('goes to second page', () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
+test('goes to second page', () => {
+  const { container } = render(<AddPerson {...defaultProps} />);
 
-//   const inputName = container.firstChild.querySelector('input#company-name');
-//   fireEvent.change(inputName, { target: { value: 'name' } });
+  const inputFirstName = container.firstChild.querySelector('input#person-first-name');
+  const inputLastName = container.firstChild.querySelector('input#person-last-name');
+  fireEvent.change(inputFirstName, { target: { value: 'Pietro' } });
+  fireEvent.change(inputLastName, { target: { value: 'Carta' } });
 
-//   const nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
+  const nextButton = container.firstChild.querySelector('#button-step-next');
+  fireEvent.click(nextButton);
 
-//   const steps = container.firstChild.querySelectorAll('.step-header');
-//   expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-//   expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-active');
-//   expect((steps[2].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-// });
+  const steps = container.firstChild.querySelectorAll('.step-header');
+  expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
+  expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-active');
+});
 
-// test('is showing bases form', () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
+test('saves the person', async () => {
+  const { container } = render(<AddPerson {...defaultProps} />);
 
-//   const inputName = container.firstChild.querySelector('input#company-name');
-//   fireEvent.change(inputName, { target: { value: 'name' } });
+  const inputFirstName = container.firstChild.querySelector('input#person-first-name');
+  const inputLastName = container.firstChild.querySelector('input#person-last-name');
+  fireEvent.change(inputFirstName, { target: { value: 'Pietro' } });
+  fireEvent.change(inputLastName, { target: { value: 'Carta' } });
 
-//   const nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
+  let nextButton = container.firstChild.querySelector('#button-step-next');
+  fireEvent.click(nextButton);
 
-//   expect(container.firstChild.querySelector('input#company-base-0-name')).toBeInTheDocument();
-//   expect(container.firstChild.querySelector('input#company-base-0-address')).toBeInTheDocument();
-//   expect(container.firstChild.querySelector('input#company-base-1-name')).not.toBeInTheDocument();
-//   expect(container.firstChild.querySelector('input#company-base-1-address')).not.toBeInTheDocument();
-// });
+  let saveButton = container.firstChild.querySelector('#button-step-save');
 
-// test('default bases are correct', () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
+  axiosMock.post.mockResolvedValueOnce({ data: { id: 20 } });
+  fireEvent.click(saveButton);
 
-//   const inputName = container.firstChild.querySelector('input#company-name');
-//   fireEvent.change(inputName, { target: { value: 'name' } });
+  expect(saveButton).toBeDisabled();
 
-//   const nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
+  await waitForDomChange();
+  expect(saveButton).not.toBeDisabled();
 
-//   expect(container.firstChild.querySelector('input#company-base-0-name').value).toBe('Sede principale');
-//   expect(container.firstChild.querySelector('input#company-base-0-address').value).toBe('');
-// });
+  expect(axiosMock.post).toHaveBeenCalledWith('/api/people', {
+    id: 0,
+    firstName: 'Pietro',
+    lastName: 'Carta'
+  }, expect.anything());
 
-// test('adds a new company base with default value', () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
-
-//   const inputName = container.firstChild.querySelector('input#company-name');
-//   fireEvent.change(inputName, { target: { value: 'name' } });
-
-//   const nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-
-//   // add a new base
-//   const addBaseButton = container.firstChild.querySelector('#add-company-button');
-//   fireEvent.click(addBaseButton);
-
-//   // remove name from second company base
-//   expect(container.firstChild.querySelector('input#company-base-1-name')).toBeInTheDocument();
-//   expect(container.firstChild.querySelector('input#company-base-1-address')).toBeInTheDocument();
-//   expect(container.firstChild.querySelector('input#company-base-1-name').value).toBe('Nuova sede');
-// });
-
-// test('validation is showing for first company base name after hitting next', () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
-
-//   const inputName = container.firstChild.querySelector('input#company-name');
-//   fireEvent.change(inputName, { target: { value: 'name' } });
-
-//   let nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-
-//   // remove name from company base
-//   const firstBaseName = container.firstChild.querySelector('input#company-base-0-name');
-//   fireEvent.change(firstBaseName, { target: { value: '' } });
-
-//   nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-
-//   expect(firstBaseName.parentElement.className).toContain('MuiInputBase-error');
-//   expect(container.firstChild.querySelector('input#company-base-0-address').parentElement.className).not.toContain('MuiInputBase-error');
-
-//   const steps = container.firstChild.querySelectorAll('.step-header');
-//   expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-//   expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-error');
-//   expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-active');
-//   expect((steps[2].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-// });
-
-// test('validation is showing for second company base name after hitting next', () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
-
-//   const inputName = container.firstChild.querySelector('input#company-name');
-//   fireEvent.change(inputName, { target: { value: 'name' } });
-
-//   let nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-
-//   // add a new base
-//   const addBaseButton = container.firstChild.querySelector('#add-company-button');
-//   fireEvent.click(addBaseButton);
-
-//   // remove name from second company base
-//   const secondBaseName = container.firstChild.querySelector('input#company-base-1-name');
-//   fireEvent.change(secondBaseName, { target: { value: '' } });
-
-//   nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-
-//   expect(container.firstChild.querySelector('input#company-base-0-name').parentElement.className).not.toContain('MuiInputBase-error');
-//   expect(container.firstChild.querySelector('input#company-base-0-address').parentElement.className).not.toContain('MuiInputBase-error');
-//   expect(container.firstChild.querySelector('input#company-base-1-name').parentElement.className).toContain('MuiInputBase-error');
-//   expect(container.firstChild.querySelector('input#company-base-1-address').parentElement.className).not.toContain('MuiInputBase-error');
-
-//   const steps = container.firstChild.querySelectorAll('.step-header');
-//   expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-//   expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-error');
-//   expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-active');
-//   expect((steps[2].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-// });
-
-// test('goes to third page', () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
-
-//   const inputName = container.firstChild.querySelector('input#company-name');
-//   fireEvent.change(inputName, { target: { value: 'name' } });
-
-//   let nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-//   nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-
-//   const steps = container.firstChild.querySelectorAll('.step-header');
-//   expect((steps[0].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-//   expect((steps[1].querySelectorAll('.step-label span'))[1].firstChild.className).not.toContain('MuiStepLabel-active');
-//   expect((steps[2].querySelectorAll('.step-label span'))[1].firstChild.className).toContain('MuiStepLabel-active');
-// });
-
-// test('saves the company', async () => {
-//   const { container } = render(<AddCompany {...defaultProps} />);
-
-//   const inputName = container.firstChild.querySelector('input#company-name');
-//   fireEvent.change(inputName, { target: { value: 'name' } });
-
-//   let nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-//   nextButton = container.firstChild.querySelector('#button-step-next');
-//   fireEvent.click(nextButton);
-
-//   let saveButton = container.firstChild.querySelector('#button-step-save');
-
-//   axiosMock.post.mockResolvedValueOnce({ data: { id: 20, bases: [ { id: 50 }] } });
-//   fireEvent.click(saveButton);
-
-//   expect(saveButton).toBeDisabled();
-
-//   await waitForDomChange();
-//   expect(saveButton).not.toBeDisabled();
-
-//   expect(axiosMock.post).toHaveBeenCalledWith('/api/companies', {
-//     id: 0,
-//     name: 'name',
-//     bases: [
-//       { name: 'Sede principale' }
-//     ]
-//   }, expect.anything());
-
-//   expect(mockHistory.push).toHaveBeenCalledWith('/index/companies/20');
-//   expect(EventBus.dispatch).toHaveBeenCalledWith('global-notification-show', undefined, { message: 'Azienda creata' });
-// });
+  expect(mockHistory.push).toHaveBeenCalledWith('/index/people/20');
+  expect(EventBus.dispatch).toHaveBeenCalledWith('global-notification-show', undefined, { message: 'Persona creata' });
+});
