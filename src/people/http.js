@@ -1,10 +1,15 @@
 import axios from 'axios';
-import { getTokenSource, CancellableQueryablePromise, QueryablePromise } from '../common/PromiseHelpers';
+import debounce from 'debounce-promise';
+import { getTokenSource, CancellableQueryablePromise } from '../common/PromiseHelpers';
+
+const debouncedGetPeople = debounce(axios.get, 300);
 
 function getPeople({ search, page, pageLimit }) {
 	const tokenSource = getTokenSource();
-	const promise = axios.get(`/api/people?filter=${search}&page=${page}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token });
-	return QueryablePromise({ promise });
+	return CancellableQueryablePromise({
+		promise: debouncedGetPeople(`/api/people?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
+		tokenSource,
+	});
 }
 
 function createPerson(person) {
@@ -15,7 +20,7 @@ function createPerson(person) {
 	});
 }
 
-function updatePerson({ id, ...person }) {
+function updatePerson(id, person) {
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
 		promise: axios.put(`/api/people/${id}`, person, { cancelToken: tokenSource.token }),

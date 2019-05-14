@@ -1,0 +1,220 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Company Details structure snapshot is correct 1`] = `
+<div
+  class="MuiGrid-container-4 MuiGrid-spacing-xs-16-27"
+>
+  <div
+    class="MuiGrid-item-5 MuiGrid-grid-xs-12-44 MuiGrid-grid-md-6-66"
+  >
+    <div
+      class="MuiFormControl-root-101 MuiFormControl-fullWidth-104 PersonDetails-textField-3"
+    >
+      <label
+        class="MuiFormLabel-root-116 MuiFormLabel-filled-120 MuiFormLabel-required-121 MuiInputLabel-required-109 MuiInputLabel-root-105 MuiInputLabel-formControl-110 MuiInputLabel-animated-113 MuiInputLabel-shrink-112 MuiInputLabel-outlined-115"
+        data-shrink="true"
+        for="person-first-name"
+      >
+        Nome
+        <span
+          class="MuiFormLabel-asterisk-122"
+        >
+           *
+        </span>
+      </label>
+      <div
+        class="MuiInputBase-root-136 MuiOutlinedInput-root-123 MuiInputBase-fullWidth-145 MuiInputBase-formControl-137"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-153 MuiOutlinedInput-notchedOutline-130"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-154"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-146 MuiOutlinedInput-input-131"
+          id="person-first-name"
+          required=""
+          type="text"
+          value="Pietro"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-item-5 MuiGrid-grid-xs-12-44 MuiGrid-grid-md-6-66"
+  >
+    <div
+      class="MuiFormControl-root-101 MuiFormControl-fullWidth-104 PersonDetails-textField-3"
+    >
+      <label
+        class="MuiFormLabel-root-116 MuiFormLabel-filled-120 MuiFormLabel-required-121 MuiInputLabel-required-109 MuiInputLabel-root-105 MuiInputLabel-formControl-110 MuiInputLabel-animated-113 MuiInputLabel-shrink-112 MuiInputLabel-outlined-115"
+        data-shrink="true"
+        for="person-last-name"
+      >
+        Cognome
+        <span
+          class="MuiFormLabel-asterisk-122"
+        >
+           *
+        </span>
+      </label>
+      <div
+        class="MuiInputBase-root-136 MuiOutlinedInput-root-123 MuiInputBase-fullWidth-145 MuiInputBase-formControl-137"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-153 MuiOutlinedInput-notchedOutline-130"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-154"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-146 MuiOutlinedInput-input-131"
+          id="person-last-name"
+          required=""
+          type="text"
+          value="Carta"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-item-5 MuiGrid-grid-xs-12-44"
+  >
+    <div
+      class="MuiFormControl-root-101 MuiFormControl-fullWidth-104 PersonDetails-textField-3"
+    >
+      <label
+        class="MuiFormLabel-root-116 MuiFormLabel-filled-120 MuiInputLabel-root-105 MuiInputLabel-formControl-110 MuiInputLabel-animated-113 MuiInputLabel-shrink-112 MuiInputLabel-outlined-115"
+        data-shrink="true"
+        for="person-address"
+      >
+        Indirizzo
+      </label>
+      <div
+        class="MuiInputBase-root-136 MuiOutlinedInput-root-123 MuiInputBase-fullWidth-145 MuiInputBase-formControl-137"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-153 MuiOutlinedInput-notchedOutline-130"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-154"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-146 MuiOutlinedInput-input-131"
+          id="person-address"
+          type="text"
+          value="inkerman road"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-item-5 MuiGrid-grid-xs-12-44 MuiGrid-grid-md-6-66"
+  >
+    <div
+      class="MuiFormControl-root-101 MuiFormControl-fullWidth-104 PersonDetails-textField-3"
+    >
+      <label
+        class="MuiFormLabel-root-116 MuiFormLabel-filled-120 MuiInputLabel-root-105 MuiInputLabel-formControl-110 MuiInputLabel-animated-113 MuiInputLabel-shrink-112 MuiInputLabel-outlined-115"
+        data-shrink="true"
+        for="person-phone"
+      >
+        Telefono
+      </label>
+      <div
+        class="MuiInputBase-root-136 MuiOutlinedInput-root-123 MuiInputBase-fullWidth-145 MuiInputBase-formControl-137"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-153 MuiOutlinedInput-notchedOutline-130"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-154"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-146 MuiOutlinedInput-input-131"
+          id="person-phone"
+          type="text"
+          value="65654"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-item-5 MuiGrid-grid-xs-12-44 MuiGrid-grid-md-6-66"
+  >
+    <div
+      class="MuiFormControl-root-101 MuiFormControl-fullWidth-104 PersonDetails-textField-3"
+    >
+      <label
+        class="MuiFormLabel-root-116 MuiFormLabel-filled-120 MuiInputLabel-root-105 MuiInputLabel-formControl-110 MuiInputLabel-animated-113 MuiInputLabel-shrink-112 MuiInputLabel-outlined-115"
+        data-shrink="true"
+        for="person-email"
+      >
+        Email
+      </label>
+      <div
+        class="MuiInputBase-root-136 MuiOutlinedInput-root-123 MuiInputBase-fullWidth-145 MuiInputBase-formControl-137"
+      >
+        <fieldset
+          aria-hidden="true"
+          class="MuiPrivateNotchedOutline-root-153 MuiOutlinedInput-notchedOutline-130"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="MuiPrivateNotchedOutline-legend-154"
+            style="width: 0px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input-146 MuiOutlinedInput-input-131"
+          id="person-email"
+          type="text"
+          value="test@test.it"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
