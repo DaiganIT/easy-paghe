@@ -11,6 +11,7 @@ import People from '../people/People';
 import AddPerson from '../people/AddPerson';
 import EditPerson from '../people/EditPerson';
 import Hired from '../hire/Hired';
+import AddHirePerson from '../hire/AddHirePerson';
 import GlobalNotification from '../common/GlobalNotification';
 import authentication from '../auth/auth';
 
@@ -62,6 +63,7 @@ function LoggedInLayout({ classes, history }) {
 				<Route exact path="/index/people/add" component={AddPerson} />
 				<Route exact path="/index/people/:personId(\d*)" component={EditPerson} />
 				<Route exact path="/index/hired" component={Hired} />
+				<Route exact path="/index/hired/hire" component={AddHirePerson} />
 			</main>
 		</div>
 	);
