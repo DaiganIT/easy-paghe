@@ -4,7 +4,7 @@ import { getTokenSource, CancellableQueryablePromise } from '../common/PromiseHe
 
 const debouncedGetHired = debounce(axios.get, 300);
 
-function getHired({ search, page, pageLimit }) {
+function getHiredPeople({ search, page, pageLimit }) {
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
 		promise: debouncedGetHired(`/api/hired?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
@@ -13,5 +13,5 @@ function getHired({ search, page, pageLimit }) {
 }
 
 export default {
-	getHired
+	getHiredPeople
 };

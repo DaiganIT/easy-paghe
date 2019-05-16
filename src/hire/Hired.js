@@ -18,7 +18,7 @@ const styles = {
 };
 
 function Hired({ classes, history }) {
-	const { data, loadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: http.getHired });
+	const { data, loadData, search, setSearch, page, setPage, pageLimit } = useList({ getPromise: http.getHiredPeople });
 
 	const navigateTo = (hireId) => {
 		history.push(`/index/hired/${hireId}`);
@@ -57,7 +57,7 @@ function Hired({ classes, history }) {
 						>
 							<TableCell onClick={() => navigateTo(hired.id)}>{hired.companyBase.company.name}</TableCell>
 							<TableCell onClick={() => navigateTo(hired.id)}>{hired.person.firstName} {hired.person.lastName}</TableCell>
-							<TableCell onClick={() => navigateTo(hired.id)}>{hired.startDate.format()}</TableCell>
+							<TableCell onClick={() => navigateTo(hired.id)}>{hired.startDate}</TableCell>
 							<TableCell onClick={() => navigateTo(hired.id)}>{hired.ccnl.name}</TableCell>
 							<TableCell onClick={() => navigateTo(hired.id)}>{hired.salaryTable.level}</TableCell>
 							<TableCell padding="checkbox" className={classnames(classes.deleteClass, classes.colPadding)} align="right">
