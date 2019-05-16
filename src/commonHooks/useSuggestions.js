@@ -4,11 +4,12 @@ import { cancellablePromise } from '../common/PromiseHelpers';
 function useSuggestions({ getPromise }) {
 	const [suggestions, setSuggestions] = useState({ items: [], length: 0 });
 	const [isLoading, setIsLoading] = useState(true);
+	const [searchFilter, setSearchFilter] = useState('');
 
 	useEffect(
 		() => {
 			if (isLoading) {
-				const [promise, cleanup] = cancellablePromise({ httpCall: () => getPromise({ search: '', page: 0, pageLimit: 15 }) });
+				const [promise, cleanup] = cancellablePromise({ httpCall: () => getPromise({ search: searchFilter, page: 0, pageLimit: 15 }) });
 				promise
 					.then(({ data }) => {
 						setIsLoading(false);
@@ -23,7 +24,8 @@ function useSuggestions({ getPromise }) {
 		[isLoading],
 	);
 
-	const loadSuggestions = () => {
+	const loadSuggestions = ({ search }) => {
+		setSearchFilter(search);
 		setIsLoading(true);
 	};
 
