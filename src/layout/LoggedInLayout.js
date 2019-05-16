@@ -60,6 +60,7 @@ function LoggedInLayout({ classes, history }) {
 				<Route exact path="/index/people" component={People} />
 				<Route exact path="/index/people/add" component={AddPerson} />
 				<Route exact path="/index/people/:personId(\d*)" component={EditPerson} />
+				<Route exact path="/index/hire" component={Dashboard} />
 			</main>
 		</div>
 	);

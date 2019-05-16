@@ -10,6 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BusinessIcon from '@material-ui/icons/Business';
 import PeopleIcon from '@material-ui/icons/People';
+import WorkIcon from '@material-ui/icons/Work';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
@@ -88,6 +89,14 @@ function LeftDrawer({ classes, drawerOpen }) {
 							<PeopleIcon />
 						</ListItemIcon>
 						<ListItemText primary="Persone" />
+					</ListItem>
+				</Link>
+				<Link to="/index/hire" className={classes.link}>
+					<ListItem button key="hire">
+						<ListItemIcon>
+							<WorkIcon />
+						</ListItemIcon>
+						<ListItemText primary="Assunzioni" />
 					</ListItem>
 				</Link>
 			</List>
