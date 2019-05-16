@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles, Paper, Typography, TextField, Grid } from '@material-ui/core';
+import { withStyles, TextField, Grid } from '@material-ui/core';
 
 const styles = {
   paper: {

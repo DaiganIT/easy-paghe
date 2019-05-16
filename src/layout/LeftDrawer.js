@@ -91,7 +91,7 @@ function LeftDrawer({ classes, drawerOpen }) {
 						<ListItemText primary="Persone" />
 					</ListItem>
 				</Link>
-				<Link to="/index/hire" className={classes.link}>
+				<Link to="/index/hired" className={classes.link}>
 					<ListItem button key="hire">
 						<ListItemIcon>
 							<WorkIcon />

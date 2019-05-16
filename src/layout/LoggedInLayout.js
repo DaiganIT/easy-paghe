@@ -10,6 +10,7 @@ import EditCompany from '../companies/EditCompany';
 import People from '../people/People';
 import AddPerson from '../people/AddPerson';
 import EditPerson from '../people/EditPerson';
+import Hired from '../hire/Hired';
 import GlobalNotification from '../common/GlobalNotification';
 import authentication from '../auth/auth';
 
@@ -60,7 +61,7 @@ function LoggedInLayout({ classes, history }) {
 				<Route exact path="/index/people" component={People} />
 				<Route exact path="/index/people/add" component={AddPerson} />
 				<Route exact path="/index/people/:personId(\d*)" component={EditPerson} />
-				<Route exact path="/index/hire" component={Dashboard} />
+				<Route exact path="/index/hired" component={Hired} />
 			</main>
 		</div>
 	);
