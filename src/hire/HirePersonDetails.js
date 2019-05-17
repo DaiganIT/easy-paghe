@@ -35,7 +35,7 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						suggestions={companySuggestions}
 						loadSuggestions={loadCompanySuggestions}
 						clearSuggestions={clearCompanySuggestions}
-						onSuggestionSelected={(suggestion) => { console.log(suggestion); updateField('companyId', suggestion.id); setCompanyBasesSuggestionsExtraParams({ companyId: suggestion.id }); loadCompanyBasesSuggestions({ search: '' }); }}
+						onSuggestionSelected={(suggestion) => { updateField('companyId', suggestion.id); setCompanyBasesSuggestionsExtraParams({ companyId: suggestion.id }); loadCompanyBasesSuggestions({ search: '' }); }}
 						/>
 				</Grid>
 				<Grid item xs={12} md={6}>
