@@ -37,6 +37,42 @@ test('getCompanies is called just once inside the same timer window', () => {
   expect(promise[1]).toBeTruthy();
 });
 
+test('getCompanyBases has the correct url', () => {
+  axiosMock.get.mockResolvedValueOnce();
+  const companyId = 10;
+  const search = 'hi';
+  const page = 0;
+  const pageLimit = 10;
+
+  jest.useFakeTimers();
+  const promise = http.getCompanyBases({ companyId, search, page, pageLimit });
+  jest.runAllTimers();
+
+  expect(axiosMock.get.mock.calls.length).toEqual(1);
+  expect(axiosMock.get.mock.calls[0][0]).toEqual('/api/companies/10/bases?filter=hi&page=1&pageLimit=10');
+  expect(axiosMock.get.mock.calls[0][1]).toEqual({ cancelToken: 'token' });
+  expect(promise[1]).toBeTruthy();
+});
+
+test('getCompanyBases is called just once inside the same timer window', () => {
+  axiosMock.get.mockResolvedValueOnce();
+  const companyId = 10;
+  const search = 'hi';
+  const page = 0;
+  const pageLimit = 10;
+
+  jest.useFakeTimers();
+  const promise = http.getCompanyBases({ companyId, search, page, pageLimit });
+  http.getCompanyBases({ companyId, search, page, pageLimit });
+  http.getCompanyBases({ companyId, search, page, pageLimit });
+  jest.runAllTimers();
+
+  expect(axiosMock.get.mock.calls.length).toEqual(1);
+  expect(axiosMock.get.mock.calls[0][0]).toEqual('/api/companies/10/bases?filter=hi&page=1&pageLimit=10');
+  expect(axiosMock.get.mock.calls[0][1]).toEqual({ cancelToken: 'token' });
+  expect(promise[1]).toBeTruthy();
+});
+
 test('createCompany has the correct url', () => {
   axiosMock.post.mockResolvedValueOnce();
   const promise = http.createCompany({ name: 'Pietro' });

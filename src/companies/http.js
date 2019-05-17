@@ -2,12 +2,20 @@ import axios from 'axios';
 import debounce from 'debounce-promise';
 import { getTokenSource, CancellableQueryablePromise } from '../common/PromiseHelpers';
 
-const debouncedGetCompanies = debounce(axios.get, 300);
+const debouncedGet = debounce(axios.get, 300);
 
 function getCompanies({ search, page, pageLimit }) {
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
-		promise: debouncedGetCompanies(`/api/companies?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
+		promise: debouncedGet(`/api/companies?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
+		tokenSource,
+	});
+}
+
+function getCompanyBases({ companyId, search, page, pageLimit }) {
+	const tokenSource = getTokenSource();
+	return CancellableQueryablePromise({
+		promise: debouncedGet(`/api/companies/${companyId}/bases?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
 		tokenSource,
 	});
 }
@@ -54,6 +62,7 @@ function deleteBase(companyId, baseId, employees) {
 
 export default {
 	getCompanies,
+	getCompanyBases,
 	createCompany,
 	updateCompany,
 	loadCompany,
