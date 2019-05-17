@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Downshift from 'downshift';
-import { withStyles, TextField, Paper, MenuItem } from '@material-ui/core';
+import { withStyles, TextField, Paper, MenuItem, InputAdornment, CircularProgress } from '@material-ui/core';
 
 const styles = (theme) => ({
 	container: {
@@ -27,9 +27,13 @@ const styles = (theme) => ({
 		padding: 0,
 		listStyleType: 'none',
 	},
+	progress: {
+		width: '20px !important',
+		height: '20px !important'
+	}
 });
 
-function Autocomplete({ id, label, error, disabled, required, placeholder, classes, onSuggestionSelected, suggestions, loadSuggestions }) {
+function Autocomplete({ id, label, error, disabled, required, placeholder, classes, onSuggestionSelected, suggestions, loadSuggestions, isLoading }) {
 	const [isOpen, setIsOpen] = useState(false);
 	return <Downshift 
 		onChange={(suggestion) => { setIsOpen(false); onSuggestionSelected(suggestion);}} 
@@ -43,7 +47,6 @@ function Autocomplete({ id, label, error, disabled, required, placeholder, class
 			getItemProps,
 			getMenuProps,
 			isOpen,
-			inputValue,
 			highlightedIndex,
 			selectedItem,
 		}) =>
@@ -54,7 +57,8 @@ function Autocomplete({ id, label, error, disabled, required, placeholder, class
 					classes,
 					InputProps: getInputProps({
 						placeholder: placeholder,
-						onFocus: e => setIsOpen(true)
+						onFocus: e => setIsOpen(true),
+						endAdornment: isLoading ? <InputAdornment><CircularProgress className={classes.progress} /></InputAdornment> : null,
 					}),
 				})}
 				<div {...getMenuProps()}>

@@ -18,8 +18,8 @@ const styles = {
 }
 
 function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors, 
-	isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions, clearCompanySuggestions,
-	isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, clearCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams
+	isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions, 
+	isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams
 }) {
 	return (
 		<React.Fragment>
@@ -31,10 +31,10 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						required
 						label="Azienda"
 						placeholder="Cerca Azienda..."
+						isLoading={isLoadingCompanySuggestions}
 						disabled={isSaving}
 						suggestions={companySuggestions}
 						loadSuggestions={loadCompanySuggestions}
-						clearSuggestions={clearCompanySuggestions}
 						onSuggestionSelected={(suggestion) => { updateField('companyId', suggestion.id); setCompanyBasesSuggestionsExtraParams({ companyId: suggestion.id }); loadCompanyBasesSuggestions({ search: '' }); }}
 						/>
 				</Grid>
@@ -45,10 +45,10 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						required
 						label="Sede Azienda"
 						placeholder="Cerca Sede Azienda..."
+						isLoading={isLoadingCompanyBasesSuggestions}
 						disabled={isSaving || hirePerson.companyId === 0}
 						suggestions={companyBasesSuggestions}
 						loadSuggestions={loadCompanyBasesSuggestions}
-						clearSuggestions={clearCompanyBasesSuggestions}
 						onSuggestionSelected={(suggestion) => { updateField('companyBaseId', suggestion.id); }}
 					/>
 				</Grid>
