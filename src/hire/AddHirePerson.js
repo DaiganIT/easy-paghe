@@ -30,8 +30,8 @@ function AddHirePerson({ history }) {
 	};
 
 	const hirePersonDetails = <HirePersonDetails hirePerson={hirePerson} updateField={updateField} isSaving={isSaving} errors={errors}
-		companySuggestions={companySuggestions} loadCompanySuggestions={loadCompanySuggestions} clearCompanySuggestions={clearCompanySuggestions}
-		companyBasesSuggestions={companyBasesSuggestions} loadCompanyBasesSuggestions={loadCompanyBasesSuggestions} clearCompanyBasesSuggestions={clearCompanyBasesSuggestions} setCompanyBasesSuggestionsExtraParams={setCompanyBasesSuggestionsExtraParams}
+		isLoadingCompanySuggestions={isLoadingCompanySuggestions} companySuggestions={companySuggestions} loadCompanySuggestions={loadCompanySuggestions} clearCompanySuggestions={clearCompanySuggestions}
+		isLoadingCompanyBasesSuggestions={isLoadingCompanyBasesSuggestions} companyBasesSuggestions={companyBasesSuggestions} loadCompanyBasesSuggestions={loadCompanyBasesSuggestions} clearCompanyBasesSuggestions={clearCompanyBasesSuggestions} setCompanyBasesSuggestionsExtraParams={setCompanyBasesSuggestionsExtraParams}
 		/>
 	//const hirePersonSummary = <HirePersonSummary person={person} moveToStep={moveToStep} errors={errors} />
 

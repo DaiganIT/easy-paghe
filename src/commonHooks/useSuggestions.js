@@ -11,6 +11,7 @@ function useSuggestions({ getPromise, loadOnStart }) {
 		() => {
 			if (isLoading) {
 				const callParams = Object.assign({}, { search: searchFilter, page: 0, pageLimit: 15 }, extraParams);
+				console.log(callParams);
 				const [promise, cleanup] = cancellablePromise({ httpCall: () => getPromise(callParams) });
 				promise
 					.then(({ data }) => {

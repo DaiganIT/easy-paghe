@@ -1,17 +1,21 @@
-import React from 'react';
-import Autosuggest from 'react-autosuggest';
-import match from 'autosuggest-highlight/match';
-import parse from 'autosuggest-highlight/parse';
+import React, { useState } from 'react';
+import Downshift from 'downshift';
 import { withStyles, TextField, Paper, MenuItem } from '@material-ui/core';
 
 const styles = (theme) => ({
 	container: {
 		position: 'relative',
 	},
+	inputRoot: {
+		flexWrap: 'wrap',
+	},
+	inputInput: {
+		width: 'auto',
+		flexGrow: 1,
+	},
 	suggestionsContainerOpen: {
 		position: 'absolute',
 		zIndex: 100,
-		marginTop: theme.spacing.unit,
 		left: 0,
 		right: 0,
 	},
@@ -25,95 +29,87 @@ const styles = (theme) => ({
 	},
 });
 
-function Autocomplete({ id, label, error, disabled, required, placeholder, classes, suggestions, value, onChange, handleSuggestionSelected, loadSuggestions, clearSuggestions }) {
-	const handleSelected = (_, { suggestion }) => {
-		handleSuggestionSelected({ suggestion });
-	}
-
-	const autosuggestProps = {
-		renderInputComponent,
-		suggestions: suggestions.items,
-		onSuggestionsFetchRequested: loadSuggestions,
-		onSuggestionsClearRequested: clearSuggestions,
-		onSuggestionSelected: handleSelected,
-		getSuggestionValue,
-		renderSuggestion,
-		shouldRenderSuggestions: () => true,
-	};
-
-	return (
-		<Autosuggest
-			{...autosuggestProps}
-			inputProps={{
-        id,
-        label,
-        error,
-        disabled,
-        required,
-				classes,
-				placeholder,
-				value,
-				onChange,
-			}}
-			theme={{
-				container: classes.container,
-				suggestionsContainerOpen: classes.suggestionsContainerOpen,
-				suggestionsList: classes.suggestionsList,
-				suggestion: classes.suggestion,
-			}}
-			renderSuggestionsContainer={(options) => 
-				<Paper {...options.containerProps} square>
-					{options.children}
-				</Paper>
-			}
-		/>
-	);
+function Autocomplete({ id, label, error, disabled, required, placeholder, classes, onSuggestionSelected, suggestions, loadSuggestions }) {
+	const [isOpen, setIsOpen] = useState(false);
+	return <Downshift 
+		onChange={(suggestion) => { setIsOpen(false); onSuggestionSelected(suggestion);}} 
+		itemToString={item => item ? item.name : ''}
+		isOpen={isOpen}
+		onOuterClick={() => setIsOpen(false)}
+		onInputValueChange={(inputValue) => loadSuggestions({ search: inputValue })}
+		>
+		{({
+			getInputProps,
+			getItemProps,
+			getMenuProps,
+			isOpen,
+			inputValue,
+			highlightedIndex,
+			selectedItem,
+		}) =>
+			<div className={classes.container}>
+				{renderInput({
+					id, label, error, disabled, required,
+          fullWidth: true,
+					classes,
+					InputProps: getInputProps({
+						placeholder: placeholder,
+						onFocus: e => setIsOpen(true)
+					}),
+				})}
+				<div {...getMenuProps()}>
+              {isOpen ? (
+                <Paper className={classes.suggestionsContainerOpen} square>
+                  {suggestions.items.map((suggestion, index) =>
+                    renderSuggestion({
+                      suggestion,
+                      index,
+                      itemProps: getItemProps({ key: suggestion.id, item: suggestion }),
+                      highlightedIndex,
+                      selectedItem,
+                    }),
+                  )}
+                </Paper>
+              ) : null}
+            </div>
+			</div>}
+	</Downshift>;
 }
 
-function renderInputComponent(inputProps) {
-	const { classes, inputRef = () => {}, ref, ...other } = inputProps;
+function renderInput(inputProps) {
+	const { InputProps, classes, ref, ...other } = inputProps;
 
 	return (
 		<TextField
 			variant="outlined"
-      fullWidth
 			InputProps={{
-				inputRef: (node) => {
-					ref(node);
-					inputRef(node);
-				},
+				inputRef: ref,
 				classes: {
-					input: classes.input,
+					root: classes.inputRoot,
+					input: classes.inputInput,
 				},
+				...InputProps,
 			}}
 			{...other}
 		/>
 	);
 }
 
-function getSuggestionValue(suggestion) {
-  return suggestion.name;
-}
-
-function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.name, query);
-  const parts = parse(suggestion.name, matches);
+function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+  const isHighlighted = highlightedIndex === index;
+  const isSelected = selectedItem ? selectedItem.id === suggestion.id : false;
 
   return (
-    <MenuItem selected={isHighlighted} component="div">
-      <div>
-        {parts.map((part, index) => {
-          return part.highlight ? (
-            <span key={String(index)} style={{ fontWeight: 500 }}>
-              {part.text}
-            </span>
-          ) : (
-            <strong key={String(index)} style={{ fontWeight: 300 }}>
-              {part.text}
-            </strong>
-          );
-        })}
-      </div>
+    <MenuItem
+      {...itemProps}
+      key={suggestion.id}
+      selected={isHighlighted}
+      component="div"
+      style={{
+        fontWeight: isSelected ? 500 : 400,
+      }}
+    >
+      {suggestion.name}
     </MenuItem>
   );
 }

@@ -18,8 +18,8 @@ const styles = {
 }
 
 function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors, 
-	companySuggestions, loadCompanySuggestions, clearCompanySuggestions,
-	companyBasesSuggestions, loadCompanyBasesSuggestions, clearCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams
+	isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions, clearCompanySuggestions,
+	isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, clearCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams
 }) {
 	return (
 		<React.Fragment>
@@ -32,13 +32,11 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						label="Azienda"
 						placeholder="Cerca Azienda..."
 						disabled={isSaving}
-						value={hirePerson.company}
-						onChange={(e) => updateField('company', e.target.value)}
 						suggestions={companySuggestions}
 						loadSuggestions={loadCompanySuggestions}
 						clearSuggestions={clearCompanySuggestions}
-						handleSuggestionSelected={(suggestion) => { updateField('companyId', suggestion.id); setCompanyBasesSuggestionsExtraParams({ companyId: suggestion.id }); loadCompanyBasesSuggestions(); }}
-					/>
+						onSuggestionSelected={(suggestion) => { console.log(suggestion); updateField('companyId', suggestion.id); setCompanyBasesSuggestionsExtraParams({ companyId: suggestion.id }); loadCompanyBasesSuggestions({ search: '' }); }}
+						/>
 				</Grid>
 				<Grid item xs={12} md={6}>
 				<Autocomplete
@@ -48,12 +46,10 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						label="Sede Azienda"
 						placeholder="Cerca Sede Azienda..."
 						disabled={isSaving || hirePerson.companyId === 0}
-						value={hirePerson.companyBase}
-						onChange={(e) => updateField('companyBase', e.target.value)}
 						suggestions={companyBasesSuggestions}
 						loadSuggestions={loadCompanyBasesSuggestions}
 						clearSuggestions={clearCompanyBasesSuggestions}
-						handleSuggestionSelected={() => {}}
+						onSuggestionSelected={(suggestion) => { updateField('companyBaseId', suggestion.id); }}
 					/>
 				</Grid>
 				<Grid item xs={12}>
