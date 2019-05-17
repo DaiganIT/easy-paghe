@@ -50,22 +50,3 @@ test('calls the promise when load invoked', async () => {
   [isLoading, suggestions, loadSuggestions, clearSuggestions] = result.current;
   expect(isLoading).toBe(false);
 });
-
-test('clears the suggestions', async () => {
-  const promise = jest.fn(MockPromise({ data: { items: ['hello', 'hi'], length: 2 } }));
-
-  const { result, waitForNextUpdate } = renderHook(() => useSuggestions({ getPromise: promise, loadOnStart: true }));
-  
-  await waitForNextUpdate();
-
-  let [isLoading, suggestions, loadSuggestions, clearSuggestions] = result.current;
-  expect(isLoading).toBe(false);
-
-  jest.clearAllMocks();
-  act(() => {
-    clearSuggestions();
-  });
-
-  [isLoading, suggestions, loadSuggestions, clearSuggestions] = result.current;
-  expect(suggestions).toEqual({ items: [], length: 0 });
-});

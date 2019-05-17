@@ -18,10 +18,10 @@ function AddHirePerson({ history }) {
 	const { isSaving, setIsSaving, hirePerson, updateField, previousStep, activeStep, steps, next, prev, moveToStep, errors } = useHirePersonForm({
 		onSave: onCreate,
 	});
-	const [isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions, clearCompanySuggestions] = useSuggestions({
+	const [isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions] = useSuggestions({
 		getPromise: companiesHttp.getCompanies, loadOnStart: true
 	});
-	const [isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, clearCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams] = useSuggestions({
+	const [isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams] = useSuggestions({
 		getPromise: companiesHttp.getCompanyBases
 	});
 
@@ -30,8 +30,8 @@ function AddHirePerson({ history }) {
 	};
 
 	const hirePersonDetails = <HirePersonDetails hirePerson={hirePerson} updateField={updateField} isSaving={isSaving} errors={errors}
-		isLoadingCompanySuggestions={isLoadingCompanySuggestions} companySuggestions={companySuggestions} loadCompanySuggestions={loadCompanySuggestions} clearCompanySuggestions={clearCompanySuggestions}
-		isLoadingCompanyBasesSuggestions={isLoadingCompanyBasesSuggestions} companyBasesSuggestions={companyBasesSuggestions} loadCompanyBasesSuggestions={loadCompanyBasesSuggestions} clearCompanyBasesSuggestions={clearCompanyBasesSuggestions} setCompanyBasesSuggestionsExtraParams={setCompanyBasesSuggestionsExtraParams}
+		isLoadingCompanySuggestions={isLoadingCompanySuggestions} companySuggestions={companySuggestions} loadCompanySuggestions={loadCompanySuggestions}
+		isLoadingCompanyBasesSuggestions={isLoadingCompanyBasesSuggestions} companyBasesSuggestions={companyBasesSuggestions} loadCompanyBasesSuggestions={loadCompanyBasesSuggestions} setCompanyBasesSuggestionsExtraParams={setCompanyBasesSuggestionsExtraParams}
 		/>
 	//const hirePersonSummary = <HirePersonSummary person={person} moveToStep={moveToStep} errors={errors} />
 

@@ -31,11 +31,7 @@ function useSuggestions({ getPromise, loadOnStart }) {
 		setIsLoading(true);
 	};
 
-	const clearSuggestions = () => {
-		setSuggestions({ items: [], length: 0 });
-	}
-
-	return [isLoading, suggestions, loadSuggestions, clearSuggestions, setExtraParams]
+	return [isLoading, suggestions, loadSuggestions, setExtraParams]
 }
 
 export default useSuggestions;
