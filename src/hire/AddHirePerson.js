@@ -19,7 +19,10 @@ function AddHirePerson({ history }) {
 		onSave: onCreate,
 	});
 	const [isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions, clearCompanySuggestions] = useSuggestions({
-		getPromise: companiesHttp.getCompanies
+		getPromise: companiesHttp.getCompanies, loadOnStart: true
+	});
+	const [isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, clearCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams] = useSuggestions({
+		getPromise: companiesHttp.getCompanyBases
 	});
 
 	const save = () => {
@@ -28,6 +31,7 @@ function AddHirePerson({ history }) {
 
 	const hirePersonDetails = <HirePersonDetails hirePerson={hirePerson} updateField={updateField} isSaving={isSaving} errors={errors}
 		companySuggestions={companySuggestions} loadCompanySuggestions={loadCompanySuggestions} clearCompanySuggestions={clearCompanySuggestions}
+		companyBasesSuggestions={companyBasesSuggestions} loadCompanyBasesSuggestions={loadCompanyBasesSuggestions} clearCompanyBasesSuggestions={clearCompanyBasesSuggestions} setCompanyBasesSuggestionsExtraParams={setCompanyBasesSuggestionsExtraParams}
 		/>
 	//const hirePersonSummary = <HirePersonSummary person={person} moveToStep={moveToStep} errors={errors} />
 

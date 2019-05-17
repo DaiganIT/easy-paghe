@@ -10,7 +10,7 @@ const styles = (theme) => ({
 	},
 	suggestionsContainerOpen: {
 		position: 'absolute',
-		zIndex: 1,
+		zIndex: 100,
 		marginTop: theme.spacing.unit,
 		left: 0,
 		right: 0,
@@ -38,6 +38,7 @@ function Autocomplete({ id, label, error, disabled, required, placeholder, class
 		onSuggestionSelected: handleSelected,
 		getSuggestionValue,
 		renderSuggestion,
+		shouldRenderSuggestions: () => true,
 	};
 
 	return (
@@ -60,11 +61,11 @@ function Autocomplete({ id, label, error, disabled, required, placeholder, class
 				suggestionsList: classes.suggestionsList,
 				suggestion: classes.suggestion,
 			}}
-			renderSuggestionsContainer={(options) => (
+			renderSuggestionsContainer={(options) => 
 				<Paper {...options.containerProps} square>
 					{options.children}
 				</Paper>
-			)}
+			}
 		/>
 	);
 }

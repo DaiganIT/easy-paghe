@@ -6,7 +6,7 @@ afterEach(cleanup)
 test('creates list', async () => {
   const promise = MockPromise({ data: { items: ['hello', 'hi'], length: 2 } });
 
-  const { result, waitForNextUpdate } = renderHook(() => useSuggestions({ getPromise: promise }));
+  const { result, waitForNextUpdate } = renderHook(() => useSuggestions({ getPromise: promise, loadOnStart: true }));
   let [isLoading, suggestions, loadSuggestions, clearSuggestions] = result.current;
   expect(isLoading).toBe(true);
 
@@ -17,10 +17,18 @@ test('creates list', async () => {
   expect(suggestions).toEqual({ items: ['hello', 'hi'], length: 2 });
 });
 
+test('does not load on startup', async () => {
+  const promise = MockPromise({ data: { items: ['hello', 'hi'], length: 2 } });
+
+  const { result, waitForNextUpdate } = renderHook(() => useSuggestions({ getPromise: promise }));
+  let [isLoading, suggestions, loadSuggestions, clearSuggestions] = result.current;
+  expect(isLoading).toBe(false);
+});
+
 test('calls the promise when load invoked', async () => {
   const promise = jest.fn(MockPromise({ data: { items: ['hello', 'hi'], length: 2 } }));
 
-  const { result, waitForNextUpdate } = renderHook(() => useSuggestions({ getPromise: promise }));
+  const { result, waitForNextUpdate } = renderHook(() => useSuggestions({ getPromise: promise, loadOnStart: true }));
   
   await waitForNextUpdate();
 
@@ -46,7 +54,7 @@ test('calls the promise when load invoked', async () => {
 test('clears the suggestions', async () => {
   const promise = jest.fn(MockPromise({ data: { items: ['hello', 'hi'], length: 2 } }));
 
-  const { result, waitForNextUpdate } = renderHook(() => useSuggestions({ getPromise: promise }));
+  const { result, waitForNextUpdate } = renderHook(() => useSuggestions({ getPromise: promise, loadOnStart: true }));
   
   await waitForNextUpdate();
 

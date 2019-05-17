@@ -18,39 +18,42 @@ const styles = {
 }
 
 function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors, 
-	companySuggestions, loadCompanySuggestions, clearCompanySuggestions 
+	companySuggestions, loadCompanySuggestions, clearCompanySuggestions,
+	companyBasesSuggestions, loadCompanyBasesSuggestions, clearCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams
 }) {
 	return (
 		<React.Fragment>
 			<Grid container spacing={16}>
 				<Grid item xs={12} md={6}>
-					<Autocomplete 
+					<Autocomplete
 						id="hire-person-company"
-						error={!!errors.companyBaseId}
+						error={!!errors.companyId}
 						required
 						label="Azienda"
-						placeholder="Azienda..."
+						placeholder="Cerca Azienda..."
 						disabled={isSaving}
-						value={hirePerson.companyId}
-						onChange={(e) => updateField('companyId', e.target.value)}
+						value={hirePerson.company}
+						onChange={(e) => updateField('company', e.target.value)}
 						suggestions={companySuggestions}
 						loadSuggestions={loadCompanySuggestions}
 						clearSuggestions={clearCompanySuggestions}
-						handleSuggestionSelected={() => {}}
+						handleSuggestionSelected={(suggestion) => { updateField('companyId', suggestion.id); setCompanyBasesSuggestionsExtraParams({ companyId: suggestion.id }); loadCompanyBasesSuggestions(); }}
 					/>
 				</Grid>
 				<Grid item xs={12} md={6}>
-					<TextField
+				<Autocomplete
 						id="hire-person-company-base"
 						error={!!errors.companyBaseId}
 						required
-						variant="outlined"
 						label="Sede Azienda"
-						fullWidth
-						className={classes.textField}
-						disabled={isSaving}
-						value={hirePerson.companyBaseId}
-						onChange={(e) => updateField('companyBaseId', e.target.value)}
+						placeholder="Cerca Sede Azienda..."
+						disabled={isSaving || hirePerson.companyId === 0}
+						value={hirePerson.companyBase}
+						onChange={(e) => updateField('companyBase', e.target.value)}
+						suggestions={companyBasesSuggestions}
+						loadSuggestions={loadCompanyBasesSuggestions}
+						clearSuggestions={clearCompanyBasesSuggestions}
+						handleSuggestionSelected={() => {}}
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -62,8 +65,8 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						fullWidth
 						className={classes.textField}
 						disabled={isSaving}
-						value={hirePerson.personId}
-						onChange={(e) => updateField('personId', e.target.value)}
+						value={hirePerson.person}
+						onChange={(e) => updateField('person', e.target.value)}
 					/>
 				</Grid>
 				<Grid item xs={12} md={6}>
@@ -75,8 +78,8 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						fullWidth
 						className={classes.textField}
 						disabled={isSaving}
-						value={hirePerson.ccnlId}
-						onChange={(e) => updateField('ccnlId', e.target.value)}
+						value={hirePerson.ccnl}
+						onChange={(e) => updateField('ccnl', e.target.value)}
 					/>
 				</Grid>
 				<Grid item xs={12} md={6}>
@@ -88,8 +91,8 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						fullWidth
 						className={classes.textField}
 						disabled={isSaving}
-						value={hirePerson.salaryTableId}
-						onChange={(e) => updateField('salaryTableId', e.target.value)}
+						value={hirePerson.salaryTable}
+						onChange={(e) => updateField('salaryTable', e.target.value)}
 					/>
 				</Grid>
 				<Grid item xs={12} md={6}>

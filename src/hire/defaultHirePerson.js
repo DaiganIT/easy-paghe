@@ -3,9 +3,14 @@ export default {
   endDate: '',
   weekHours: '0',
   holidays: '0',
-  companyId: '',
-  companyBaseId: '',
-  personId: '',
-  ccnlId: '',
-  salaryTableId: ''
+  company: '',
+  companyId: 0,
+  companyBase: '',
+  companyBaseId: 0,
+  person: '',
+  personId: 0,
+  ccnl: '',
+  ccnlId: 0,
+  salaryTable: '',
+  salaryTableId: 0
 }
