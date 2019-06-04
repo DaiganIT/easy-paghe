@@ -33,11 +33,11 @@ const styles = (theme) => ({
 	}
 });
 
-function Autocomplete({ id, label, error, disabled, required, placeholder, classes, onSuggestionSelected, suggestions, loadSuggestions, isLoading }) {
+function Autocomplete({ id, label, error, disabled, required, placeholder, classes, onSuggestionSelected, suggestions, loadSuggestions, isLoading, suggestionAccessor }) {
 	const [isOpen, setIsOpen] = useState(false);
 	return <Downshift 
 		onChange={(suggestion) => { setIsOpen(false); onSuggestionSelected(suggestion);}} 
-		itemToString={item => item ? item.name : ''}
+		itemToString={item => item ? suggestionAccessor(item) : ''}
 		isOpen={isOpen}
 		onOuterClick={() => setIsOpen(false)}
 		onInputValueChange={(inputValue) => loadSuggestions({ search: inputValue })}
@@ -70,7 +70,8 @@ function Autocomplete({ id, label, error, disabled, required, placeholder, class
                       index,
                       itemProps: getItemProps({ key: suggestion.id, item: suggestion }),
                       highlightedIndex,
-                      selectedItem,
+											selectedItem,
+											suggestionAccessor
                     }),
                   )}
                 </Paper>
@@ -99,7 +100,7 @@ function renderInput(inputProps) {
 	);
 }
 
-function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem, suggestionAccessor }) {
   const isHighlighted = highlightedIndex === index;
   const isSelected = selectedItem ? selectedItem.id === suggestion.id : false;
 
@@ -113,7 +114,7 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
         fontWeight: isSelected ? 500 : 400,
       }}
     >
-      {suggestion.name}
+      {suggestionAccessor(suggestion)}
     </MenuItem>
   );
 }

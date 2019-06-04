@@ -19,7 +19,8 @@ const styles = {
 
 function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors, 
 	isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions, 
-	isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams
+	isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams,
+	isLoadingPeopleSuggestions, peopleSuggestions, loadPeopleSuggestions,
 }) {
 	return (
 		<React.Fragment>
@@ -36,6 +37,7 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						suggestions={companySuggestions}
 						loadSuggestions={loadCompanySuggestions}
 						onSuggestionSelected={(suggestion) => { updateField('companyId', suggestion.id); setCompanyBasesSuggestionsExtraParams({ companyId: suggestion.id }); loadCompanyBasesSuggestions({ search: '' }); }}
+						suggestionAccessor={(s) => s.name}
 						/>
 				</Grid>
 				<Grid item xs={12} md={6}>
@@ -50,20 +52,23 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						suggestions={companyBasesSuggestions}
 						loadSuggestions={loadCompanyBasesSuggestions}
 						onSuggestionSelected={(suggestion) => { updateField('companyBaseId', suggestion.id); }}
-					/>
+						suggestionAccessor={(s) => s.name}
+						/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
+				<Autocomplete
 						id="hire-person-person"
 						error={!!errors.personId}
-						variant="outlined"
+						required
 						label="Persona"
-						fullWidth
-						className={classes.textField}
+						placeholder="Cerca Persona..."
+						isLoading={isLoadingPeopleSuggestions}
 						disabled={isSaving}
-						value={hirePerson.person}
-						onChange={(e) => updateField('person', e.target.value)}
-					/>
+						suggestions={peopleSuggestions}
+						loadSuggestions={loadPeopleSuggestions}
+						onSuggestionSelected={(suggestion) => { updateField('personId', suggestion.id); }}
+						suggestionAccessor={(s) => s.firstName + ' ' + s.lastName}
+						/>
 				</Grid>
 				<Grid item xs={12} md={6}>
 					<TextField
