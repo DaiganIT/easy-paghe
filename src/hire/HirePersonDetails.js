@@ -21,6 +21,7 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 	isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions, 
 	isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams,
 	isLoadingPeopleSuggestions, peopleSuggestions, loadPeopleSuggestions,
+	isLoadingCcnlSuggestions, ccnlSuggestions, loadCcnlSuggestions
 }) {
 	return (
 		<React.Fragment>
@@ -71,17 +72,19 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						/>
 				</Grid>
 				<Grid item xs={12} md={6}>
-					<TextField
+				<Autocomplete
 						id="hire-person-ccnl"
-						error={!!errors.ccnlId}
-						variant="outlined"
+						error={!!errors.companyId}
+						required
 						label="CCNL"
-						fullWidth
-						className={classes.textField}
+						placeholder="Cerca CCNL..."
+						isLoading={isLoadingCcnlSuggestions}
 						disabled={isSaving}
-						value={hirePerson.ccnl}
-						onChange={(e) => updateField('ccnl', e.target.value)}
-					/>
+						suggestions={ccnlSuggestions}
+						loadSuggestions={loadCcnlSuggestions}
+						onSuggestionSelected={(suggestion) => { updateField('ccnlId', suggestion.id); }}
+						suggestionAccessor={(s) => s.name}
+						/>
 				</Grid>
 				<Grid item xs={12} md={6}>
 					<TextField

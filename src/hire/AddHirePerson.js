@@ -9,6 +9,7 @@ import buildStepMap from './stepsMap';
 import SimpleStepper from '../common/SimpleStepper';
 import companiesHttp from '../companies/http';
 import peopleHttp from '../people/http';
+import hireHttp from './http';
 
 function AddHirePerson({ history }) {
 	const onCreate = ({ id }) => {
@@ -28,6 +29,9 @@ function AddHirePerson({ history }) {
 	const [isLoadingPeopleSuggestions, peopleSuggestions, loadPeopleSuggestions] = useSuggestions({
 		getPromise: peopleHttp.getPeople, loadOnStart: true
 	});
+	const [isLoadingCcnlSuggestions, ccnlSuggestions, loadCcnlSuggestions] = useSuggestions({
+		getPromise: hireHttp.getCcnls, loadOnStart: true
+	});
 
 	const save = () => {
 		setIsSaving(true);
@@ -37,6 +41,7 @@ function AddHirePerson({ history }) {
 		isLoadingCompanySuggestions={isLoadingCompanySuggestions} companySuggestions={companySuggestions} loadCompanySuggestions={loadCompanySuggestions}
 		isLoadingCompanyBasesSuggestions={isLoadingCompanyBasesSuggestions} companyBasesSuggestions={companyBasesSuggestions} loadCompanyBasesSuggestions={loadCompanyBasesSuggestions} setCompanyBasesSuggestionsExtraParams={setCompanyBasesSuggestionsExtraParams}
 		isLoadingPeopleSuggestions={isLoadingPeopleSuggestions} peopleSuggestions={peopleSuggestions} loadPeopleSuggestions={loadPeopleSuggestions}
+		isLoadingCcnlSuggestions={isLoadingCcnlSuggestions} ccnlSuggestions={ccnlSuggestions} loadCcnlSuggestions={loadCcnlSuggestions}
 		/>
 	//const hirePersonSummary = <HirePersonSummary person={person} moveToStep={moveToStep} errors={errors} />
 
