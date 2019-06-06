@@ -12,10 +12,12 @@ function getHiredPeople({ search, page, pageLimit }) {
 	});
 }
 
-function getCcnls({ search, page, pageLimit }) {
+function getCcnls({ search, page, pageLimit, withSalaries }) {
+	withSalaries = !!withSalaries;
+
 	const tokenSource = getTokenSource();
 	return CancellableQueryablePromise({
-		promise: debouncedGet(`/api/ccnl?filter=${search}&page=${page+1}&pageLimit=${pageLimit}&withSalaries=true`, { cancelToken: tokenSource.token }),
+		promise: debouncedGet(`/api/ccnl?filter=${search}&page=${page+1}&pageLimit=${pageLimit}&withSalaries=${withSalaries}`, { cancelToken: tokenSource.token }),
 		tokenSource,
 	});
 }
