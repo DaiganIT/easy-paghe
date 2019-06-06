@@ -32,6 +32,9 @@ function AddHirePerson({ history }) {
 	const [isLoadingCcnlSuggestions, ccnlSuggestions, loadCcnlSuggestions] = useSuggestions({
 		getPromise: hireHttp.getCcnls, loadOnStart: true
 	});
+	const [isLoadingCcnlLevelsSuggestions, ccnlLevelsSuggestions, loadCcnlLevelsSuggestions, setCcnlLevelsSuggestionsExtraParams] = useSuggestions({
+		getPromise: hireHttp.getCcnlLevels
+	});
 
 	const save = () => {
 		setIsSaving(true);
@@ -42,6 +45,7 @@ function AddHirePerson({ history }) {
 		isLoadingCompanyBasesSuggestions={isLoadingCompanyBasesSuggestions} companyBasesSuggestions={companyBasesSuggestions} loadCompanyBasesSuggestions={loadCompanyBasesSuggestions} setCompanyBasesSuggestionsExtraParams={setCompanyBasesSuggestionsExtraParams}
 		isLoadingPeopleSuggestions={isLoadingPeopleSuggestions} peopleSuggestions={peopleSuggestions} loadPeopleSuggestions={loadPeopleSuggestions}
 		isLoadingCcnlSuggestions={isLoadingCcnlSuggestions} ccnlSuggestions={ccnlSuggestions} loadCcnlSuggestions={loadCcnlSuggestions}
+		isLoadingCcnlLevelsSuggestions={isLoadingCcnlLevelsSuggestions} ccnlLevelsSuggestions={ccnlLevelsSuggestions} loadCcnlLevelsSuggestions={loadCcnlLevelsSuggestions} setCcnlLevelsSuggestionsExtraParams={setCcnlLevelsSuggestionsExtraParams}
 		/>
 	//const hirePersonSummary = <HirePersonSummary person={person} moveToStep={moveToStep} errors={errors} />
 

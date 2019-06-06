@@ -22,7 +22,16 @@ function getCcnls({ search, page, pageLimit, withSalaries }) {
 	});
 }
 
+function getCcnlLevels({ search, page, pageLimit, ccnlId }) {
+	const tokenSource = getTokenSource();
+	return CancellableQueryablePromise({
+		promise: debouncedGet(`/api/ccnl/${ccnlId}/levels?filter=${search}&page=${page+1}&pageLimit=${pageLimit}`, { cancelToken: tokenSource.token }),
+		tokenSource,
+	});
+}
+
 export default {
 	getHiredPeople,
-	getCcnls
+	getCcnls,
+	getCcnlLevels
 };

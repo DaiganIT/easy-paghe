@@ -21,7 +21,8 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 	isLoadingCompanySuggestions, companySuggestions, loadCompanySuggestions, 
 	isLoadingCompanyBasesSuggestions, companyBasesSuggestions, loadCompanyBasesSuggestions, setCompanyBasesSuggestionsExtraParams,
 	isLoadingPeopleSuggestions, peopleSuggestions, loadPeopleSuggestions,
-	isLoadingCcnlSuggestions, ccnlSuggestions, loadCcnlSuggestions
+	isLoadingCcnlSuggestions, ccnlSuggestions, loadCcnlSuggestions,
+	isLoadingCcnlLevelsSuggestions, ccnlLevelsSuggestions, loadCcnlLevelsSuggestions, setCcnlLevelsSuggestionsExtraParams
 }) {
 	return (
 		<React.Fragment>
@@ -82,22 +83,24 @@ function HirePersonDetails({ classes, isSaving, hirePerson, updateField, errors,
 						disabled={isSaving}
 						suggestions={ccnlSuggestions}
 						loadSuggestions={loadCcnlSuggestions}
-						onSuggestionSelected={(suggestion) => { updateField('ccnlId', suggestion.id); }}
+						onSuggestionSelected={(suggestion) => { updateField('ccnlId', suggestion.id); setCcnlLevelsSuggestionsExtraParams({ ccnlId: suggestion.id }); loadCcnlLevelsSuggestions({ search: '' }); }}
 						suggestionAccessor={(s) => s.name}
 						/>
 				</Grid>
 				<Grid item xs={12} md={6}>
-					<TextField
+				<Autocomplete
 						id="hire-person-salary"
-						error={!!errors.salaryTableId}
-						variant="outlined"
+						error={!!errors.personId}
+						required
 						label="Livello"
-						fullWidth
-						className={classes.textField}
+						placeholder="Cerca Livello..."
+						isLoading={isLoadingCcnlLevelsSuggestions}
 						disabled={isSaving}
-						value={hirePerson.salaryTable}
-						onChange={(e) => updateField('salaryTable', e.target.value)}
-					/>
+						suggestions={ccnlLevelsSuggestions}
+						loadSuggestions={loadCcnlLevelsSuggestions}
+						onSuggestionSelected={(suggestion) => { updateField('salaryTableId', suggestion.id); }}
+						suggestionAccessor={(s) => s.level}
+						/>
 				</Grid>
 				<Grid item xs={12} md={6}>
 					<TextField
